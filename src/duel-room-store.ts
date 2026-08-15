@@ -5,7 +5,19 @@
 // opponent-poll interval) — splitting them would reintroduce a cross-store
 // tearing risk for no benefit, since no reader needs duelScreen without also
 // needing room-shaped data.
-import { createDomainStore } from './create-domain-store.tsx';
+//
+// Zustand (architecture-assessment.md p.2's state-management migration,
+// 2026-08-15) — no Provider needed, so DuelRoomProvider below is a no-op
+// kept only for API compatibility with existing call sites. useDuelRoomSelector
+// keeps its own useSyncExternalStore-based implementation (not Zustand's
+// built-in hook) because Zustand v5 dropped the custom-equalityFn 2nd
+// argument its old createDomainStore().useSelector() supported — this
+// reimplements that exact caching/equality contract against the Zustand
+// store's getState()/subscribe(), which is API-compatible with what
+// create-domain-store.tsx's useSelector() expected.
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { createElement, Fragment, useRef, useSyncExternalStore, type ReactElement, type ReactNode } from 'react';
 import type { DuelRoomState, DuelScreen } from './types.ts';
 
 interface DuelRoomStoreState {
@@ -14,12 +26,6 @@ interface DuelRoomStoreState {
   countdownNum: number;
   tempo: { visible: boolean; num: number };
 }
-
-type DuelRoomAction =
-  | { type: 'SET_ROOM'; patch: Partial<DuelRoomState> }
-  | { type: 'SET_SCREEN'; screen: DuelScreen }
-  | { type: 'SET_COUNTDOWN_NUM'; num: number }
-  | { type: 'SET_TEMPO'; tempo: { visible: boolean; num: number } };
 
 const initialRoom: DuelRoomState = {
   roomId: '',
@@ -58,34 +64,38 @@ const initialRoom: DuelRoomState = {
   roomKnowLang: 'ua',
 };
 
-function duelRoomReducer(state: DuelRoomStoreState, action: DuelRoomAction): DuelRoomStoreState {
-  switch (action.type) {
-    case 'SET_ROOM':
-      return { ...state, room: { ...state.room, ...action.patch } };
-    case 'SET_SCREEN':
-      return { ...state, screen: action.screen };
-    case 'SET_COUNTDOWN_NUM':
-      return { ...state, countdownNum: action.num };
-    case 'SET_TEMPO':
-      return { ...state, tempo: action.tempo };
-  }
-}
-
-const duelRoomStore = createDomainStore<DuelRoomStoreState, DuelRoomAction>(
-  duelRoomReducer,
-  {
-    room: initialRoom,
-    screen: 'lobby',
-    countdownNum: 3,
-    tempo: { visible: false, num: 4 },
-  },
-  'duel-room',
+const useDuelRoomStore = create<DuelRoomStoreState>()(
+  devtools(
+    () => ({
+      room: initialRoom,
+      screen: 'lobby',
+      countdownNum: 3,
+      tempo: { visible: false, num: 4 },
+    }),
+    { name: 'duel-room', enabled: import.meta.env.DEV },
+  ),
 );
 
-export const DuelRoomProvider = duelRoomStore.Provider;
+export function DuelRoomProvider({ children }: { children: ReactNode }): ReactElement {
+  return createElement(Fragment, null, children);
+}
 
 export function useDuelRoomState(): DuelRoomStoreState {
-  return duelRoomStore.useStore();
+  return useDuelRoomStore();
+}
+
+function shallowEqual<T>(a: T, b: T): boolean {
+  if (Object.is(a, b)) return true;
+  if (typeof a !== 'object' || a === null || typeof b !== 'object' || b === null) return false;
+  const keysA = Object.keys(a as Record<string, unknown>);
+  const keysB = Object.keys(b as Record<string, unknown>);
+  if (keysA.length !== keysB.length) return false;
+  for (const key of keysA) {
+    if (!Object.is((a as Record<string, unknown>)[key], (b as Record<string, unknown>)[key])) {
+      return false;
+    }
+  }
+  return true;
 }
 
 // Fine-grained variant of useDuelRoomState(): re-renders only when the
@@ -96,39 +106,51 @@ export function useDuelRoomState(): DuelRoomStoreState {
 // have (see duel-game-header.tsx, duel-powerups.tsx, duel-lobby-logic.ts).
 export function useDuelRoomSelector<T>(
   selector: (state: DuelRoomStoreState) => T,
-  isEqual?: (a: T, b: T) => boolean,
+  isEqual: (a: T, b: T) => boolean = shallowEqual,
 ): T {
-  return duelRoomStore.useSelector(selector, isEqual);
+  const cache = useRef<{ input: DuelRoomStoreState; output: T } | null>(null);
+  function getSelection(): T {
+    const state = useDuelRoomStore.getState();
+    if (cache.current && cache.current.input === state) {
+      return cache.current.output;
+    }
+    const next = selector(state);
+    const output =
+      cache.current && isEqual(cache.current.output, next) ? cache.current.output : next;
+    cache.current = { input: state, output };
+    return output;
+  }
+  return useSyncExternalStore(useDuelRoomStore.subscribe, getSelection);
 }
 
 export function getDuelRoomSnapshot(): DuelRoomState {
-  return duelRoomStore.getSnapshot().room;
+  return useDuelRoomStore.getState().room;
 }
 
 export function getDuelScreenSnapshot(): DuelScreen {
-  return duelRoomStore.getSnapshot().screen;
+  return useDuelRoomStore.getState().screen;
 }
 
 export function getDuelCountdownNumSnapshot(): number {
-  return duelRoomStore.getSnapshot().countdownNum;
+  return useDuelRoomStore.getState().countdownNum;
 }
 
 export function getDuelTempoSnapshot(): { visible: boolean; num: number } {
-  return duelRoomStore.getSnapshot().tempo;
+  return useDuelRoomStore.getState().tempo;
 }
 
 export function setDuelRoom(patch: Partial<DuelRoomState>): void {
-  duelRoomStore.dispatch({ type: 'SET_ROOM', patch });
+  useDuelRoomStore.setState((state) => ({ room: { ...state.room, ...patch } }));
 }
 
 export function setDuelScreen(screen: DuelScreen): void {
-  duelRoomStore.dispatch({ type: 'SET_SCREEN', screen });
+  useDuelRoomStore.setState({ screen });
 }
 
 export function setDuelCountdownNum(num: number): void {
-  duelRoomStore.dispatch({ type: 'SET_COUNTDOWN_NUM', num });
+  useDuelRoomStore.setState({ countdownNum: num });
 }
 
 export function setDuelTempo(tempo: { visible: boolean; num: number }): void {
-  duelRoomStore.dispatch({ type: 'SET_TEMPO', tempo });
+  useDuelRoomStore.setState({ tempo });
 }

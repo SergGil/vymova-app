@@ -3,7 +3,13 @@
 // together in js/features/deck-filter.tsx, so setDeckFilter() dispatches
 // both at once; setBaseWords()/setActiveTagSet() cover the few call sites
 // that only touch one.
-import { createDomainStore } from './create-domain-store.tsx';
+//
+// Zustand (architecture-assessment.md p.2's state-management migration,
+// 2026-08-15) — no Provider needed, so DeckFilterProvider below is a no-op
+// kept only for API compatibility with existing call sites.
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { createElement, Fragment, type ReactElement, type ReactNode } from 'react';
 import type { WordEntry } from './types.ts';
 
 interface DeckFilterState {
@@ -18,65 +24,45 @@ interface DeckFilterState {
   activeTagValue: string;
 }
 
-type DeckFilterAction =
-  | { type: 'SET_BASE_WORDS'; words: WordEntry[] }
-  | { type: 'SET_TAG_SET'; tagSet: Set<string> | null }
-  | { type: 'SET_TAG_VALUE'; value: string }
-  | { type: 'SET_FILTER'; words: WordEntry[]; tagSet: Set<string> | null };
-
-function deckFilterReducer(state: DeckFilterState, action: DeckFilterAction): DeckFilterState {
-  switch (action.type) {
-    case 'SET_BASE_WORDS':
-      return { ...state, baseWords: action.words };
-    case 'SET_TAG_SET':
-      return { ...state, activeTagSet: action.tagSet };
-    case 'SET_TAG_VALUE':
-      return { ...state, activeTagValue: action.value };
-    case 'SET_FILTER':
-      return { ...state, baseWords: action.words, activeTagSet: action.tagSet };
-  }
-}
-
-const deckFilterStore = createDomainStore<DeckFilterState, DeckFilterAction>(
-  deckFilterReducer,
-  {
-    baseWords: [],
-    activeTagSet: null,
-    activeTagValue: '',
-  },
-  'deck-filter',
+const useDeckFilterStore = create<DeckFilterState>()(
+  devtools(() => ({ baseWords: [], activeTagSet: null, activeTagValue: '' }), {
+    name: 'deck-filter',
+    enabled: import.meta.env.DEV,
+  }),
 );
 
-export const DeckFilterProvider = deckFilterStore.Provider;
+export function DeckFilterProvider({ children }: { children: ReactNode }): ReactElement {
+  return createElement(Fragment, null, children);
+}
 
 export function getBaseWordsSnapshot(): WordEntry[] {
-  return deckFilterStore.getSnapshot().baseWords;
+  return useDeckFilterStore.getState().baseWords;
 }
 
 export function getActiveTagSetSnapshot(): Set<string> | null {
-  return deckFilterStore.getSnapshot().activeTagSet;
+  return useDeckFilterStore.getState().activeTagSet;
 }
 
 export function setBaseWords(words: WordEntry[]): void {
-  deckFilterStore.dispatch({ type: 'SET_BASE_WORDS', words });
+  useDeckFilterStore.setState({ baseWords: words });
 }
 
 export function setActiveTagSet(tagSet: Set<string> | null): void {
-  deckFilterStore.dispatch({ type: 'SET_TAG_SET', tagSet });
+  useDeckFilterStore.setState({ activeTagSet: tagSet });
 }
 
 export function getActiveTagValueSnapshot(): string {
-  return deckFilterStore.getSnapshot().activeTagValue;
+  return useDeckFilterStore.getState().activeTagValue;
 }
 
 export function setActiveTagValue(value: string): void {
-  deckFilterStore.dispatch({ type: 'SET_TAG_VALUE', value });
+  useDeckFilterStore.setState({ activeTagValue: value });
 }
 
 export function useActiveTagValue(): string {
-  return deckFilterStore.useSelector((s) => s.activeTagValue);
+  return useDeckFilterStore((s) => s.activeTagValue);
 }
 
 export function setDeckFilter(words: WordEntry[], tagSet: Set<string> | null): void {
-  deckFilterStore.dispatch({ type: 'SET_FILTER', words, tagSet });
+  useDeckFilterStore.setState({ baseWords: words, activeTagSet: tagSet });
 }

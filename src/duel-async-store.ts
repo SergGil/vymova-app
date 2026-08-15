@@ -2,10 +2,22 @@
 // (replaces state.duelChatHistory/.duelSpecRoom/.duelTournView/.duelResult/
 // .duelResumeSessions). Each is Firebase-polled or written on its own
 // schedule with no co-write relationship to the others, so each gets its own
-// createDomainStore instance rather than one shared reducer (which would
-// create a fake coupling and cause e.g. duel-result.tsx to re-render on
-// unrelated tournament-bracket updates).
-import { createDomainStore } from './create-domain-store.tsx';
+// store instance rather than one shared reducer (which would create a fake
+// coupling and cause e.g. duel-result.tsx to re-render on unrelated
+// tournament-bracket updates).
+//
+// Zustand (architecture-assessment.md p.2's state-management migration,
+// 2026-08-15) — no Provider needed, so the 5 *Provider exports below are
+// no-ops kept only for API compatibility with existing call sites. Each
+// store's entire state IS the value (an array or a nullable object, not a
+// {field: ...} container) — every setState call below passes `true`
+// (replace mode) so Zustand's default shallow-merge-into-existing-state
+// behavior never runs; merging e.g. `null` into a previous RoomData object
+// would silently no-op instead of clearing it, which is exactly the kind
+// of bug this migration must not introduce.
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { createElement, Fragment, type ReactElement, type ReactNode } from 'react';
 import type {
   RoomData,
   DuelResultData,
@@ -15,126 +27,93 @@ import type {
 
 // ── Chat history ──────────────────────────────────────────────
 type ChatMsg = { text: string; isMe: boolean };
-type ChatAction =
-  { type: 'SET'; messages: ChatMsg[] } | { type: 'APPEND'; message: ChatMsg } | { type: 'CLEAR' };
 
-function chatReducer(state: ChatMsg[], action: ChatAction): ChatMsg[] {
-  switch (action.type) {
-    case 'SET':
-      return action.messages;
-    case 'APPEND':
-      return [...state, action.message];
-    case 'CLEAR':
-      return [];
-  }
+const useDuelChatStore = create<ChatMsg[]>()(
+  devtools(() => [], { name: 'duel-chat', enabled: import.meta.env.DEV }),
+);
+export function DuelChatProvider({ children }: { children: ReactNode }): ReactElement {
+  return createElement(Fragment, null, children);
 }
-
-const chatStore = createDomainStore<ChatMsg[], ChatAction>(chatReducer, [], 'duel-chat');
-export const DuelChatProvider = chatStore.Provider;
 export function useDuelChat(): ChatMsg[] {
-  return chatStore.useStore();
+  return useDuelChatStore();
 }
 export function getDuelChatSnapshot(): ChatMsg[] {
-  return chatStore.getSnapshot();
+  return useDuelChatStore.getState();
 }
 export function setDuelChat(messages: ChatMsg[]): void {
-  chatStore.dispatch({ type: 'SET', messages });
+  useDuelChatStore.setState(messages, true);
 }
 export function appendDuelChat(message: ChatMsg): void {
-  chatStore.dispatch({ type: 'APPEND', message });
+  useDuelChatStore.setState((state) => [...state, message], true);
 }
 export function clearDuelChat(): void {
-  chatStore.dispatch({ type: 'CLEAR' });
+  useDuelChatStore.setState([], true);
 }
 
 // ── Spectator room snapshot ───────────────────────────────────
-type SpecAction = { type: 'SET'; room: RoomData | null };
-
-function specReducer(_state: RoomData | null, action: SpecAction): RoomData | null {
-  return action.room;
-}
-
-const specStore = createDomainStore<RoomData | null, SpecAction>(
-  specReducer,
-  null,
-  'duel-spec-room',
+const useDuelSpecRoomStore = create<RoomData | null>()(
+  devtools(() => null, { name: 'duel-spec-room', enabled: import.meta.env.DEV }),
 );
-export const DuelSpecRoomProvider = specStore.Provider;
+export function DuelSpecRoomProvider({ children }: { children: ReactNode }): ReactElement {
+  return createElement(Fragment, null, children);
+}
 export function useDuelSpecRoom(): RoomData | null {
-  return specStore.useStore();
+  return useDuelSpecRoomStore();
 }
 export function getDuelSpecRoomSnapshot(): RoomData | null {
-  return specStore.getSnapshot();
+  return useDuelSpecRoomStore.getState();
 }
 export function setDuelSpecRoom(room: RoomData | null): void {
-  specStore.dispatch({ type: 'SET', room });
+  useDuelSpecRoomStore.setState(room, true);
 }
 
 // ── Tournament view ────────────────────────────────────────────
-type TournAction = { type: 'SET'; view: TournamentData | null };
-
-function tournReducer(_state: TournamentData | null, action: TournAction): TournamentData | null {
-  return action.view;
-}
-
-const tournStore = createDomainStore<TournamentData | null, TournAction>(
-  tournReducer,
-  null,
-  'duel-tourn-view',
+const useDuelTournViewStore = create<TournamentData | null>()(
+  devtools(() => null, { name: 'duel-tourn-view', enabled: import.meta.env.DEV }),
 );
-export const DuelTournViewProvider = tournStore.Provider;
+export function DuelTournViewProvider({ children }: { children: ReactNode }): ReactElement {
+  return createElement(Fragment, null, children);
+}
 export function useDuelTournView(): TournamentData | null {
-  return tournStore.useStore();
+  return useDuelTournViewStore();
 }
 export function getDuelTournViewSnapshot(): TournamentData | null {
-  return tournStore.getSnapshot();
+  return useDuelTournViewStore.getState();
 }
 export function setDuelTournView(view: TournamentData | null): void {
-  tournStore.dispatch({ type: 'SET', view });
+  useDuelTournViewStore.setState(view, true);
 }
 
 // ── Result screen snapshot ────────────────────────────────────
-type ResultAction = { type: 'SET'; result: DuelResultData };
-
-function resultReducer(_state: DuelResultData, action: ResultAction): DuelResultData {
-  return action.result;
-}
-
-const resultStore = createDomainStore<DuelResultData, ResultAction>(
-  resultReducer,
-  null,
-  'duel-result',
+const useDuelResultStore = create<DuelResultData>()(
+  devtools(() => null, { name: 'duel-result', enabled: import.meta.env.DEV }),
 );
-export const DuelResultProvider = resultStore.Provider;
+export function DuelResultProvider({ children }: { children: ReactNode }): ReactElement {
+  return createElement(Fragment, null, children);
+}
 export function useDuelResult(): DuelResultData {
-  return resultStore.useStore();
+  return useDuelResultStore();
 }
 export function getDuelResultSnapshot(): DuelResultData {
-  return resultStore.getSnapshot();
+  return useDuelResultStore.getState();
 }
 export function setDuelResult(result: DuelResultData): void {
-  resultStore.dispatch({ type: 'SET', result });
+  useDuelResultStore.setState(result, true);
 }
 
 // ── Resume sessions list ──────────────────────────────────────
-type ResumeAction = { type: 'SET'; sessions: ResumeSessionVM[] };
-
-function resumeReducer(_state: ResumeSessionVM[], action: ResumeAction): ResumeSessionVM[] {
-  return action.sessions;
-}
-
-const resumeStore = createDomainStore<ResumeSessionVM[], ResumeAction>(
-  resumeReducer,
-  [],
-  'duel-resume-sessions',
+const useDuelResumeSessionsStore = create<ResumeSessionVM[]>()(
+  devtools(() => [], { name: 'duel-resume-sessions', enabled: import.meta.env.DEV }),
 );
-export const DuelResumeSessionsProvider = resumeStore.Provider;
+export function DuelResumeSessionsProvider({ children }: { children: ReactNode }): ReactElement {
+  return createElement(Fragment, null, children);
+}
 export function useDuelResumeSessions(): ResumeSessionVM[] {
-  return resumeStore.useStore();
+  return useDuelResumeSessionsStore();
 }
 export function getDuelResumeSessionsSnapshot(): ResumeSessionVM[] {
-  return resumeStore.getSnapshot();
+  return useDuelResumeSessionsStore.getState();
 }
 export function setDuelResumeSessions(sessions: ResumeSessionVM[]): void {
-  resumeStore.dispatch({ type: 'SET', sessions });
+  useDuelResumeSessionsStore.setState(sessions, true);
 }

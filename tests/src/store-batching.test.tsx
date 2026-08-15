@@ -1,40 +1,38 @@
-// tests/src/create-domain-store-batching.test.tsx — proves the claim in
+// tests/src/store-batching.test.tsx — proves the claim in
 // docs/state-stores-overview.md's "Крос-доменний dispatch" section: a
-// synchronous handler that dispatches to two independent createDomainStore
-// instances (the real shape of js/features/card-actions.ts's onEasyClick,
-// runReset, and js/features/duel/duel.ts's _onOptionClick) never lets a
-// subscriber observe store A already updated while store B is still stale.
+// synchronous handler that dispatches to two independent Zustand stores
+// (the real shape of js/features/card-actions.ts's onEasyClick, runReset,
+// and js/features/duel/duel.ts's _onOptionClick) never lets a subscriber
+// observe store A already updated while store B is still stale.
 // This isn't test-only act() batching — the dispatches happen inside a real
 // DOM click handler, so it exercises React 18+'s automatic batching the same
 // way production code does.
+//
+// Was create-domain-store-batching.test.tsx, proving this same property for
+// the homegrown createDomainStore() factory before the 2026-08-15
+// state-management migration replaced every domain store with Zustand
+// (docs/state-stores-overview.md). Re-verified here against the real
+// library, not assumed to carry over just because both rely on
+// useSyncExternalStore under the hood.
 import { describe, it, expect } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
-import { createDomainStore } from '../../src/create-domain-store.tsx';
+import { create } from 'zustand';
 
-type CountAction = { type: 'INC' };
-
-function countReducer(state: number, action: CountAction): number {
-  switch (action.type) {
-    case 'INC':
-      return state + 1;
-  }
-}
-
-describe('createDomainStore — cross-store dispatch batching', () => {
+describe('Zustand stores — cross-store dispatch batching', () => {
   it('a click handler dispatching to two stores synchronously produces one render, never an intermediate mixed state', () => {
-    const storeA = createDomainStore<number, CountAction>(countReducer, 0);
-    const storeB = createDomainStore<number, CountAction>(countReducer, 0);
+    const useStoreA = create<number>()(() => 0);
+    const useStoreB = create<number>()(() => 0);
     const renders: Array<[number, number]> = [];
 
     function Probe() {
-      const a = storeA.useStore();
-      const b = storeB.useStore();
+      const a = useStoreA();
+      const b = useStoreB();
       renders.push([a, b]);
       return (
         <button
           onClick={() => {
-            storeA.dispatch({ type: 'INC' });
-            storeB.dispatch({ type: 'INC' });
+            useStoreA.setState((n) => n + 1);
+            useStoreB.setState((n) => n + 1);
           }}
         >
           bump

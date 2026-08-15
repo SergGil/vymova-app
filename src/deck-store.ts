@@ -3,7 +3,13 @@
 // fields into `state` by hand and (for flipped) sometimes forgot to notify —
 // the exact bug class this migration closes. All reads/writes now go through
 // one store, so there's no second copy left to desync.
-import { createDomainStore } from './create-domain-store.tsx';
+//
+// Zustand (architecture-assessment.md p.2's state-management migration,
+// 2026-08-15) — no Provider needed, so DeckProvider below is a no-op kept
+// only for API compatibility with existing call sites.
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { createElement, Fragment, type ReactElement, type ReactNode } from 'react';
 import type { WordEntry } from './types.ts';
 
 interface DeckState {
@@ -14,89 +20,61 @@ interface DeckState {
   mode: string;
 }
 
-type DeckAction =
-  | { type: 'SET_DECK'; deck: WordEntry[] }
-  | { type: 'SET_IDX'; idx: number }
-  | { type: 'SET_FLIPPED'; flipped: boolean }
-  | { type: 'SET_CW'; cw: WordEntry | null }
-  | { type: 'SET_MODE'; mode: string }
-  | { type: 'RENDER_CARD'; cw: WordEntry | null; mode: string };
-
-function deckReducer(state: DeckState, action: DeckAction): DeckState {
-  switch (action.type) {
-    case 'SET_DECK':
-      return { ...state, deck: action.deck };
-    case 'SET_IDX':
-      return { ...state, idx: action.idx };
-    case 'SET_FLIPPED':
-      return { ...state, flipped: action.flipped };
-    case 'SET_CW':
-      return { ...state, cw: action.cw };
-    case 'SET_MODE':
-      return { ...state, mode: action.mode };
-    case 'RENDER_CARD':
-      return { ...state, cw: action.cw, flipped: false, mode: action.mode };
-  }
-}
-
-const deckStore = createDomainStore<DeckState, DeckAction>(
-  deckReducer,
-  {
-    deck: [],
-    idx: 0,
-    flipped: false,
-    cw: null,
-    mode: 'en',
-  },
-  'deck',
+const useDeckStore = create<DeckState>()(
+  devtools(() => ({ deck: [], idx: 0, flipped: false, cw: null, mode: 'en' }), {
+    name: 'deck',
+    enabled: import.meta.env.DEV,
+  }),
 );
 
-export const DeckProvider = deckStore.Provider;
+export function DeckProvider({ children }: { children: ReactNode }): ReactElement {
+  return createElement(Fragment, null, children);
+}
 
 export function useDeckState(): DeckState {
-  return deckStore.useStore();
+  return useDeckStore();
 }
 
 export function getDeckSnapshot(): WordEntry[] {
-  return deckStore.getSnapshot().deck;
+  return useDeckStore.getState().deck;
 }
 
 export function getIdxSnapshot(): number {
-  return deckStore.getSnapshot().idx;
+  return useDeckStore.getState().idx;
 }
 
 export function getFlippedSnapshot(): boolean {
-  return deckStore.getSnapshot().flipped;
+  return useDeckStore.getState().flipped;
 }
 
 export function getCwSnapshot(): WordEntry | null {
-  return deckStore.getSnapshot().cw;
+  return useDeckStore.getState().cw;
 }
 
 export function getModeSnapshot(): string {
-  return deckStore.getSnapshot().mode;
+  return useDeckStore.getState().mode;
 }
 
 export function setDeckState(deck: WordEntry[]): void {
-  deckStore.dispatch({ type: 'SET_DECK', deck });
+  useDeckStore.setState({ deck });
 }
 
 export function setIdxState(idx: number): void {
-  deckStore.dispatch({ type: 'SET_IDX', idx });
+  useDeckStore.setState({ idx });
 }
 
 export function setFlippedState(flipped: boolean): void {
-  deckStore.dispatch({ type: 'SET_FLIPPED', flipped });
+  useDeckStore.setState({ flipped });
 }
 
 export function setCwState(cw: WordEntry | null): void {
-  deckStore.dispatch({ type: 'SET_CW', cw });
+  useDeckStore.setState({ cw });
 }
 
 export function setModeState(mode: string): void {
-  deckStore.dispatch({ type: 'SET_MODE', mode });
+  useDeckStore.setState({ mode });
 }
 
 export function renderCardState(cw: WordEntry | null, mode: string): void {
-  deckStore.dispatch({ type: 'RENDER_CARD', cw, mode });
+  useDeckStore.setState({ cw, flipped: false, mode });
 }

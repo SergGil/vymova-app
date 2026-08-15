@@ -10,14 +10,17 @@
 // flashcard advance, the game bar re-rendering on every unrelated
 // keystroke elsewhere). That bus has been fully migrated away: every
 // consumer now subscribes to one of the channels below, or to a proper
-// per-domain store (src/create-domain-store.tsx — see
-// known-words-store.ts/srs-store.ts/deck-store.ts/nav-store.tsx).
+// per-domain Zustand store (state-management migration, 2026-08-15 — see
+// known-words-store.ts/srs-store.ts/deck-store.ts/nav-store.tsx; the
+// homegrown createDomainStore() factory these used to be built on is gone,
+// see docs/state-stores-overview.md for the migration record).
 //
 // DO NOT resurrect a global "notify everything" channel here. New state
-// belongs in its own createDomainStore() instance; a new narrow channel
-// below is for the specific case of "some widget's t()-translated labels
-// (or similarly non-reactive display data) need to refresh on a specific,
-// infrequent event" — not a catch-all.
+// belongs in its own Zustand store (`create<State>()(...)`, see any file
+// above for the pattern); a new narrow channel below is for the specific
+// case of "some widget's t()-translated labels (or similarly non-reactive
+// display data) need to refresh on a specific, infrequent event" — not a
+// catch-all.
 import { useSyncExternalStore } from 'react';
 
 type Listener = () => void;

@@ -7,7 +7,11 @@
 // (e.g. clicking "next" repeatedly) must still restart the animation each
 // time, but a plain `{dir}` object would fail React's same-value bailout
 // when `dir` doesn't change; `seq` guarantees a new object every dispatch.
-import { createDomainStore } from '../../src/create-domain-store.tsx';
+//
+// Zustand (architecture-assessment.md p.2's state-management migration,
+// 2026-08-15).
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 export type AnimDir = 'next' | 'prev' | 'fade';
 
@@ -16,41 +20,28 @@ interface CardAnimState {
   autoRunning: boolean;
 }
 
-type CardAnimAction = { type: 'ANIM'; dir: AnimDir } | { type: 'SET_AUTO_RUNNING'; running: boolean };
-
 let seqCounter = 0;
 
-function cardAnimReducer(state: CardAnimState, action: CardAnimAction): CardAnimState {
-  switch (action.type) {
-    case 'ANIM':
-      seqCounter += 1;
-      return { ...state, animRequest: { dir: action.dir, seq: seqCounter } };
-    case 'SET_AUTO_RUNNING':
-      return { ...state, autoRunning: action.running };
-  }
-}
-
-const cardAnimStore = createDomainStore<CardAnimState, CardAnimAction>(
-  cardAnimReducer,
-  {
-    animRequest: null,
-    autoRunning: false,
-  },
-  'card-anim',
+const useCardAnimStore = create<CardAnimState>()(
+  devtools(() => ({ animRequest: null, autoRunning: false }), {
+    name: 'card-anim',
+    enabled: import.meta.env.DEV,
+  }),
 );
 
 export function useCardAnimState(): CardAnimState {
-  return cardAnimStore.useStore();
+  return useCardAnimStore();
 }
 
 export function getCardAnimSnapshot(): CardAnimState {
-  return cardAnimStore.getSnapshot();
+  return useCardAnimStore.getState();
 }
 
 export function dispatchAnimCard(dir: AnimDir): void {
-  cardAnimStore.dispatch({ type: 'ANIM', dir });
+  seqCounter += 1;
+  useCardAnimStore.setState({ animRequest: { dir, seq: seqCounter } });
 }
 
 export function setAutoRunningState(running: boolean): void {
-  cardAnimStore.dispatch({ type: 'SET_AUTO_RUNNING', running });
+  useCardAnimStore.setState({ autoRunning: running });
 }

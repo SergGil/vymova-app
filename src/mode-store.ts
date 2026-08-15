@@ -3,7 +3,13 @@
 // EN/UA-or-XX-XX mode string + "mix" direction's two component languages.
 // See docs/full-react-migration-roadmap.md's "sel-mode" exception and
 // js/features/lang-pair-select.tsx for the producer side.
-import { createDomainStore } from './create-domain-store.tsx';
+//
+// Zustand (architecture-assessment.md p.2's state-management migration,
+// 2026-08-15) — no Provider needed, so ModeProvider below is a no-op kept
+// only for API compatibility with existing call sites.
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { createElement, Fragment, type ReactElement, type ReactNode } from 'react';
 
 interface ModeState {
   mode: string;
@@ -11,39 +17,29 @@ interface ModeState {
   mixB: string | null;
 }
 
-type ModeAction = { type: 'SET_MODE'; mode: string; mixA: string | null; mixB: string | null };
-
-function modeReducer(state: ModeState, action: ModeAction): ModeState {
-  switch (action.type) {
-    case 'SET_MODE':
-      if (state.mode === action.mode && state.mixA === action.mixA && state.mixB === action.mixB) {
-        return state;
-      }
-      return { mode: action.mode, mixA: action.mixA, mixB: action.mixB };
-  }
-}
-
-const modeStore = createDomainStore<ModeState, ModeAction>(
-  modeReducer,
-  {
-    mode: 'en',
-    mixA: null,
-    mixB: null,
-  },
-  'mode',
+const useModeStoreInternal = create<ModeState>()(
+  devtools(() => ({ mode: 'en', mixA: null, mixB: null }), {
+    name: 'mode',
+    enabled: import.meta.env.DEV,
+  }),
 );
 
-export const ModeProvider = modeStore.Provider;
-export const useModeStore = modeStore.useStore;
+export function ModeProvider({ children }: { children: ReactNode }): ReactElement {
+  return createElement(Fragment, null, children);
+}
+
+export const useModeStore = useModeStoreInternal;
 
 export function getModeStateSnapshot(): ModeState {
-  return modeStore.getSnapshot();
+  return useModeStoreInternal.getState();
 }
 
 export function setMode(mode: string, mixA: string | null = null, mixB: string | null = null): void {
-  modeStore.dispatch({ type: 'SET_MODE', mode, mixA, mixB });
+  const state = useModeStoreInternal.getState();
+  if (state.mode === mode && state.mixA === mixA && state.mixB === mixB) return;
+  useModeStoreInternal.setState({ mode, mixA, mixB });
 }
 
 export function subscribeMode(listener: () => void): () => void {
-  return modeStore.subscribe(listener);
+  return useModeStoreInternal.subscribe(listener);
 }

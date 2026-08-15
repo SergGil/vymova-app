@@ -3,19 +3,18 @@
 // plan: mutations route through markKnown/unmarkKnown/etc. instead of
 // mutating a Set in place, so every change reliably notifies subscribers
 // (the original bug class this migration targets).
-import { createDomainStore } from './create-domain-store.tsx';
+//
+// Zustand (architecture-assessment.md p.2's state-management migration,
+// 2026-08-15) — no Provider needed, so KnownWordsProvider below is a no-op
+// kept only for API compatibility with existing call sites.
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { createElement, Fragment, type ReactElement, type ReactNode } from 'react';
 import { ALL_TARGET_LANGS, type TargetLang } from './types.ts';
 
 export type KnownLang = 'en' | TargetLang;
 
 type KnownWordsState = Record<KnownLang, Set<string>>;
-
-type KnownWordsAction =
-  | { type: 'MARK'; lang: KnownLang; word: string }
-  | { type: 'UNMARK'; lang: KnownLang; word: string }
-  | { type: 'CLEAR'; lang: KnownLang }
-  | { type: 'CLEAR_ALL' }
-  | { type: 'SET'; lang: KnownLang; words: Set<string> };
 
 function emptyState(): KnownWordsState {
   const s = { en: new Set<string>() } as KnownWordsState;
@@ -23,63 +22,55 @@ function emptyState(): KnownWordsState {
   return s;
 }
 
-function knownWordsReducer(state: KnownWordsState, action: KnownWordsAction): KnownWordsState {
-  switch (action.type) {
-    case 'MARK': {
-      const next = new Set(state[action.lang]);
-      next.add(action.word);
-      return { ...state, [action.lang]: next };
-    }
-    case 'UNMARK': {
-      const next = new Set(state[action.lang]);
-      next.delete(action.word);
-      return { ...state, [action.lang]: next };
-    }
-    case 'CLEAR':
-      return { ...state, [action.lang]: new Set<string>() };
-    case 'CLEAR_ALL':
-      return emptyState();
-    case 'SET':
-      return { ...state, [action.lang]: action.words };
-  }
-}
-
-const knownWordsStore = createDomainStore<KnownWordsState, KnownWordsAction>(
-  knownWordsReducer,
-  emptyState(),
-  'known-words',
+const useKnownWordsStore = create<KnownWordsState>()(
+  devtools(() => emptyState(), { name: 'known-words', enabled: import.meta.env.DEV }),
 );
 
-export const KnownWordsProvider = knownWordsStore.Provider;
+export function KnownWordsProvider({ children }: { children: ReactNode }): ReactElement {
+  return createElement(Fragment, null, children);
+}
 
+// Whole-store subscription on purpose, matching the original useStore()
+// semantics — any language's mutation re-renders every useKnownWords()
+// caller, not just the one for the changed lang (see the migration's own
+// pilot note on nav-store for why call sites weren't given a chance to
+// silently start behaving differently mid-migration).
 export function useKnownWords(lang: KnownLang): Set<string> {
-  return knownWordsStore.useStore()[lang];
+  return useKnownWordsStore()[lang];
 }
 
 export function getKnownSnapshot(lang: KnownLang): Set<string> {
-  return knownWordsStore.getSnapshot()[lang];
+  return useKnownWordsStore.getState()[lang];
 }
 
 export function useAllKnownWords(): KnownWordsState {
-  return knownWordsStore.useStore();
+  return useKnownWordsStore();
 }
 
 export function markKnown(lang: KnownLang, word: string): void {
-  knownWordsStore.dispatch({ type: 'MARK', lang, word });
+  useKnownWordsStore.setState((state) => {
+    const next = new Set(state[lang]);
+    next.add(word);
+    return { [lang]: next } as Partial<KnownWordsState>;
+  });
 }
 
 export function unmarkKnown(lang: KnownLang, word: string): void {
-  knownWordsStore.dispatch({ type: 'UNMARK', lang, word });
+  useKnownWordsStore.setState((state) => {
+    const next = new Set(state[lang]);
+    next.delete(word);
+    return { [lang]: next } as Partial<KnownWordsState>;
+  });
 }
 
 export function clearKnown(lang: KnownLang): void {
-  knownWordsStore.dispatch({ type: 'CLEAR', lang });
+  useKnownWordsStore.setState({ [lang]: new Set<string>() } as Partial<KnownWordsState>);
 }
 
 export function clearAllKnown(): void {
-  knownWordsStore.dispatch({ type: 'CLEAR_ALL' });
+  useKnownWordsStore.setState(emptyState());
 }
 
 export function setKnownWords(lang: KnownLang, words: Set<string>): void {
-  knownWordsStore.dispatch({ type: 'SET', lang, words });
+  useKnownWordsStore.setState({ [lang]: words } as Partial<KnownWordsState>);
 }

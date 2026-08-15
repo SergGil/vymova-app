@@ -1,50 +1,53 @@
 // src/range-store.ts — the study-range filter's current value (replaces the
 // legacy #sel-range <select>'s .value as the source of truth once
 // range-select.tsx became a controlled shadcn Select instead of a real
-// native <select>). Deliberately two INDEPENDENT createDomainStore
-// instances, not one combined state shape: js/core/srs.ts recomputes the
-// "srs" option's due-count label on nearly every grading action, and if
-// that lived in the same store as the range value, deck-filter.tsx's
-// subscribeRange() listener (which rebuilds the whole deck) would fire on
-// every SRS label tick too, not just on an actual range change.
-import { createDomainStore } from './create-domain-store.tsx';
+// native <select>). Deliberately two INDEPENDENT stores, not one combined
+// state shape: js/core/srs.ts recomputes the "srs" option's due-count label
+// on nearly every grading action, and if that lived in the same store as
+// the range value, deck-filter.tsx's subscribeRange() listener (which
+// rebuilds the whole deck) would fire on every SRS label tick too, not just
+// on an actual range change.
+//
+// Zustand (architecture-assessment.md p.2's state-management migration,
+// 2026-08-15) — no Provider needed for range-srs-label (it never had one);
+// RangeProvider below is a no-op kept only for API compatibility.
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { createElement, Fragment, type ReactElement, type ReactNode } from 'react';
 
 export type RangeValue = string;
 
 interface RangeState {
   value: RangeValue;
 }
-type RangeAction = { type: 'SET_RANGE'; value: RangeValue };
 
-function rangeReducer(_state: RangeState, action: RangeAction): RangeState {
-  switch (action.type) {
-    case 'SET_RANGE':
-      return { value: action.value };
-  }
+const useRangeStore = create<RangeState>()(
+  devtools(() => ({ value: '0' }), { name: 'range', enabled: import.meta.env.DEV }),
+);
+
+export function RangeProvider({ children }: { children: ReactNode }): ReactElement {
+  return createElement(Fragment, null, children);
 }
 
-const rangeStore = createDomainStore<RangeState, RangeAction>(rangeReducer, { value: '0' }, 'range');
-
-export const RangeProvider = rangeStore.Provider;
-
 export function getRangeSnapshot(): RangeValue {
-  return rangeStore.getSnapshot().value;
+  return useRangeStore.getState().value;
 }
 
 export function setRange(value: RangeValue): void {
-  rangeStore.dispatch({ type: 'SET_RANGE', value });
+  useRangeStore.setState({ value });
 }
 
 // For deck-filter.tsx's imperative (non-component) subscription — mirrors
-// the plain-function subscribe pattern create-domain-store.tsx's own header
-// comment describes for exactly this "vanilla code reacting to a store"
-// case.
+// Zustand's own subscribe(listener), the equivalent of create-domain-
+// store.tsx's plain-function subscribe pattern for "vanilla code reacting
+// to a store" (Zustand's listener signature also passes (state, prevState),
+// ignored here since callers only care that *something* changed).
 export function subscribeRange(listener: () => void): () => void {
-  return rangeStore.subscribe(listener);
+  return useRangeStore.subscribe(listener);
 }
 
 export function useRange(): RangeValue {
-  return rangeStore.useStore().value;
+  return useRangeStore((s) => s.value);
 }
 
 // search-inline.tsx's "jump to a found word not in the current deck" flow
@@ -80,25 +83,15 @@ export function isDeckRebuildSuppressed(): boolean {
 interface SrsLabelState {
   label: string | null;
 }
-type SrsLabelAction = { type: 'SET_SRS_LABEL'; label: string | null };
 
-function srsLabelReducer(_state: SrsLabelState, action: SrsLabelAction): SrsLabelState {
-  switch (action.type) {
-    case 'SET_SRS_LABEL':
-      return { label: action.label };
-  }
-}
-
-const srsLabelStore = createDomainStore<SrsLabelState, SrsLabelAction>(
-  srsLabelReducer,
-  { label: null },
-  'range-srs-label',
+const useSrsLabelStore = create<SrsLabelState>()(
+  devtools(() => ({ label: null }), { name: 'range-srs-label', enabled: import.meta.env.DEV }),
 );
 
 export function setSrsLabel(label: string | null): void {
-  srsLabelStore.dispatch({ type: 'SET_SRS_LABEL', label });
+  useSrsLabelStore.setState({ label });
 }
 
 export function useSrsLabel(): string | null {
-  return srsLabelStore.useStore().label;
+  return useSrsLabelStore((s) => s.label);
 }

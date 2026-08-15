@@ -7,7 +7,13 @@
 // visible pills in sync. Both files also independently duplicated the list
 // of 14 keys. Callers now just call toggleFandomTheme(key) directly and/or
 // subscribe via useFandomTheme() — no hidden buttons, no observer.
-import { createDomainStore } from './create-domain-store.tsx';
+//
+// Zustand (architecture-assessment.md p.2's state-management migration,
+// 2026-08-15) — no Provider needed, so FandomThemeProvider below is a no-op
+// kept only for API compatibility with existing call sites.
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { createElement, Fragment, type ReactElement, type ReactNode } from 'react';
 
 export const FANDOM_THEME_KEYS = [
   'sw',
@@ -33,14 +39,6 @@ function isFandomThemeKey(v: string): v is FandomThemeKey {
 
 interface FandomThemeState {
   active: FandomThemeKey | null;
-}
-type FandomThemeAction = { type: 'SET'; key: FandomThemeKey | null };
-
-function reducer(_state: FandomThemeState, action: FandomThemeAction): FandomThemeState {
-  switch (action.type) {
-    case 'SET':
-      return { active: action.key };
-  }
 }
 
 // Fandom theme CSS is split out of the styles.css monolith into per-theme
@@ -83,19 +81,21 @@ function initAndSelfHeal(): FandomThemeKey | null {
   return found;
 }
 
-const fandomThemeStore = createDomainStore<FandomThemeState, FandomThemeAction>(
-  reducer,
-  {
-    active: initAndSelfHeal(),
-  },
-  'fandom-theme',
+const useFandomThemeStore = create<FandomThemeState>()(
+  devtools(() => ({ active: initAndSelfHeal() }), {
+    name: 'fandom-theme',
+    enabled: import.meta.env.DEV,
+  }),
 );
 
-export const FandomThemeProvider = fandomThemeStore.Provider;
-export const useFandomTheme = fandomThemeStore.useStore;
+export function FandomThemeProvider({ children }: { children: ReactNode }): ReactElement {
+  return createElement(Fragment, null, children);
+}
+
+export const useFandomTheme = useFandomThemeStore;
 
 export function getActiveFandomTheme(): FandomThemeKey | null {
-  return fandomThemeStore.getSnapshot().active;
+  return useFandomThemeStore.getState().active;
 }
 
 /** Turn a fandom theme on (clearing whichever other one was active) or, if
@@ -116,5 +116,5 @@ export function toggleFandomTheme(key: string): void {
     localStorage.setItem(`ew_${key}`, '1');
     _loadThemeCss(key);
   }
-  fandomThemeStore.dispatch({ type: 'SET', key: turningOn ? key : null });
+  useFandomThemeStore.setState({ active: turningOn ? key : null });
 }
