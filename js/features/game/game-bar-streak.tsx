@@ -78,36 +78,45 @@ export function GameBarGoal(): ReactElement {
       value={d.goalCur}
       max={d.goalMax}
       getAriaValueText={() => `${d.goalCur || 0} / ${d.goalMax}`}
-      className="relative flex flex-col items-center gap-0.5"
+      className="flex flex-col items-center gap-0.5"
     >
-      <svg
-        width="54"
-        height="54"
-        className="block overflow-visible"
-        style={{ transform: 'rotate(-90deg)' }}
-        aria-hidden="true"
-      >
-        <circle
-          cx="27" cy="27" r={RING_R}
-          fill="none"
-          stroke="var(--border)"
-          strokeWidth={RING_STROKE}
-        />
-        <circle
-          cx="27" cy="27" r={RING_R}
-          fill="none"
-          stroke={ringColor}
-          strokeWidth={RING_STROKE}
-          strokeDasharray={RING_C}
-          strokeDashoffset={offset}
-          strokeLinecap="round"
-          style={{ transition: 'stroke-dashoffset 0.4s ease, stroke 0.3s ease' }}
-        />
-      </svg>
-      <div className="gb-goal-ring-text absolute top-1/2 left-1/2 text-center text-[0.72rem] font-bold text-[var(--text)] whitespace-nowrap pointer-events-none -translate-1/2">
-        <span id="goal-cur">{d.goalCur || 0}</span>
-        <span className="gb-goal-sep text-[var(--gb-goal-sep-color)] text-[0.6rem] mx-px">/</span>
-        <span id="goal-max">{d.goalMax}</span>
+      {/* This inner wrapper is the positioning context for .gb-goal-ring-text
+          — it must size itself to the ring alone (54×54), not to the whole
+          Meter column. Centering the text against the outer Meter instead
+          (an earlier version did) breaks the moment the "done" Badge below
+          appears: the Badge adds height to the column, so the column's own
+          50%-mark drifts down away from the ring's actual center, visibly
+          pushing "11/11" below the ring. */}
+      <div className="relative size-[54px]">
+        <svg
+          width="54"
+          height="54"
+          className="block overflow-visible"
+          style={{ transform: 'rotate(-90deg)' }}
+          aria-hidden="true"
+        >
+          <circle
+            cx="27" cy="27" r={RING_R}
+            fill="none"
+            stroke="var(--border)"
+            strokeWidth={RING_STROKE}
+          />
+          <circle
+            cx="27" cy="27" r={RING_R}
+            fill="none"
+            stroke={ringColor}
+            strokeWidth={RING_STROKE}
+            strokeDasharray={RING_C}
+            strokeDashoffset={offset}
+            strokeLinecap="round"
+            style={{ transition: 'stroke-dashoffset 0.4s ease, stroke 0.3s ease' }}
+          />
+        </svg>
+        <div className="gb-goal-ring-text absolute top-1/2 left-1/2 text-center text-[0.72rem] font-bold text-[var(--text)] whitespace-nowrap pointer-events-none -translate-1/2">
+          <span id="goal-cur">{d.goalCur || 0}</span>
+          <span className="gb-goal-sep text-[var(--gb-goal-sep-color)] text-[0.6rem] mx-px">/</span>
+          <span id="goal-max">{d.goalMax}</span>
+        </div>
       </div>
       {done && (
         <Badge
