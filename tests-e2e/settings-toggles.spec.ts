@@ -106,16 +106,23 @@ test.describe('Settings — fandom theme rows', () => {
     const overlay = page.locator('#settings-overlay');
     await expect(overlay).toBeVisible();
 
+    // fandom-theme-rows.tsx's pill className always contains the static
+    // Tailwind arbitrary-variant text "[&.on]:..." — a plain /\bon\b/ regex
+    // against the whole class string false-positives on that ("&.on]" has
+    // word boundaries around "on" too), matching even when the real
+    // trailing " on" state class isn't appended. Anchor to whitespace/
+    // string-edges so only the actual appended class token counts.
+    const onClassRe = /(^|\s)on(\s|$)/;
     await overlay.locator('#theme-rows-toggle').click();
     const lotrPill = overlay.locator('#set-lotr-pill');
     await expect(overlay.locator('#set-lotr')).toBeVisible();
-    await expect(lotrPill).not.toHaveClass(/\bon\b/);
+    await expect(lotrPill).not.toHaveClass(onClassRe);
 
     await overlay.locator('#set-lotr').click();
-    await expect(lotrPill).toHaveClass(/\bon\b/);
+    await expect(lotrPill).toHaveClass(onClassRe);
 
     await overlay.locator('#set-lotr').click();
-    await expect(lotrPill).not.toHaveClass(/\bon\b/);
+    await expect(lotrPill).not.toHaveClass(onClassRe);
 
     expect(errors).toEqual([]);
   });
@@ -145,13 +152,16 @@ test.describe('Settings — reset progress', () => {
     const modal = page.locator('#modal-overlay');
     await expect(modal).toBeVisible();
 
-    await modal.locator('#modal-cancel').click();
+    // reset-confirm-dialog.tsx's AlertDialog renders Backdrop (#modal-overlay)
+    // and Popup as siblings under Portal, not parent/child — #modal-cancel/
+    // #modal-confirm live in the Popup, so they need page-level locators.
+    await page.locator('#modal-cancel').click();
     await expect(modal).toBeHidden();
     expect(Number(await page.locator('#cknown').innerText())).toBe(knownBefore);
 
     await overlay.locator('#btn-reset').click();
     await expect(modal).toBeVisible();
-    await modal.locator('#modal-confirm').click();
+    await page.locator('#modal-confirm').click();
     await expect(modal).toBeHidden();
 
     expect(Number(await page.locator('#cknown').innerText())).toBe(0);

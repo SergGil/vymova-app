@@ -52,8 +52,22 @@ export function ResetConfirmDialog(): ReactElement | null {
       }}
     >
       <AlertDialogPrimitive.Portal>
-        <AlertDialogPrimitive.Backdrop id="modal-overlay" className="bg-black/55 p-4" />
-        <AlertDialogPrimitive.Popup className="rounded-[20px] pt-8 px-7 pb-6 max-w-[340px] w-full text-center [animation-name:slideUpPanel] [animation-duration:.22s] [animation-timing-function:cubic-bezier(.175,.885,.32,1.275)] bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--prf-delete-panel-shadow)]">
+        {/* Raw AlertDialogPrimitive (not the shared dialog.tsx wrapper, whose
+            DIALOG_Z constant + `fixed` positioning every other modal here
+            gets automatically) — base-ui doesn't apply position:fixed on
+            its own, so without these both Backdrop and Popup rendered
+            position:static, sitting wherever they fell in normal document
+            flow (a ~340×32px sliver, not a full-screen backdrop) instead of
+            as an overlay — z-index has no effect on a statically positioned
+            element, so this was invisible/unusable, not just under
+            #settings-overlay. Mirrors dialog.tsx's DialogOverlay/DialogPopup
+            fixed-positioning convention exactly (Backdrop and Popup are
+            portalled as siblings, not parent/child, same as there). */}
+        <AlertDialogPrimitive.Backdrop
+          id="modal-overlay"
+          className="fixed inset-0 z-[99999] bg-black/55 p-4"
+        />
+        <AlertDialogPrimitive.Popup className="fixed top-1/2 left-1/2 z-[99999] -translate-1/2 rounded-[20px] pt-8 px-7 pb-6 max-w-[340px] w-full text-center [animation-name:slideUpPanel] [animation-duration:.22s] [animation-timing-function:cubic-bezier(.175,.885,.32,1.275)] bg-[var(--delete-panel-bg)] [border:var(--delete-panel-border)] shadow-[var(--prf-delete-panel-shadow)]">
           <div className="text-[2.4rem] mb-3">⚠️</div>
           <div
             className="text-[1.1rem] font-bold mb-1.5 text-[var(--prf-delete-title-color)]"

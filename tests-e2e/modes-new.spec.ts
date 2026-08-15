@@ -271,7 +271,13 @@ test.describe('New modes gameplay', () => {
     const input = overlay.locator('input[type="text"]');
     await input.fill('cat');
 
-    const suggestion = overlay.locator('div[style*="cursor: pointer"]').first();
+    // compare.tsx's word search was converted to a shadcn Combobox
+    // (ComboboxItem, className "cmp-suggestion-item") — no longer a raw
+    // div with an inline cursor:pointer style. ComboboxContent also
+    // Portals to document.body (src/components/ui/combobox.tsx), so the
+    // item list is a page-level locator, not a descendant of #cmp-overlay
+    // (same reasoning as the Dialog-based modals above).
+    const suggestion = page.locator('.cmp-suggestion-item').first();
     await suggestion.waitFor({ state: 'visible' });
     await suggestion.click();
 

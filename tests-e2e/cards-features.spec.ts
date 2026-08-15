@@ -18,10 +18,15 @@ test.describe('Note modal', () => {
     const overlay = page.locator('#note-overlay');
     await expect(overlay).toBeVisible();
 
-    await overlay.locator('.note-textarea').fill('remember: sounds like "banana"');
+    // note-modal.tsx's Dialog renders DialogOverlay (#note-overlay, the
+    // backdrop) and DialogPopup as siblings under DialogPortal, not
+    // parent/child — the textarea/buttons live in the Popup, so they need
+    // page-level locators, not overlay-scoped ones (same reasoning as the
+    // achievement-popup test below).
+    await page.locator('.note-textarea').fill('remember: sounds like "banana"');
     // Save/close — note-modal.tsx's close() always saves first, then
     // unmounts (word -> null), taking #note-overlay with it.
-    await overlay.locator('#note-save-btn').click();
+    await page.locator('#note-save-btn').click();
     await expect(overlay).toBeHidden();
 
     // save() -> refreshCard() dynamic-imports card-engine.ts before
@@ -53,9 +58,13 @@ test.describe('Word detail modal', () => {
 
     const wdOverlay = page.locator('#wd-overlay');
     await expect(wdOverlay).toBeVisible();
-    await expect(wdOverlay.locator('#wd-word')).not.toHaveText('');
+    // word-detail.tsx's Dialog renders DialogOverlay (#wd-overlay, the
+    // backdrop) and its Popup as siblings under DialogPortal, not
+    // parent/child — #wd-word/#wd-close live in the Popup, so they need
+    // page-level locators (same reasoning as the note-modal test above).
+    await expect(page.locator('#wd-word')).not.toHaveText('');
 
-    await wdOverlay.locator('#wd-close').click();
+    await page.locator('#wd-close').click();
     await expect(wdOverlay).toBeHidden();
 
     expect(errors).toEqual([]);
