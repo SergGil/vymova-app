@@ -261,8 +261,10 @@ export default defineConfig(({ command }) => ({
       // the actual baseline at introduction (statements 66.71%, branches
       // 59.22%, functions 62.03%, lines 70%, all measured on this same
       // `include` scope) so normal fluctuation doesn't flip CI red, while
-      // still catching a genuine regression. `npm run test:coverage` isn't
-      // wired into any CI workflow yet — this only takes effect once it is.
+      // still catching a genuine regression. Enforced in CI via
+      // ci.yml's `vitest run --coverage` step (PR gate) — deploy.yml's
+      // post-merge run stays a plain `vitest run`, since by then a
+      // coverage drop should already have been caught pre-merge.
       thresholds: {
         statements: 64,
         branches: 57,
