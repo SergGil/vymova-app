@@ -11,13 +11,33 @@ export const LANG_HISTORY_SI: LangHistoryEntry = {
     "За переказами, острів заселили нащадки принца Віджаї з Північної Індії близько V століття до н.е.",
     "Буддизм, привнесений на Шрі-Ланку в III столітті до н.е., глибоко вплинув на розвиток сингальської писемності й літератури.",
     "Округла форма літер, як і в кількох сусідніх писемностях, пов'язана з традицією писання на пальмовому листі.",
-    "Зберігає давню хроніку \"Магавамса\" — один з найдавніших історичних літописів Південної Азії."
+    "Зберігає давню хроніку \"Магавамса\" — один з найдавніших історичних літописів Південної Азії.",
+    "Сингальська — індоарійська мова Шрі-Ланки, єдина мова цієї гілки, якою говорять переважно на острові в Індійському океані.",
+    "Сингальська писемність походить від письма брахмі й має характерну заокруглену форму, подібну до інших мов Південної Азії.",
+    "Мова прийшла на Шрі-Ланку разом з переселенцями з Північної Індії приблизно у V столітті до нашої ери.",
+    "Сингальська зазнала значного впливу палі через тісний зв'язок з буддійською традицією Шрі-Ланки.",
+    "У сингальській є \"чиста\" та \"змішана\" літературні форми — перша уникає санскритських і палійських запозичень.",
+    "Сингальська — офіційна мова Шрі-Ланки поряд з тамільською.",
+    "Мова також зазнала впливу португальської, голландської та англійської через колоніальну історію острова.",
+    "У сингальській немає граматичного роду в сучасній розмовній формі.",
+    "Сингальська — рідна мова більшості населення Шрі-Ланки, понад 16 мільйонів людей.",
+    "Стародавні сингальські написи на скелі Сігірія датуються ще першим тисячоліттям нашої ери."
   ],
   "factsEn": [
     "Belongs to the Indo-Aryan branch of the Indo-European family — the only such language to have developed mainly amid Dravidian neighbors.",
     "Tradition holds the island was settled by descendants of Prince Vijaya from North India around the 5th century BCE.",
     "Buddhism, brought to Sri Lanka in the 3rd century BCE, deeply shaped the development of Sinhala writing and literature.",
     "Its rounded letterforms, like several neighboring scripts, stem from the tradition of writing on palm leaves.",
-    "Preserves the Mahavamsa, one of the oldest historical chronicles in South Asia."
+    "Preserves the Mahavamsa, one of the oldest historical chronicles in South Asia.",
+    "Sinhala is an Indo-Aryan language of Sri Lanka, the only language of this branch spoken mainly on an Indian Ocean island.",
+    "Sinhala script descends from Brahmi script and has a rounded form similar to other South Asian scripts.",
+    "The language arrived in Sri Lanka with settlers from North India around the 5th century BCE.",
+    "Sinhala shows significant Pali influence through its close ties to Sri Lanka's Buddhist tradition.",
+    "Sinhala has \"pure\" and \"mixed\" literary registers — the former avoids Sanskrit and Pali loanwords.",
+    "Sinhala is the official language of Sri Lanka alongside Tamil.",
+    "The language also absorbed influence from Portuguese, Dutch, and English through the island's colonial history.",
+    "Sinhala has no grammatical gender in its modern spoken form.",
+    "Sinhala is the native language of the majority of Sri Lanka's population, over 16 million people.",
+    "Ancient Sinhala inscriptions on Sigiriya rock date back to the first millennium CE."
   ]
 };

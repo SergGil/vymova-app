@@ -11,13 +11,33 @@ export const LANG_HISTORY_SU: LangHistoryEntry = {
     "Королівство Сунда (669–1579) підтримувало окрему від яванської культурну й політичну ідентичність Західної Яви.",
     "Історично записувалася давнім письмом сунда кагінатан, спорідненим з іншими письмами Індонезії індійського походження.",
     "Після поширення ісламу частину текстів записували арабицею пегон, як і яванську.",
-    "На відміну від яванської, має простішу систему мовних регістрів ввічливості."
+    "На відміну від яванської, має простішу систему мовних регістрів ввічливості.",
+    "Сунданська — австронезійська мова, друга за кількістю носіїв мова Індонезії після яванської.",
+    "Сунданська поширена переважно в західній частині острова Ява, у регіоні Західна Ява.",
+    "Мова має власні регістри ввічливості, хоч і простіші за яванські.",
+    "Сунданська писемність традиційно використовувала письмо, споріднене з яванським, а сьогодні здебільшого латинку.",
+    "Сунданська — рідна мова понад 30 мільйонів людей.",
+    "Мова зазнала впливу яванської через тривале політичне й культурне сусідство на острові.",
+    "У сунданській немає граматичного роду чи відмінків іменників.",
+    "Сунданська культура має власну традицію музики анклунг — інструмента з бамбукових трубок.",
+    "Мова не має офіційного статусу в Індонезії, поступаючись роллю стандартній індонезійській.",
+    "Сунданська зберегла давньоіндонезійську лексику, менш зазнану санскритським впливом, ніж яванська."
   ],
   "factsEn": [
     "Belongs to the Austronesian language family; it's Indonesia's second most-spoken indigenous language after Javanese.",
     "The Kingdom of Sunda (669–1579) maintained a cultural and political identity separate from Java's other kingdoms.",
     "Historically written in the ancient Sunda Kaganga script, related to other Indian-derived scripts of Indonesia.",
     "After Islam spread, some texts were written in the Arabic-based Pegon script, as with Javanese.",
-    "Unlike Javanese, it has a simpler system of politeness registers."
+    "Unlike Javanese, it has a simpler system of politeness registers.",
+    "Sundanese is an Austronesian language, Indonesia's second most-spoken language after Javanese.",
+    "Sundanese is mainly spoken in the western part of Java island, in the West Java region.",
+    "The language has its own politeness registers, though simpler than Javanese's.",
+    "Sundanese writing traditionally used a script related to Javanese, and today mostly the Latin alphabet.",
+    "Sundanese is the native language of over 30 million people.",
+    "The language shows Javanese influence from long political and cultural proximity on the island.",
+    "Sundanese has no grammatical gender or noun case system.",
+    "Sundanese culture has its own angklung music tradition, using bamboo-tube instruments.",
+    "The language holds no official status in Indonesia, deferring that role to standard Indonesian.",
+    "Sundanese retained older Indonesian vocabulary less affected by Sanskrit influence than Javanese was."
   ]
 };

@@ -11,13 +11,33 @@ export const LANG_HISTORY_FA: LangHistoryEntry = {
     "Давньоперську фіксують клинописні написи царів Ахеменідів, зокрема Дарія I у Бехістуні.",
     "Після арабського завоювання VII століття перейняла арабське письмо й численні арабські запозичення.",
     "\"Шахнаме\" Фірдоусі (бл. 1000 р.) — епічна поема, що свідомо уникала арабізмів заради чистоти перської мови.",
-    "Тісно споріднена з дарі (Афганістан) і таджицькою (Таджикистан) — усі три часто вважають діалектним континуумом."
+    "Тісно споріднена з дарі (Афганістан) і таджицькою (Таджикистан) — усі три часто вважають діалектним континуумом.",
+    "Перська (фарсі) належить до іранської гілки індоєвропейської сім'ї, спорідненої з курдською й пушту.",
+    "Персько-арабська писемність замінила давньоперську клинописну після ісламізації Персії у VII столітті.",
+    "Перська мала величезний вплив на урду, турецьку та мови Південної Азії через культурну й політичну експансію.",
+    "На відміну від арабської, перська — не семітська мова, хоч і запозичила її алфавіт.",
+    "Перська поезія Румі, Хафіза й Фірдоусі вважається однією з вершин світової літератури.",
+    "У перській немає граматичного роду й відносно проста дієвідміна порівняно з іншими індоєвропейськими мовами.",
+    "Перську мову називають по-різному залежно від країни: фарсі в Ірані, дарі в Афганістані, тоджикі в Таджикистані.",
+    "Слова \"bazaar\", \"caravan\", \"paradise\" в англійській — запозичення з перської.",
+    "Перська була мовою двору й адміністрації Могольської імперії в Індії протягом століть.",
+    "Фірдоусі завершив епічну поему \"Шахнаме\" близько 1010 року, зберігши домовгольську перську лексику."
   ],
   "factsEn": [
     "Belongs to the Iranian branch of the Indo-European language family.",
     "Old Persian is preserved in cuneiform inscriptions of Achaemenid kings, notably Darius I at Behistun.",
     "After the 7th-century Arab conquest, it adopted the Arabic script and many Arabic loanwords.",
     "Ferdowsi's Shahnameh (c. 1000 CE), a national epic, deliberately avoided Arabic words to preserve \"pure\" Persian.",
-    "Closely related to Dari (Afghanistan) and Tajik (Tajikistan) — the three are often seen as a dialect continuum."
+    "Closely related to Dari (Afghanistan) and Tajik (Tajikistan) — the three are often seen as a dialect continuum.",
+    "Persian (Farsi) belongs to the Iranian branch of the Indo-European family, related to Kurdish and Pashto.",
+    "Perso-Arabic script replaced the earlier cuneiform-based Old Persian writing after Persia's Islamization in the 7th century.",
+    "Persian had a huge influence on Urdu, Turkish, and South Asian languages through cultural and political expansion.",
+    "Unlike Arabic, Persian is not a Semitic language, even though it borrowed Arabic's script.",
+    "Persian poetry by Rumi, Hafez, and Ferdowsi is considered among the pinnacles of world literature.",
+    "Persian has no grammatical gender and relatively simple verb conjugation compared to other Indo-European languages.",
+    "Persian goes by different names depending on the country: Farsi in Iran, Dari in Afghanistan, Tajik in Tajikistan.",
+    "The English words \"bazaar\", \"caravan\", and \"paradise\" are all Persian loanwords.",
+    "Persian was the court and administrative language of the Mughal Empire in India for centuries.",
+    "Ferdowsi completed the epic poem \"Shahnameh\" around 1010, preserving pre-Mongol Persian vocabulary."
   ]
 };
