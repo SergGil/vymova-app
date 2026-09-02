@@ -61,7 +61,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -98,7 +99,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Съм (To Be) — A1"
       },
       {
         "id": "negation",
@@ -135,7 +137,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with Не — A1"
       },
       {
         "id": "questions",
@@ -172,7 +175,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions with Ли — A1"
       },
       {
         "id": "suffixed-article",
@@ -209,7 +213,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Suffixed Article, No Cases — A1"
       }
     ]
   },
@@ -293,7 +298,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Tense — A1"
       },
       {
         "id": "conjugation-classes",
@@ -342,7 +348,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Three Verb Conjugation Classes — A1"
       },
       {
         "id": "past-aorist",
@@ -396,7 +403,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Aorist (Simple Past) — A2"
       },
       {
         "id": "past-imperfect",
@@ -450,7 +458,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Imperfect Past — A2"
       },
       {
         "id": "future-simple",
@@ -495,7 +504,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Future Tense — A1"
       },
       {
         "id": "past-perfect",
@@ -543,7 +553,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Pluperfect — B1"
       },
       {
         "id": "present-perfect",
@@ -591,7 +602,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Perfect Tense — B1"
       },
       {
         "id": "future-in-past",
@@ -632,7 +644,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Future in the Past — B1"
       },
       {
         "id": "future-perfect",
@@ -673,7 +686,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Future Perfect — B2"
       },
       {
         "id": "imperative",
@@ -727,7 +741,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Imperative — A2"
       },
       {
         "id": "verbal-aspect",
@@ -776,7 +791,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Verbal Aspect: Perfective & Imperfective — A2"
       },
       {
         "id": "renarrated-mood",
@@ -817,7 +833,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Renarrated (Evidential) Mood — B2"
       },
       {
         "id": "conditional-mood",
@@ -865,7 +882,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Conditional Mood — B1"
       }
     ]
   },
@@ -922,7 +940,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Vocative Form (the Surviving Case) — A2"
       },
       {
         "id": "full-short-article",
@@ -963,7 +982,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Full & Short Article (-ът / -а) — B1"
       },
       {
         "id": "plural-definite-article",
@@ -1008,7 +1028,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Definite Article in the Plural — A2"
       },
       {
         "id": "gender-nouns",
@@ -1053,7 +1074,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Noun Gender — A1"
       },
       {
         "id": "plural-nouns",
@@ -1098,7 +1120,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plural Nouns — A1"
       },
       {
         "id": "personal-pronouns-full",
@@ -1155,7 +1178,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Full Personal Pronouns (Object Forms) — A1"
       },
       {
         "id": "personal-pronouns-short",
@@ -1208,7 +1232,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Short Personal Pronouns (Clitics) — A2"
       },
       {
         "id": "possessive-pronouns",
@@ -1253,7 +1278,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possessive Pronouns — A1"
       },
       {
         "id": "possessive-short-forms",
@@ -1298,7 +1324,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Short Possessive Forms (Ми, Ти, Му) — A2"
       },
       {
         "id": "demonstrative-pronouns",
@@ -1343,7 +1370,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Demonstrative Pronouns (Този/Онзи) — A1"
       },
       {
         "id": "relative-pronouns",
@@ -1388,7 +1416,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Relative Pronouns (Който) — B1"
       },
       {
         "id": "interrogative-pronouns",
@@ -1437,7 +1466,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Interrogative Pronouns (Кой, Какво, Колко) — A1"
       },
       {
         "id": "indefinite-pronouns",
@@ -1490,7 +1520,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Indefinite Pronouns (Някой, Никой, Всеки) — B1"
       },
       {
         "id": "clitic-placement",
@@ -1544,7 +1575,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Placement of Short Pronouns — B1"
       },
       {
         "id": "adjective-agreement",
@@ -1593,7 +1625,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adjective Agreement — A1"
       },
       {
         "id": "comparative-superlative",
@@ -1634,7 +1667,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Degrees of Comparison (По-, Най-) — A2"
       },
       {
         "id": "numbers-cardinal",
@@ -1679,7 +1713,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Cardinal Numbers — A1"
       },
       {
         "id": "numbers-ordinal",
@@ -1724,7 +1759,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ordinal Numbers — A2"
       },
       {
         "id": "numbers-special-form",
@@ -1769,7 +1805,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Numeral Forms (Двама, Трима) — B1"
       },
       {
         "id": "prepositions-basic",
@@ -1822,7 +1859,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Basic Prepositions (В, На, С, От, За) — A1"
       },
       {
         "id": "prepositions-other",
@@ -1871,7 +1909,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Other Prepositions (Без, До, През, Между) — B1"
       },
       {
         "id": "word-order",
@@ -1912,7 +1951,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Word Order — A2"
       },
       {
         "id": "conjunctions-coordinating",
@@ -1953,7 +1993,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Coordinating Conjunctions (И, Или, Но) — A1"
       },
       {
         "id": "conjunctions-subordinating",
@@ -1994,7 +2035,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subordinating Conjunctions (Защото, Ако, Че) — B1"
       },
       {
         "id": "negation-nuances",
@@ -2035,7 +2077,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Double Negation — B1"
       },
       {
         "id": "question-words",
@@ -2076,7 +2119,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Question Words (Къде, Кога, Защо) — A1"
       },
       {
         "id": "reflexive-verbs",
@@ -2121,7 +2165,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Reflexive Verbs (Се/Си) — A2"
       },
       {
         "id": "impersonal-constructions",
@@ -2162,7 +2207,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Impersonal Constructions (Трябва, Може) — A2"
       },
       {
         "id": "modal-expressions",
@@ -2207,7 +2253,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Modal Expressions (Искам Да, Мога Да) — A1"
       },
       {
         "id": "da-constructions",
@@ -2248,7 +2295,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Да-Constructions (Replacing the Infinitive) — A2"
       },
       {
         "id": "participles-active",
@@ -2289,7 +2337,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Active Participles — B1"
       },
       {
         "id": "participles-passive",
@@ -2334,7 +2383,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Participles — B1"
       },
       {
         "id": "verbal-adverb-uses",
@@ -2375,7 +2425,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verbal Adverb (-Йки) — B1"
       },
       {
         "id": "passive-voice",
@@ -2416,7 +2467,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Voice — B1"
       },
       {
         "id": "genitive-possession-with-na",
@@ -2457,7 +2509,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possession with На — A2"
       },
       {
         "id": "days-of-week",
@@ -2518,7 +2571,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Days of the Week — A1"
       },
       {
         "id": "months-dates",
@@ -2563,7 +2617,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Months & Dates — A2"
       },
       {
         "id": "telling-time",
@@ -2608,7 +2663,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Telling Time — A2"
       },
       {
         "id": "diminutives",
@@ -2653,7 +2709,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Diminutives (-Че, -Ка, -Ица) — B1"
       },
       {
         "id": "adverbs",
@@ -2698,7 +2755,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adverbs — A2"
       },
       {
         "id": "quantifiers",
@@ -2743,7 +2801,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Quantifiers (Много, Малко, Доста) — A2"
       },
       {
         "id": "irregular-comparatives",
@@ -2788,7 +2847,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Comparatives — B1"
       },
       {
         "id": "common-idioms",
@@ -2837,7 +2897,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Common Expressions — B1"
       },
       {
         "id": "formal-informal",
@@ -2878,7 +2939,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ти vs Вие (Formality) — A1"
       },
       {
         "id": "existential-ima",
@@ -2923,7 +2985,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Construction Има (There Is/Are) — A2"
       },
       {
         "id": "time-expressions-relative",
@@ -2968,7 +3031,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Time Expressions (Вече, Още, Скоро) — A2"
       },
       {
         "id": "stress-rules",
@@ -3009,7 +3073,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Stress Rules — A2"
       },
       {
         "id": "seasons-weather",
@@ -3054,7 +3119,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Seasons & Weather — A1"
       },
       {
         "id": "greetings-common-phrases",
@@ -3103,7 +3169,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Greetings & Common Phrases — A1"
       }
     ]
   },
@@ -3164,7 +3231,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Verbs — A2"
       },
       {
         "id": "irregular-plurals",
@@ -3217,7 +3285,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Plurals — B1"
       },
       {
         "id": "spelling-rules",
@@ -3271,7 +3340,8 @@ export const GRAMMAR_BG: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Spelling Pitfalls (Ъ, Ь, Voicing) — B1"
       }
     ]
   }

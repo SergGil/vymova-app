@@ -57,7 +57,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Definite Article Al- — A1"
       },
       {
         "id": "gender",
@@ -106,7 +107,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Masculine & Feminine — A1"
       },
       {
         "id": "present-tense",
@@ -173,7 +175,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Tense — A1"
       },
       {
         "id": "pronouns",
@@ -230,7 +233,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "plural",
@@ -283,7 +287,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plural (Sound & Broken) — A1"
       },
       {
         "id": "sun-moon-letters",
@@ -328,7 +333,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Sun & Moon Letters — A1"
       },
       {
         "id": "possession-idafa",
@@ -373,7 +379,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Idafa (The Possessive Construction) — A2"
       },
       {
         "id": "adjective-agreement",
@@ -418,7 +425,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adjective Agreement — A1"
       },
       {
         "id": "question-words",
@@ -460,7 +468,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Question Words — A1"
       },
       {
         "id": "negation-la-ma",
@@ -505,7 +514,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with Lā, Mā, Laysa — A1"
       }
     ]
   },
@@ -558,7 +568,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Ten Verb Forms (Awzān) — A2"
       },
       {
         "id": "past-tense",
@@ -614,7 +625,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Past Tense — A1"
       },
       {
         "id": "jussive-mood",
@@ -655,7 +667,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Jussive Mood — B1"
       },
       {
         "id": "subjunctive-mood",
@@ -696,7 +709,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subjunctive Mood — B1"
       },
       {
         "id": "imperative",
@@ -747,7 +761,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Imperative — A2"
       },
       {
         "id": "future-tense",
@@ -788,7 +803,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Future Tense (Sa-/Sawfa) — A1"
       },
       {
         "id": "form-ii-verbs",
@@ -829,7 +845,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Form II Verbs (Fa''ala) — B1"
       },
       {
         "id": "form-iii-verbs",
@@ -870,7 +887,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Form III Verbs (Fā'ala) — B1"
       },
       {
         "id": "form-x-verbs",
@@ -911,7 +929,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Form X Verbs (Istaf'ala) — B2"
       },
       {
         "id": "passive-voice",
@@ -952,7 +971,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Voice — B1"
       },
       {
         "id": "conditional-in",
@@ -993,7 +1013,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Conditional Sentences with In/Idhā — B1"
       }
     ]
   },
@@ -1042,7 +1063,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Nominative Case — A2"
       },
       {
         "id": "case-accusative",
@@ -1083,7 +1105,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Accusative Case — A2"
       },
       {
         "id": "case-genitive",
@@ -1124,7 +1147,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Genitive Case — A2"
       },
       {
         "id": "sound-plural-masc",
@@ -1165,7 +1189,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Sound Masculine Plural — A2"
       },
       {
         "id": "sound-plural-fem",
@@ -1206,7 +1231,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Sound Feminine Plural — A2"
       },
       {
         "id": "broken-plural-patterns",
@@ -1251,7 +1277,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Broken Plural Patterns — B1"
       },
       {
         "id": "dual-number",
@@ -1292,7 +1319,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Dual Number — A2"
       },
       {
         "id": "demonstrative-pronouns",
@@ -1337,7 +1365,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Demonstrative Pronouns (Hādhā/Dhālika) — A1"
       },
       {
         "id": "relative-pronouns",
@@ -1378,7 +1407,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Relative Pronouns (Alladhī) — B1"
       },
       {
         "id": "possessive-suffixes",
@@ -1423,7 +1453,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Attached Possessive Suffixes — A1"
       },
       {
         "id": "object-pronouns-attached",
@@ -1468,7 +1499,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Attached Object Pronouns — A2"
       },
       {
         "id": "prepositions-basic",
@@ -1517,7 +1549,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Basic Prepositions (Fī, 'Alā, Min, Ilā) — A1"
       },
       {
         "id": "prepositions-other",
@@ -1562,7 +1595,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Other Prepositions (Ma'a, 'An, Bi-) — A2"
       },
       {
         "id": "word-order",
@@ -1603,7 +1637,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Word Order (VSO vs SVO) — A2"
       },
       {
         "id": "nominal-sentence",
@@ -1644,7 +1679,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Nominal Sentence — A1"
       },
       {
         "id": "verbal-sentence",
@@ -1685,7 +1721,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verbal Sentence — A1"
       },
       {
         "id": "kaana-and-sisters",
@@ -1726,7 +1763,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Kāna and Its Sisters — B1"
       },
       {
         "id": "inna-and-sisters",
@@ -1767,7 +1805,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Inna and Its Sisters — B1"
       },
       {
         "id": "comparative-superlative",
@@ -1812,7 +1851,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Comparative & Superlative (Af'al) — A2"
       },
       {
         "id": "numbers-cardinal-1-10",
@@ -1857,7 +1897,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Cardinal Numbers 1-10 — A1"
       },
       {
         "id": "numbers-cardinal-11-100",
@@ -1902,7 +1943,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Cardinal Numbers 11-100 — A2"
       },
       {
         "id": "numbers-gender-agreement",
@@ -1943,7 +1985,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Reversed Gender Agreement of Numbers — B1"
       },
       {
         "id": "ordinal-numbers",
@@ -1988,7 +2031,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ordinal Numbers — A2"
       },
       {
         "id": "days-of-week",
@@ -2033,7 +2077,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Days of the Week — A1"
       },
       {
         "id": "months-dates",
@@ -2074,7 +2119,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Months & Dates — A2"
       },
       {
         "id": "telling-time",
@@ -2115,7 +2161,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Telling Time — A2"
       },
       {
         "id": "conjunctions-basic",
@@ -2155,7 +2202,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Basic Conjunctions (Wa, Aw, Lākin) — A1"
       },
       {
         "id": "conjunctions-advanced",
@@ -2195,7 +2243,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subordinating Conjunctions (Li'anna, Idhā, 'Indamā) — B1"
       },
       {
         "id": "adverbs",
@@ -2240,7 +2289,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adverbs — A2"
       },
       {
         "id": "quantifiers",
@@ -2285,7 +2335,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Quantifiers (Kull, Ba'd, Kathīr) — A2"
       },
       {
         "id": "exclamations",
@@ -2326,7 +2377,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Exclamatory Sentences — A2"
       },
       {
         "id": "vocative-particle",
@@ -2367,7 +2419,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Vocative Particle Yā — A1"
       },
       {
         "id": "colors-pattern",
@@ -2412,7 +2465,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Colors (the Af'al Pattern) — B1"
       },
       {
         "id": "masdar-verbal-noun",
@@ -2457,7 +2511,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Masdar (Verbal Noun) — B1"
       },
       {
         "id": "active-participle",
@@ -2498,7 +2553,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Active Participle — B1"
       },
       {
         "id": "passive-participle",
@@ -2539,7 +2595,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Participle — B1"
       },
       {
         "id": "tanwin",
@@ -2584,7 +2641,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Tanwīn (Nunation) — A2"
       },
       {
         "id": "hamza-rules",
@@ -2629,7 +2687,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Hamza Spelling Rules — B1"
       },
       {
         "id": "diminutive",
@@ -2670,7 +2729,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Diminutive — B2"
       },
       {
         "id": "modal-expressions",
@@ -2711,7 +2771,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Modal Expressions (Yajib, Yumkin) — A1"
       },
       {
         "id": "formal-informal-address",
@@ -2752,7 +2813,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Formal Arabic vs Dialect — A2"
       },
       {
         "id": "common-idioms",
@@ -2797,7 +2859,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Common Expressions — B1"
       },
       {
         "id": "exception-illa",
@@ -2838,7 +2901,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Exception Construction Illā — B1"
       }
     ]
   },
@@ -2891,7 +2955,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Hollow Verbs (Middle Weak) — B1"
       },
       {
         "id": "weak-verbs-defective",
@@ -2936,7 +3001,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Defective Verbs (Final Weak) — B1"
       },
       {
         "id": "weak-verbs-assimilated",
@@ -2977,7 +3043,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Assimilated Verbs (Initial Weak) — B1"
       },
       {
         "id": "doubled-verbs",
@@ -3018,7 +3085,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Doubled (Geminate) Verbs — B1"
       },
       {
         "id": "irregular-plurals-common",
@@ -3067,7 +3135,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Common Irregular Plurals — A2"
       },
       {
         "id": "sun-moon-spelling",
@@ -3117,7 +3186,8 @@ export const GRAMMAR_AR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Sun Letter Spelling Details — B2"
       }
     ]
   }
