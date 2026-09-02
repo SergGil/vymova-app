@@ -83,7 +83,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ser vs Estar — A1"
       },
       {
         "id": "gender-nouns",
@@ -143,7 +144,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Noun Gender — A1"
       },
       {
         "id": "articles",
@@ -192,7 +194,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Definite & Indefinite Articles — A1"
       },
       {
         "id": "plural-nouns",
@@ -241,7 +244,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plural Nouns — A1"
       },
       {
         "id": "adjectives",
@@ -286,7 +290,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adjectives — A1"
       },
       {
         "id": "possessives",
@@ -331,7 +336,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possessive Adjectives — A1"
       },
       {
         "id": "demonstratives",
@@ -376,7 +382,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Demonstratives (Este/Esse/Aquele) — A1"
       },
       {
         "id": "question-words",
@@ -419,7 +426,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Question Words — A1"
       },
       {
         "id": "negation",
@@ -460,7 +468,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation — A1"
       },
       {
         "id": "reflexive-verbs",
@@ -514,7 +523,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Reflexive Verbs — A2"
       }
     ]
   },
@@ -585,7 +595,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Indicative (Regular Verbs) — A1"
       },
       {
         "id": "preterito-perfeito",
@@ -639,7 +650,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Pretérito Perfeito (Simple Past) — A2"
       },
       {
         "id": "preterito-imperfeito",
@@ -687,7 +699,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Pretérito Imperfeito — A2"
       },
       {
         "id": "futuro-simples",
@@ -735,7 +748,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Futuro do Presente (Simple Future) — A2"
       },
       {
         "id": "present-continuous",
@@ -776,7 +790,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Continuous (Estar A / Estar + Gerund) — A2"
       },
       {
         "id": "mais-que-perfeito",
@@ -824,7 +839,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Pretérito Mais-que-Perfeito (Past Perfect) — B1"
       },
       {
         "id": "futuro-composto",
@@ -865,7 +881,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Near Future (Ir + Infinitive) — A1"
       },
       {
         "id": "condicional-simples",
@@ -913,7 +930,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Futuro do Pretérito (Conditional) — B1"
       },
       {
         "id": "presente-subjuntivo",
@@ -961,7 +979,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Presente do Conjuntivo (Present Subjunctive) — B1"
       },
       {
         "id": "futuro-subjuntivo",
@@ -1002,7 +1021,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Futuro do Conjuntivo (Future Subjunctive) — B2"
       }
     ]
   },
@@ -1055,7 +1075,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Gostar De (To Like) — A2"
       },
       {
         "id": "por-para",
@@ -1104,7 +1125,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Por vs Para — B1"
       },
       {
         "id": "direct-object-pronouns",
@@ -1149,7 +1171,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Direct Object Pronouns — A2"
       },
       {
         "id": "imperative-affirmative",
@@ -1203,7 +1226,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Affirmative Imperative — A2"
       },
       {
         "id": "comparatives",
@@ -1248,7 +1272,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Comparatives & Superlatives — A2"
       },
       {
         "id": "indirect-object-pronouns",
@@ -1289,7 +1314,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Indirect Object Pronouns — A2"
       },
       {
         "id": "combined-pronouns",
@@ -1334,7 +1360,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Combined Pronouns (Mo, Ta) — B2"
       },
       {
         "id": "relative-pronouns",
@@ -1379,7 +1406,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Relative Pronouns (Que, Quem, Cujo) — B1"
       },
       {
         "id": "passive-voice",
@@ -1420,7 +1448,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Voice (Ser + Participle) — B1"
       },
       {
         "id": "personal-infinitive",
@@ -1465,7 +1494,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Personal Infinitive — B1"
       }
     ]
   },
@@ -1518,7 +1548,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Conditional Sentences with Se — B1"
       },
       {
         "id": "reported-speech",
@@ -1559,7 +1590,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Reported Speech — B1"
       },
       {
         "id": "indefinite-pronouns",
@@ -1612,7 +1644,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Indefinite Pronouns — A2"
       },
       {
         "id": "ordinal-numbers",
@@ -1661,7 +1694,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ordinal Numbers — A2"
       },
       {
         "id": "exclamatory-sentences",
@@ -1702,7 +1736,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Exclamatory Sentences — A2"
       },
       {
         "id": "prepositions-a-em-de",
@@ -1747,7 +1782,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Prepositions A, Em, De — A2"
       },
       {
         "id": "diminutives",
@@ -1792,7 +1828,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Diminutives (-inho/-zinho) — B1"
       },
       {
         "id": "prepositional-pronouns",
@@ -1841,7 +1878,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Pronouns After Prepositions (Comigo, Contigo) — A2"
       },
       {
         "id": "time-expressions",
@@ -1886,7 +1924,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Desde, Há, Durante — B1"
       },
       {
         "id": "clitic-placement",
@@ -1931,7 +1970,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Pronoun Placement (Próclise/Ênclise/Mesóclise) — B2"
       }
     ]
   },
@@ -1987,7 +2027,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Pretérito Imperfeito do Conjuntivo — B2"
       },
       {
         "id": "preterito-perfeito-subjuntivo",
@@ -2035,7 +2076,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Pretérito Perfeito do Conjuntivo — B2"
       },
       {
         "id": "imperative-negative",
@@ -2080,7 +2122,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negative Imperative — A2"
       },
       {
         "id": "possessive-pronouns",
@@ -2121,7 +2164,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possessive Pronouns — B1"
       },
       {
         "id": "absolute-superlative",
@@ -2162,7 +2206,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Absolute Superlative (-íssimo) — B1"
       },
       {
         "id": "estar-a-infinitivo",
@@ -2203,7 +2248,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Estar A + Infinitive (European Portuguese) — A2"
       },
       {
         "id": "acabar-de",
@@ -2244,7 +2290,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Acabar De + Infinitive (To Have Just Done) — A2"
       },
       {
         "id": "voltar-a",
@@ -2285,7 +2332,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Voltar A + Infinitive (To Do Again) — B1"
       },
       {
         "id": "obligation-verbs",
@@ -2330,7 +2378,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ter Que, Dever, É Preciso — A2"
       },
       {
         "id": "qual-vs-que",
@@ -2371,7 +2420,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Qual? vs Que? — B1"
       },
       {
         "id": "mas-porem-senao",
@@ -2412,7 +2462,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Mas vs Porém vs Senão — B1"
       },
       {
         "id": "infinitive-gerund-verbs",
@@ -2457,7 +2508,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Verbs + Infinitive/Gerund — B2"
       },
       {
         "id": "impersonal-expressions",
@@ -2502,7 +2554,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Impersonal Expressions (Há, Faz, É) — A2"
       },
       {
         "id": "reported-questions",
@@ -2543,7 +2596,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Indirect Questions — B1"
       },
       {
         "id": "ficar-tornar-se",
@@ -2588,7 +2642,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ficar, Tornar-se, Fazer-se (To Become) — B2"
       }
     ]
   },
@@ -2644,7 +2699,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Futuro do Pretérito Composto (Past Conditional) — B2"
       },
       {
         "id": "futuro-probabilidade",
@@ -2685,7 +2741,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Future Tense for Probability — B2"
       },
       {
         "id": "tu-vs-voce",
@@ -2726,7 +2783,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Tu vs Você (Formality) — A2"
       },
       {
         "id": "o-neutro",
@@ -2767,7 +2825,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Neutral Pronoun O — B1"
       },
       {
         "id": "cujo",
@@ -2808,7 +2867,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Relative Pronoun Cujo (Whose) — B2"
       },
       {
         "id": "causativa-mandar-deixar",
@@ -2849,7 +2909,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Mandar/Deixar + Infinitive (Causative) — B2"
       },
       {
         "id": "ja-ainda-mais",
@@ -2894,7 +2955,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Já, Ainda, Não...Mais — A2"
       },
       {
         "id": "tao-quanto",
@@ -2935,7 +2997,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Tão...Quanto/Como (As...As) — B1"
       },
       {
         "id": "adjective-position",
@@ -2984,7 +3047,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adjective Position — B2"
       },
       {
         "id": "prepositions-extra",
@@ -3029,7 +3093,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Prepositions: Sobre, Entre, Perante, Sob — A2"
       },
       {
         "id": "o-que-cleft",
@@ -3070,7 +3135,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "\"O Que\" (Cleft Sentences) — B2"
       },
       {
         "id": "large-numbers",
@@ -3115,7 +3181,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Large Cardinal Numbers — A2"
       },
       {
         "id": "reflexive-emphatic",
@@ -3156,7 +3223,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Emphatic Reflexive Pronouns — B2"
       },
       {
         "id": "tomara-oxala",
@@ -3197,7 +3265,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Tomara/Oxalá + Subjunctive (Wishes) — B1"
       },
       {
         "id": "accent-rules",
@@ -3238,7 +3307,8 @@ export const GRAMMAR_PT: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Accent Rules — A2"
       }
     ]
   }
