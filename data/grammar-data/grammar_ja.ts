@@ -39,7 +39,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "です — The Copula \"To Be\""
       },
       {
         "id": "particle-wa",
@@ -70,7 +71,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "は — The Topic Particle"
       },
       {
         "id": "particle-o",
@@ -101,7 +103,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "を — The Object Particle"
       },
       {
         "id": "pronouns",
@@ -160,7 +163,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "adjectives",
@@ -205,7 +209,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "I- and Na-Adjectives — A1"
       }
     ]
   },
@@ -258,7 +263,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Tense (Polite Masu-Form) — A1"
       },
       {
         "id": "present-plain",
@@ -303,7 +309,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Tense (Plain/Dictionary Form) — A2"
       },
       {
         "id": "past-polite",
@@ -344,7 +351,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Past Tense (Polite Mashita) — A1"
       },
       {
         "id": "past-plain",
@@ -385,7 +393,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Past Tense (Plain Ta-Form) — A2"
       },
       {
         "id": "te-form",
@@ -430,7 +439,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Te-Form — A2"
       },
       {
         "id": "progressive-teiru",
@@ -471,7 +481,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Progressive Te Iru Form — A1"
       },
       {
         "id": "negative-present",
@@ -512,7 +523,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negative Present (Nai/Masen) — A1"
       },
       {
         "id": "negative-past",
@@ -549,7 +561,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negative Past (Nakatta/Masen Deshita) — A2"
       },
       {
         "id": "potential-form",
@@ -594,7 +607,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Potential Form — B1"
       },
       {
         "id": "passive-voice",
@@ -635,7 +649,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Voice — B1"
       },
       {
         "id": "causative-voice",
@@ -676,7 +691,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Causative Voice — B1"
       },
       {
         "id": "conditional-forms",
@@ -721,7 +737,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Conditional Forms (Ba/Tara/To/Nara) — B1"
       },
       {
         "id": "volitional-form",
@@ -762,7 +779,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Volitional Form (Let's Do) — A2"
       }
     ]
   },
@@ -811,7 +829,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "が — The Subject Particle"
       },
       {
         "id": "particle-ni",
@@ -856,7 +875,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "に — Location, Time, Direction"
       },
       {
         "id": "particle-de",
@@ -897,7 +917,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "で — Means, Location of Action"
       },
       {
         "id": "particle-to-ya",
@@ -938,7 +959,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "と・や — Listing Conjunctions"
       },
       {
         "id": "particle-mo",
@@ -979,7 +1001,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "も — Also/Too"
       },
       {
         "id": "particle-no",
@@ -1020,7 +1043,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "の — Possession & Modification"
       },
       {
         "id": "particle-kara-made",
@@ -1061,7 +1085,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "から・まで — From/Until"
       },
       {
         "id": "particle-he",
@@ -1102,7 +1127,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "へ — Direction"
       },
       {
         "id": "question-particle-ka",
@@ -1143,7 +1169,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "か — Question Particle"
       },
       {
         "id": "counters-classifiers",
@@ -1188,7 +1215,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Counters & Classifiers — A2"
       },
       {
         "id": "numbers-cardinal",
@@ -1229,7 +1257,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Cardinal Numbers — A1"
       },
       {
         "id": "adjective-conjugation-i",
@@ -1278,7 +1307,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "I-Adjective Conjugation — A2"
       },
       {
         "id": "adjective-conjugation-na",
@@ -1323,7 +1353,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Na-Adjective Conjugation — A2"
       },
       {
         "id": "comparative-superlative",
@@ -1364,7 +1395,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Comparison & Superlative — A2"
       },
       {
         "id": "demonstrative-kosoado",
@@ -1409,7 +1441,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Kosoado Demonstratives — A1"
       },
       {
         "id": "relative-clause-attributive",
@@ -1450,7 +1483,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Attributive (Relative) Clauses — B1"
       },
       {
         "id": "giving-receiving-verbs",
@@ -1495,7 +1529,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Giving & Receiving Verbs (Ageru/Morau/Kureru) — B1"
       },
       {
         "id": "desire-tai-form",
@@ -1536,7 +1571,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Desiderative Form (-Tai) — A2"
       },
       {
         "id": "suggestion-mashou",
@@ -1577,7 +1613,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Suggestions (Mashou/Masen Ka) — A1"
       },
       {
         "id": "request-kudasai",
@@ -1618,7 +1655,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Requests with Te Kudasai — A1"
       },
       {
         "id": "permission-prohibition",
@@ -1659,7 +1697,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Permission & Prohibition (Temo Ii/Tewa Ikenai) — A2"
       },
       {
         "id": "obligation-nakereba",
@@ -1700,7 +1739,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Obligation (Nakereba Naranai) — B1"
       },
       {
         "id": "experience-koto-ga-aru",
@@ -1741,7 +1781,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Experience (Ta Koto Ga Aru) — A2"
       },
       {
         "id": "quotation-to",
@@ -1782,7 +1823,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Quotation Particle と — B1"
       },
       {
         "id": "reason-kara-node",
@@ -1823,7 +1865,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Reason (Kara/Node) — A2"
       },
       {
         "id": "contrast-kedo-ga",
@@ -1864,7 +1907,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Contrast (Kedo/Ga) — A2"
       },
       {
         "id": "purpose-tame-ni",
@@ -1905,7 +1949,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Purpose (Tame Ni) — B1"
       },
       {
         "id": "keigo-sonkeigo",
@@ -1946,7 +1991,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Sonkeigo (Honorific Speech) — B1"
       },
       {
         "id": "keigo-kenjougo",
@@ -1987,7 +2033,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Kenjougo (Humble Speech) — B1"
       },
       {
         "id": "keigo-teineigo",
@@ -2032,7 +2079,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Teineigo (Polite Speech) — A2"
       },
       {
         "id": "days-of-week",
@@ -2077,7 +2125,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Days of the Week — A1"
       },
       {
         "id": "months-dates",
@@ -2122,7 +2171,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Months & Dates — A2"
       },
       {
         "id": "telling-time",
@@ -2167,7 +2217,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Telling Time — A2"
       },
       {
         "id": "plain-form-casual-speech",
@@ -2208,7 +2259,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plain Form in Casual Speech — B1"
       },
       {
         "id": "existence-aru-iru",
@@ -2249,7 +2301,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Existence: Aru vs Iru — A1"
       },
       {
         "id": "adverbs",
@@ -2294,7 +2347,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adverbs — A2"
       },
       {
         "id": "onomatopoeia",
@@ -2339,7 +2393,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Onomatopoeia & Mimetic Words — B1"
       },
       {
         "id": "word-order-flexibility",
@@ -2380,7 +2435,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Word Order Flexibility — A2"
       },
       {
         "id": "sentence-final-particles",
@@ -2421,7 +2477,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Sentence-Final Particles (Ne/Yo/Na) — A2"
       },
       {
         "id": "transitive-intransitive-verbs",
@@ -2462,7 +2519,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Transitive & Intransitive Verb Pairs — B1"
       },
       {
         "id": "verb-groups-conjugation",
@@ -2507,7 +2565,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Verb Conjugation Groups — A2"
       },
       {
         "id": "negative-question-response",
@@ -2548,7 +2607,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Answering Negative Questions — B1"
       },
       {
         "id": "common-idioms",
@@ -2593,7 +2653,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Common Expressions — B1"
       },
       {
         "id": "counting-people-formal",
@@ -2634,7 +2695,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Counting People Formally (Mei vs Nin) — B1"
       },
       {
         "id": "formal-informal-address",
@@ -2679,7 +2741,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Name Suffixes (San/Kun/Chan) — A1"
       },
       {
         "id": "weather-expressions",
@@ -2724,7 +2787,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Weather Expressions — A1"
       },
       {
         "id": "greetings-common-phrases",
@@ -2769,7 +2833,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Greetings & Common Phrases — A1"
       },
       {
         "id": "quantifiers",
@@ -2810,7 +2875,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Quantifiers (Takusan/Sukoshi) — A2"
       },
       {
         "id": "genitive-nominalizer-no",
@@ -2851,7 +2917,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Nominalizer の — B1"
       }
     ]
   },
@@ -2900,7 +2967,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Verbs (Suru/Kuru) — A2"
       },
       {
         "id": "irregular-readings-kanji",
@@ -2945,7 +3013,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Special Kanji Readings (Numbers & Dates) — B1"
       },
       {
         "id": "honorific-irregular-verbs",
@@ -2990,7 +3059,8 @@ export const GRAMMAR_JA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Special Honorific/Humble Verbs — B1"
       }
     ]
   }
