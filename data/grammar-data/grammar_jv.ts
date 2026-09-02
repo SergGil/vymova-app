@@ -55,7 +55,8 @@ export const GRAMMAR_JV: GrammarCategory[] = [
               "title": "Personal Pronouns (ngoko register)"
             }
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       }
     ]
   }

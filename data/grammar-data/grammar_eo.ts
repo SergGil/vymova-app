@@ -51,7 +51,8 @@ export const GRAMMAR_EO: GrammarCategory[] = [
               "title": "Personal Pronouns"
             }
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       }
     ]
   }

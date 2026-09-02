@@ -55,7 +55,8 @@ export const GRAMMAR_LB: GrammarCategory[] = [
               "title": "Personal Pronouns"
             }
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       }
     ]
   }

@@ -62,7 +62,8 @@ export const GRAMMAR_ET: GrammarCategory[] = [
               "text": "The shorter forms in parentheses (ma, sa, ta, me, te, nad) are more common in spoken Estonian, the full forms in writing."
             }
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       }
     ]
   }

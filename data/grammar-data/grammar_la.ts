@@ -65,7 +65,8 @@ export const GRAMMAR_LA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -122,7 +123,8 @@ export const GRAMMAR_LA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Esse (To Be) — A1"
       }
     ]
   }

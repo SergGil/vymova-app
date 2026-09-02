@@ -50,7 +50,8 @@ export const GRAMMAR_DTH: GrammarCategory[] = [
               "text": "The Dothraki, in the story, have no writing system of their own — George R. R. Martin and David J. Peterson deliberately developed Dothraki as a purely oral language."
             }
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       }
     ]
   }

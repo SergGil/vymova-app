@@ -55,7 +55,8 @@ export const GRAMMAR_QYA: GrammarCategory[] = [
               "title": "Verb Pronominal Suffixes"
             }
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       }
     ]
   }

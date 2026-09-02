@@ -62,7 +62,8 @@ export const GRAMMAR_NV: GrammarCategory[] = [
               "text": "The verb in Navajo carries most of the grammatical load — the independent pronoun can often be dropped entirely, since person and number are already shown by verb prefixes."
             }
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       }
     ]
   }

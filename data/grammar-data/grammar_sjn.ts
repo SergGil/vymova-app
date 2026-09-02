@@ -62,7 +62,8 @@ export const GRAMMAR_SJN: GrammarCategory[] = [
               "text": "This system directly mirrors the soft mutation of Welsh, which Tolkien drew on when shaping Sindarin's phonology."
             }
           }
-        ]
+        ],
+        "titleEn": "Soft Mutation — A1"
       }
     ]
   }

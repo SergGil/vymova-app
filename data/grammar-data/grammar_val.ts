@@ -50,7 +50,8 @@ export const GRAMMAR_VAL: GrammarCategory[] = [
               "text": "Valyrian forms the plural of pronouns through case endings that depend on noun gender, rather than a separate word as in English or Ukrainian."
             }
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       }
     ]
   }

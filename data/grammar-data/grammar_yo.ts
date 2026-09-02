@@ -55,7 +55,8 @@ export const GRAMMAR_YO: GrammarCategory[] = [
               "title": "Personal Pronouns (short / full form)"
             }
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       }
     ]
   }
