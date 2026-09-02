@@ -81,7 +81,7 @@ describe('GRAMMAR_HE', () => {
 });
 
 describe('GRAMMAR_AR', () => {
-  checkGrammarShape(GRAMMAR_AR, 'GRAMMAR_AR');
+  checkGrammarShape(GRAMMAR_AR, 'GRAMMAR_AR', 70);
 });
 
 describe('GRAMMAR_PL', () => {

@@ -1944,6 +1944,1180 @@ export const GRAMMAR_AR: GrammarCategory[] = [
             ]
           }
         ]
+      },
+      {
+        "id": "ordinal-numbers",
+        "title": "الأعداد الترتيبية — A2",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Порядкові числівники (крім «перший») мають форму أفعل і узгоджуються з іменником у роді, як прикметники.",
+            "en": {
+              "text": "Ordinal numbers (except 'first') follow the أفعل pattern and agree with the noun in gender, like adjectives."
+            }
+          },
+          {
+            "type": "table",
+            "title": "1-й – 5-й",
+            "rows": [
+              [
+                "<span dir=\"rtl\">أول / أولى</span>",
+                "1-й / 1-ша"
+              ],
+              [
+                "<span dir=\"rtl\">ثانٍ / ثانية</span>",
+                "2-й / 2-га"
+              ],
+              [
+                "<span dir=\"rtl\">ثالث، رابع، خامس</span>",
+                "3-й, 4-й, 5-й"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">هذه المرة الأولى.</span>",
+                "Це перший раз."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "days-of-week",
+        "title": "أيام الأسبوع — A1",
+        "emoji": "📅",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Більшість днів тижня названі за номером (окрім п'ятниці й суботи, що мають окремі назви); тиждень починається з неділі.",
+            "en": {
+              "text": "Most days of the week are named by number (except Friday and Saturday, which have separate names); the week starts on Sunday."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Дні тижня",
+            "rows": [
+              [
+                "<span dir=\"rtl\">الأحد، الاثنين، الثلاثاء</span>",
+                "неділя, понеділок, вівторок"
+              ],
+              [
+                "<span dir=\"rtl\">الأربعاء، الخميس</span>",
+                "середа, четвер"
+              ],
+              [
+                "<span dir=\"rtl\">الجمعة، السبت</span>",
+                "п'ятниця, субота"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">أراك يوم الجمعة.</span>",
+                "Побачимось у п'ятницю."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "months-dates",
+        "title": "الأشهر والتاريخ — A2",
+        "emoji": "📅",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "У більшості арабських країн вживають григоріанські назви місяців (запозичені або з місцевими варіантами) поряд з ісламським місячним календарем.",
+            "en": {
+              "text": "Most Arabic-speaking countries use Gregorian month names (borrowed or with local variants) alongside the Islamic lunar calendar."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Місяці й дата",
+            "rows": [
+              [
+                "<span dir=\"rtl\">يناير، فبراير، مارس...</span>",
+                "січень, лютий, березень..."
+              ],
+              [
+                "<span dir=\"rtl\">اليوم هو الخامس من مايو.</span>",
+                "Сьогодні п'яте травня."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">وُلدت في يونيو.</span>",
+                "Я народився у червні."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "telling-time",
+        "title": "الساعة — A2",
+        "emoji": "🕒",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Питання про час: كم الساعة؟ Відповідь будується словом الساعة + порядковий числівник жіночого роду.",
+            "en": {
+              "text": "To ask the time: كم الساعة؟ The answer uses الساعة + a feminine ordinal number."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Вказування часу",
+            "rows": [
+              [
+                "<span dir=\"rtl\">الساعة الثالثة.</span>",
+                "Третя година."
+              ],
+              [
+                "<span dir=\"rtl\">الساعة الثالثة والنصف.</span>",
+                "Пів на четверту."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">كم الساعة الآن؟</span>",
+                "Котра зараз година?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "conjunctions-basic",
+        "title": "أدوات الربط الأساسية (و، أو، لكن) — A1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Сурядні сполучники з'єднують рівнозначні слова чи речення; و (і) пишеться злито з наступним словом.",
+            "en": {
+              "text": "Coordinating conjunctions connect equal words or clauses; و (and) is written attached to the following word."
+            }
+          },
+          {
+            "type": "markers",
+            "title": "Основні сполучники",
+            "items": [
+              "<span dir=\"rtl\">و</span> (і)",
+              "<span dir=\"rtl\">أو</span> (або)",
+              "<span dir=\"rtl\">لكن</span> (але)",
+              "<span dir=\"rtl\">ثم</span> (потім)"
+            ],
+            "en": {
+              "title": "Main conjunctions"
+            }
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">أريد شايًا أو قهوة.</span>",
+                "Я хочу чай або каву."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "conjunctions-advanced",
+        "title": "أدوات ربط متقدمة (لأن، إذا، عندما) — B1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Підрядні сполучники вводять залежне речення причини, умови чи часу.",
+            "en": {
+              "text": "Subordinating conjunctions introduce a dependent clause of cause, condition, or time."
+            }
+          },
+          {
+            "type": "markers",
+            "title": "Основні підрядні сполучники",
+            "items": [
+              "<span dir=\"rtl\">لأن</span> (тому що)",
+              "<span dir=\"rtl\">إذا</span> (якщо)",
+              "<span dir=\"rtl\">عندما</span> (коли)",
+              "<span dir=\"rtl\">رغم أن</span> (хоча)"
+            ],
+            "en": {
+              "title": "Main subordinating conjunctions"
+            }
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">لم آتِ لأنني كنت مريضًا.</span>",
+                "Я не прийшов, бо був хворий."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "adverbs",
+        "title": "الظروف — A2",
+        "emoji": "🎯",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Обставини часу й місця стоять у знахідному відмінку (без прийменника) і незмінні.",
+            "en": {
+              "text": "Adverbs of time and place are in the Accusative case (with no preposition) and are invariable."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Обставинні слова",
+            "rows": [
+              [
+                "<span dir=\"rtl\">اليوم، غدًا، أمس</span>",
+                "сьогодні, завтра, вчора"
+              ],
+              [
+                "<span dir=\"rtl\">هنا، هناك</span>",
+                "тут, там"
+              ],
+              [
+                "<span dir=\"rtl\">دائمًا، أحيانًا</span>",
+                "завжди, іноді"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">سأراك غدًا.</span>",
+                "Побачимось завтра."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "quantifiers",
+        "title": "كل وبعض وكثير — A2",
+        "emoji": "⚖️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "كل (кожен/весь) утворює ідафу з наступним іменником; بعض (деякі) і كثير (багато) поводяться так само.",
+            "en": {
+              "text": "كل (each/all) forms an idafa with the following noun; بعض (some) and كثير (much/many) behave the same way."
+            }
+          },
+          {
+            "type": "table",
+            "title": "كل / بعض / كثير",
+            "rows": [
+              [
+                "<span dir=\"rtl\">كل يوم</span>",
+                "кожен день"
+              ],
+              [
+                "<span dir=\"rtl\">بعض الناس</span>",
+                "деякі люди"
+              ],
+              [
+                "<span dir=\"rtl\">كثير من الوقت</span>",
+                "багато часу"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">كل الطلاب هنا.</span>",
+                "Усі студенти тут."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "exclamations",
+        "title": "أسلوب التعجب — A2",
+        "emoji": "❗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Оклична конструкція ما أفعله (який же він...) виражає здивування якістю чогось.",
+            "en": {
+              "text": "The exclamatory construction ما أفعله ('how...!') expresses surprise at a quality."
+            }
+          },
+          {
+            "type": "table",
+            "title": "ما أفعل",
+            "rows": [
+              [
+                "<span dir=\"rtl\">ما أجمل هذا المنظر!</span>",
+                "Який же красивий цей краєвид!"
+              ],
+              [
+                "<span dir=\"rtl\">ما أروع الفكرة!</span>",
+                "Яка чудова ідея!"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">ما أطول هذا اليوم!</span>",
+                "Який же довгий цей день!"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "vocative-particle",
+        "title": "أسلوب النداء (يا) — A1",
+        "emoji": "📣",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Частка يا вводить звертання перед іменем чи назвою.",
+            "en": {
+              "text": "The particle يا introduces direct address before a name or title."
+            }
+          },
+          {
+            "type": "table",
+            "title": "يا + звертання",
+            "rows": [
+              [
+                "<span dir=\"rtl\">يا أحمد!</span>",
+                "Ахмеде!"
+              ],
+              [
+                "<span dir=\"rtl\">يا صديقي!</span>",
+                "Друже мій!"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">يا أستاذ، هل يمكنني السؤال؟</span>",
+                "Пане вчителю, чи можна запитати?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "colors-pattern",
+        "title": "ألوان (وزن أفعل للألوان) — B1",
+        "emoji": "🎨",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Основні кольори мають власний шаблон أفعل (чол.) / فعلاء (жін.), відмінний від звичайних прикметників.",
+            "en": {
+              "text": "Basic colors follow their own pattern أفعل (masc.) / فعلاء (fem.), different from ordinary adjectives."
+            }
+          },
+          {
+            "type": "table",
+            "title": "أفعل / فعلاء",
+            "rows": [
+              [
+                "<span dir=\"rtl\">أحمر / حمراء</span>",
+                "червоний / червона"
+              ],
+              [
+                "<span dir=\"rtl\">أزرق / زرقاء</span>",
+                "синій / синя"
+              ],
+              [
+                "<span dir=\"rtl\">أسود / سوداء</span>",
+                "чорний / чорна"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">السيارة الحمراء جميلة.</span>",
+                "Червона машина гарна."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "masdar-verbal-noun",
+        "title": "المصدر (الاسم من الفعل) — B1",
+        "emoji": "📜",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Масдар — віддієслівний іменник, що виражає саму дію як поняття (аналог герундія); у кожного вазна свій типовий шаблон масдара.",
+            "en": {
+              "text": "The masdar is a verbal noun expressing the action itself as a concept (like a gerund); each verb form has its own typical masdar pattern."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Приклади масдарів",
+            "rows": [
+              [
+                "<span dir=\"rtl\">كتب → كتابة</span>",
+                "писати → писання"
+              ],
+              [
+                "<span dir=\"rtl\">درس → دراسة</span>",
+                "вчити → навчання"
+              ],
+              [
+                "<span dir=\"rtl\">علّم → تعليم</span>",
+                "навчати → викладання"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">الدراسة مهمة.</span>",
+                "Навчання важливе."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "active-participle",
+        "title": "اسم الفاعل — B1",
+        "emoji": "🎭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Активний дієприкметник (шаблон فاعل для базового вазна) описує того, хто виконує дію, і вживається як прикметник чи іменник.",
+            "en": {
+              "text": "The active participle (pattern فاعل for Form I) describes the doer of an action and is used as an adjective or noun."
+            }
+          },
+          {
+            "type": "table",
+            "title": "فاعل",
+            "rows": [
+              [
+                "<span dir=\"rtl\">كتب → كاتب</span>",
+                "писати → той, хто пише / письменник"
+              ],
+              [
+                "<span dir=\"rtl\">درس → دارس</span>",
+                "вчити → той, хто вчиться"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">هو كاتب مشهور.</span>",
+                "Він відомий письменник."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "passive-participle",
+        "title": "اسم المفعول — B1",
+        "emoji": "🎭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Пасивний дієприкметник (шаблон مفعول для базового вазна) описує того/те, на кого/що спрямована дія.",
+            "en": {
+              "text": "The passive participle (pattern مفعول for Form I) describes the one/thing the action is directed at."
+            }
+          },
+          {
+            "type": "table",
+            "title": "مفعول",
+            "rows": [
+              [
+                "<span dir=\"rtl\">كتب → مكتوب</span>",
+                "писати → написаний"
+              ],
+              [
+                "<span dir=\"rtl\">فهم → مفهوم</span>",
+                "розуміти → зрозумілий"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">هذا مكتوب بخط جميل.</span>",
+                "Це написано гарним почерком."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "tanwin",
+        "title": "التنوين — A2",
+        "emoji": "🔤",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Танвін — подвоєний голосний знак наприкінці неозначеного іменника, що позначає відмінок і вимовляється як -н наприкінці.",
+            "en": {
+              "text": "Tanwin is a doubled vowel mark at the end of an indefinite noun, marking the case and pronounced as a final -n."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Три танвіни",
+            "rows": [
+              [
+                "<span dir=\"rtl\">كتابٌ</span> (-ун)",
+                "рафʿ (називний)"
+              ],
+              [
+                "<span dir=\"rtl\">كتابًا</span> (-ан)",
+                "насб (знахідний)"
+              ],
+              [
+                "<span dir=\"rtl\">كتابٍ</span> (-ін)",
+                "джарр (родовий)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">قرأت كتابًا جديدًا.</span>",
+                "Я прочитав нову книгу."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "hamza-rules",
+        "title": "قواعد الهمزة — B1",
+        "emoji": "✏️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Хамза (позначення гортанної змички) пишеться на різних «стільцях» (аліф, вав, я) залежно від сусідніх голосних — одна з найскладніших орфографічних тем арабської.",
+            "en": {
+              "text": "The hamza (glottal stop mark) is written on different 'seats' (alif, waw, ya) depending on neighboring vowels — one of Arabic's trickiest spelling topics."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Приклади написання хамзи",
+            "rows": [
+              [
+                "<span dir=\"rtl\">سأل</span>",
+                "на аліфі"
+              ],
+              [
+                "<span dir=\"rtl\">سُئِل</span>",
+                "на я"
+              ],
+              [
+                "<span dir=\"rtl\">يقرأون</span>",
+                "самостійна в кінці"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">سألت سؤالًا.</span>",
+                "Я поставив запитання."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "diminutive",
+        "title": "التصغير — B2",
+        "emoji": "🐣",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Пестлива форма (шаблон فُعَيْل) надає значення «маленький» або ласкавого відтінку — рідше вживається в розмовній мові, частіше в іменах.",
+            "en": {
+              "text": "The diminutive form (pattern فُعَيْل) adds a 'small' or affectionate meaning — less common in speech, more common in names."
+            }
+          },
+          {
+            "type": "table",
+            "title": "فُعَيْل",
+            "rows": [
+              [
+                "<span dir=\"rtl\">كتاب → كُتيّب</span>",
+                "книга → брошурка"
+              ],
+              [
+                "<span dir=\"rtl\">بيت → بُييت</span>",
+                "дім → будиночок"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">اشتريت كُتيّبًا صغيرًا.</span>",
+                "Я купив маленьку брошурку."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "modal-expressions",
+        "title": "التعبير عن الإمكان والوجوب (يجب، يمكن) — A1",
+        "emoji": "🧠",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Модальність виражається безособовими دієсловами يجب (треба) і يمكن (можна) + أن + дієслово в кон'юнктиві.",
+            "en": {
+              "text": "Modality is expressed with the impersonal verbs يجب (must) and يمكن (can/may) + أن + a subjunctive verb."
+            }
+          },
+          {
+            "type": "table",
+            "title": "يجب / يمكن",
+            "rows": [
+              [
+                "<span dir=\"rtl\">يجب أن أذهب.</span>",
+                "Мені треба йти."
+              ],
+              [
+                "<span dir=\"rtl\">يمكن أن تأتي.</span>",
+                "Ти можеш прийти."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">يجب أن ندرس.</span>",
+                "Нам треба вчитися."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "formal-informal-address",
+        "title": "صيغ المخاطبة الرسمية وغير الرسمية — A2",
+        "emoji": "🎩",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Формальна арабська (フュсха) вживається в письмі й офіційних ситуаціях; у щоденній розмові використовують діалект — обидва мають різну граматику й лексику.",
+            "en": {
+              "text": "Formal Arabic (Fusha) is used in writing and official settings; daily conversation uses a dialect — both have different grammar and vocabulary."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Фусха vs діалект",
+            "rows": [
+              [
+                "<span dir=\"rtl\">ماذا تريد؟</span> (فصحى)",
+                "Що ти хочеш? (формально)"
+              ],
+              [
+                "<span dir=\"rtl\">عايز إيه؟</span> (мовний варіант)",
+                "Що ти хочеш? (розмовно, приклад єгипетського діалекту)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">تفضل بالجلوس.</span>",
+                "Прошу, сідайте. (ввічливо)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "common-idioms",
+        "title": "تعبيرات شائعة — B1",
+        "emoji": "💬",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Стійкі вирази, які використовуються щодня і не завжди перекладаються дослівно.",
+            "en": {
+              "text": "Fixed expressions used every day, not always translated word-for-word."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Поширені вирази",
+            "rows": [
+              [
+                "<span dir=\"rtl\">إن شاء الله</span>",
+                "якщо буде на те воля Божа"
+              ],
+              [
+                "<span dir=\"rtl\">الحمد لله</span>",
+                "слава Богу"
+              ],
+              [
+                "<span dir=\"rtl\">مبروك!</span>",
+                "вітаю!"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">إن شاء الله نلتقي قريبًا.</span>",
+                "Дай Боже, скоро зустрінемось."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "exception-illa",
+        "title": "أسلوب الاستثناء (إلا) — B1",
+        "emoji": "🚫",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Конструкція винятку إلا («крім») вводить елемент, виключений із загального твердження; іменник після إلا зазвичай стоїть у знахідному відмінку.",
+            "en": {
+              "text": "The exception construction إلا ('except') introduces an element excluded from a general statement; the noun after إلا is usually in the Accusative case."
+            }
+          },
+          {
+            "type": "table",
+            "title": "إلا",
+            "rows": [
+              [
+                "<span dir=\"rtl\">حضر الجميع إلا أحمد.</span>",
+                "Прийшли всі, крім Ахмеда."
+              ],
+              [
+                "<span dir=\"rtl\">ما رأيت أحدًا إلا خالدًا.</span>",
+                "Я не бачив нікого, крім Халіда."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">أكلت كل شيء إلا السلطة.</span>",
+                "Я з'їв усе, крім салату."
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "exceptions",
+    "title": "الاستثناءات",
+    "titleEn": "Exceptions",
+    "emoji": "⚠️",
+    "rules": [
+      {
+        "id": "weak-verbs-hollow",
+        "title": "الفعل الأجوف (معتل الوسط) — B1",
+        "emoji": "⚠️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "У порожнистих дієслів середня коренева літера — و або ي, яка часто зникає чи перетворюється на довгу голосну в різних формах.",
+            "en": {
+              "text": "In hollow verbs, the middle root letter is و or ي, which often disappears or turns into a long vowel in different forms."
+            }
+          },
+          {
+            "type": "table",
+            "title": "قال (сказати), корінь ق-و-ل",
+            "rows": [
+              [
+                "<span dir=\"rtl\">قال</span> (він сказав)",
+                "довге а замінює و"
+              ],
+              [
+                "<span dir=\"rtl\">قلتُ</span> (я сказав)",
+                "و зникає перед суфіксом"
+              ],
+              [
+                "<span dir=\"rtl\">يقول</span> (він каже)",
+                "و повертається в теперішньому"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">قلت له الحقيقة.</span>",
+                "Я сказав йому правду."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "weak-verbs-defective",
+        "title": "الفعل الناقص (معتل الآخر) — B1",
+        "emoji": "⚠️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "У недостатніх дієслів остання коренева літера — و або ي, яка змінюється чи зникає залежно від закінчення.",
+            "en": {
+              "text": "In defective verbs, the final root letter is و or ي, which changes or disappears depending on the ending."
+            }
+          },
+          {
+            "type": "table",
+            "title": "مشى (йти), корінь م-ش-ي",
+            "rows": [
+              [
+                "<span dir=\"rtl\">مشى</span> (він пішов)",
+                "остання ي стає довгим а"
+              ],
+              [
+                "<span dir=\"rtl\">مشيتُ</span> (я пішов)",
+                "ي зберігається перед суфіксом"
+              ],
+              [
+                "<span dir=\"rtl\">يمشي</span> (він йде)",
+                "теперішній час"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">مشيت إلى العمل.</span>",
+                "Я пішов пішки на роботу."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "weak-verbs-assimilated",
+        "title": "الفعل المثال (معتل الأول) — B1",
+        "emoji": "⚠️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "У асимільованих дієслів перша коренева літера — و (рідше ي), яка часто зникає в теперішньому часі.",
+            "en": {
+              "text": "In assimilated verbs, the first root letter is و (rarely ي), which often disappears in the present tense."
+            }
+          },
+          {
+            "type": "table",
+            "title": "وجد (знаходити), корінь و-ج-د",
+            "rows": [
+              [
+                "<span dir=\"rtl\">وجد</span> (він знайшов)",
+                "و зберігається в минулому"
+              ],
+              [
+                "<span dir=\"rtl\">يجد</span> (він знаходить)",
+                "و зникає в теперішньому"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">لم أجد الكتاب.</span>",
+                "Я не знайшов книгу."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "doubled-verbs",
+        "title": "الفعل المضعف — B1",
+        "emoji": "⚠️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "У подвоєних дієслів друга й третя коренева літери однакові й зливаються (شدة) у формах, де за ними не йде голосний суфікс.",
+            "en": {
+              "text": "In doubled verbs, the second and third root letters are identical and merge (shadda) in forms with no following vowel suffix."
+            }
+          },
+          {
+            "type": "table",
+            "title": "مدّ (простягати), корінь م-د-د",
+            "rows": [
+              [
+                "<span dir=\"rtl\">مدّ</span> (він простягнув)",
+                "دد зливається в дд зі шаддою"
+              ],
+              [
+                "<span dir=\"rtl\">مددتُ</span> (я простягнув)",
+                "розділяються перед суфіксом"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">مدّ يده.</span>",
+                "Він простягнув руку."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "irregular-plurals-common",
+        "title": "جموع تكسير شائعة يجب حفظها — A2",
+        "emoji": "⚠️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Кілька дуже вживаних іменників мають повністю непередбачувану зламану множину, яку слід просто запам'ятати.",
+            "en": {
+              "text": "A few very common nouns have completely unpredictable broken plurals that must simply be memorized."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Найпоширеніші нерегулярні множини",
+            "rows": [
+              [
+                "<span dir=\"rtl\">رجل → رجال</span>",
+                "чоловік → чоловіки"
+              ],
+              [
+                "<span dir=\"rtl\">امرأة → نساء</span>",
+                "жінка → жінки"
+              ],
+              [
+                "<span dir=\"rtl\">ولد → أولاد</span>",
+                "хлопчик → хлопчики/діти"
+              ],
+              [
+                "<span dir=\"rtl\">يوم → أيام</span>",
+                "день → дні"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">النساء يعملن هنا.</span>",
+                "Жінки працюють тут."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sun-moon-spelling",
+        "title": "كتابة اللام الشمسية (تفاصيل إملائية) — B2",
+        "emoji": "✏️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Хоча лям артикля перед сонячними літерами не вимовляється, у письмі вона зберігається завжди — асиміляція позначається лише шаддою над наступною літерою (у текстах з огласовками).",
+            "en": {
+              "text": "Although the article's lam is not pronounced before sun letters, it is always kept in writing — the assimilation is shown only by a shadda over the following letter (in vocalized text)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Написання vs вимова",
+            "rows": [
+              [
+                "<span dir=\"rtl\">الشمس</span> (написання: аль-шамс)",
+                "вимова: аш-шамс"
+              ],
+              [
+                "<span dir=\"rtl\">النور</span> (написання: аль-нур)",
+                "вимова: ан-нур"
+              ]
+            ]
+          },
+          {
+            "type": "tip",
+            "title": "Порада",
+            "text": "Список сонячних літер: ت ث د ذ ر ز س ش ص ض ط ظ ل ن. Усі інші — місячні.",
+            "en": {
+              "title": "Tip",
+              "text": "The sun letters are: ت ث د ذ ر ز س ش ص ض ط ظ ل ن. All others are moon letters."
+            }
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">الرجل يقرأ الصحيفة.</span>",
+                "Чоловік читає газету."
+              ]
+            ]
+          }
+        ]
       }
     ]
   }
