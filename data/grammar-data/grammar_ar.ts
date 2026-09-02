@@ -996,5 +996,955 @@ export const GRAMMAR_AR: GrammarCategory[] = [
         ]
       }
     ]
+  },
+  {
+    "id": "grammar",
+    "title": "القواعد",
+    "titleEn": "Grammar",
+    "emoji": "📖",
+    "rules": [
+      {
+        "id": "case-nominative",
+        "title": "حالة الرفع — A2",
+        "emoji": "🏷️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Називний відмінок (закінчення -у/-un) — базова форма підмета речення; позначається в письмі лише в класичній/формальній мові короткими голосними.",
+            "en": {
+              "text": "The Nominative case (ending -u/-un) is the basic form of a sentence's subject; marked in writing only in Classical/formal Arabic with short vowels."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Функція",
+            "rows": [
+              [
+                "<span dir=\"rtl\">الولدُ يلعب.</span>",
+                "Хлопчик грає. (підмет — рафʿ)"
+              ],
+              [
+                "<span dir=\"rtl\">كتابٌ جديد</span>",
+                "нова книга (неозначений — تنوين الرفع)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">الطالبُ ذكي.</span>",
+                "Студент розумний."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "case-accusative",
+        "title": "حالة النصب — A2",
+        "emoji": "🏷️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Знахідний відмінок (закінчення -а/-an) — відмінок прямого додатка; в письмі позначається фатхою або аліфом наприкінці неозначеного іменника.",
+            "en": {
+              "text": "The Accusative case (ending -a/-an) marks the direct object; in writing it's shown with a fatha or a final alif on an indefinite noun."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Функція",
+            "rows": [
+              [
+                "<span dir=\"rtl\">قرأتُ الكتابَ.</span>",
+                "Я прочитав книгу. (додаток — насб)"
+              ],
+              [
+                "<span dir=\"rtl\">اشتريت كتابًا.</span>",
+                "Я купив книгу. (неозначений — تنوين النصب)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">أحب اللغة العربية.</span>",
+                "Я люблю арабську мову."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "case-genitive",
+        "title": "حالة الجر — A2",
+        "emoji": "🏷️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Родовий відмінок (закінчення -і/-in) вживається після прийменників і як другий іменник у конструкції ідафа.",
+            "en": {
+              "text": "The Genitive case (ending -i/-in) is used after prepositions and as the second noun in an idafa construction."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Функція",
+            "rows": [
+              [
+                "<span dir=\"rtl\">في البيتِ</span>",
+                "у домі (після прийменника — джарр)"
+              ],
+              [
+                "<span dir=\"rtl\">كتاب الطالبِ</span>",
+                "книга студента (ідафа)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">ذهبت إلى المدرسةِ.</span>",
+                "Я пішов до школи."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sound-plural-masc",
+        "title": "جمع المذكر السالم — A2",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "«Правильна» чоловіча множина утворюється закінченням -ун (називний) / -ін (знахідний/родовий), переважно для осіб.",
+            "en": {
+              "text": "The 'sound' masculine plural is formed with the ending -ūn (nominative) / -īn (accusative/genitive), mostly for people."
+            }
+          },
+          {
+            "type": "table",
+            "title": "-ون / -ين",
+            "rows": [
+              [
+                "<span dir=\"rtl\">معلم → معلمون / معلمين</span>",
+                "учитель → учителі"
+              ],
+              [
+                "<span dir=\"rtl\">مسلم → مسلمون / مسلمين</span>",
+                "мусульманин → мусульмани"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">المعلمون في المدرسة.</span>",
+                "Учителі в школі."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sound-plural-fem",
+        "title": "جمع المؤنث السالم — A2",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "«Правильна» жіноча множина утворюється заміною <span dir=\"rtl\">ة</span> на закінчення -ат.",
+            "en": {
+              "text": "The 'sound' feminine plural is formed by replacing ة with the ending -āt."
+            }
+          },
+          {
+            "type": "table",
+            "title": "-ات",
+            "rows": [
+              [
+                "<span dir=\"rtl\">طالبة → طالبات</span>",
+                "студентка → студентки"
+              ],
+              [
+                "<span dir=\"rtl\">سيارة → سيارات</span>",
+                "машина → машини"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">الطالبات مجتهدات.</span>",
+                "Студентки старанні."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "broken-plural-patterns",
+        "title": "جموع التكسير (أنماط شائعة) — B1",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Зламана множина змінює внутрішню структуру слова за одним із десятків шаблонів — універсального правила немає, кожне слово вивчають з його множиною.",
+            "en": {
+              "text": "The broken plural changes the word's internal structure according to one of dozens of patterns — there's no universal rule, each word must be learned with its plural."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Поширені шаблони",
+            "rows": [
+              [
+                "<span dir=\"rtl\">فَعْل → أفعال: باب → أبواب</span>",
+                "двері → двері (мн.)"
+              ],
+              [
+                "<span dir=\"rtl\">فَعِيل → فُعَلاء: كريم → كرماء</span>",
+                "щедрий → щедрі"
+              ],
+              [
+                "<span dir=\"rtl\">فُعْل → فِعَال: رجل → رجال</span>",
+                "чоловік → чоловіки"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">الرجال يعملون هنا.</span>",
+                "Чоловіки працюють тут."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dual-number",
+        "title": "المثنى — A2",
+        "emoji": "👬",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Унікальна риса арабської — окрема форма двоїни для рівно двох предметів/осіб, утворена закінченням -ан (називний) / -айн (знахідний/родовий).",
+            "en": {
+              "text": "A unique Arabic feature — a distinct dual form for exactly two items/people, formed with the ending -ān (nominative) / -ayn (accusative/genitive)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "-ان / -ين",
+            "rows": [
+              [
+                "<span dir=\"rtl\">كتاب → كتابان / كتابين</span>",
+                "книга → дві книги"
+              ],
+              [
+                "<span dir=\"rtl\">طالبة → طالبتان</span>",
+                "студентка → дві студентки"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">عندي كتابان.</span>",
+                "У мене дві книги."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "demonstrative-pronouns",
+        "title": "أسماء الإشارة — A1",
+        "emoji": "👉",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Вказівні займенники узгоджуються з іменником у роді й числі; هذا/هذه вказують на ближче, ذلك/تلك — на дальше.",
+            "en": {
+              "text": "Demonstrative pronouns agree with the noun in gender and number; هذا/هذه point to something near, ذلك/تلك to something farther."
+            }
+          },
+          {
+            "type": "table",
+            "title": "هذا / هذه / ذلك",
+            "rows": [
+              [
+                "<span dir=\"rtl\">هذا</span>",
+                "цей (чол.)"
+              ],
+              [
+                "<span dir=\"rtl\">هذه</span>",
+                "ця (жін.)"
+              ],
+              [
+                "<span dir=\"rtl\">ذلك / تلك</span>",
+                "той / та"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">هذا الكتاب مفيد.</span>",
+                "Ця книга корисна."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "relative-pronouns",
+        "title": "الأسماء الموصولة — B1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Відносні займенники узгоджуються з означеним іменником у роді й числі: الذي (чол.), التي (жін.), الذين (чол. мн.).",
+            "en": {
+              "text": "Relative pronouns agree with the definite noun in gender and number: الذي (masc.), التي (fem.), الذين (masc. pl.)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "الذي / التي / الذين",
+            "rows": [
+              [
+                "<span dir=\"rtl\">الرجل الذي يعمل هنا</span>",
+                "чоловік, який працює тут"
+              ],
+              [
+                "<span dir=\"rtl\">المرأة التي رأيتها</span>",
+                "жінка, яку я бачив"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">هذا هو الكتاب الذي قرأته.</span>",
+                "Це книга, яку я прочитав."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "possessive-suffixes",
+        "title": "ضمائر الملكية المتصلة — A1",
+        "emoji": "🙋",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Присвійність виражається суфіксами, приєднаними безпосередньо до кінця іменника.",
+            "en": {
+              "text": "Possession is expressed with suffixes attached directly to the end of the noun."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Присвійні суфікси",
+            "rows": [
+              [
+                "<span dir=\"rtl\">كتابي</span>",
+                "моя книга"
+              ],
+              [
+                "<span dir=\"rtl\">كتابكَ / كتابكِ</span>",
+                "твоя книга (ч./ж.)"
+              ],
+              [
+                "<span dir=\"rtl\">كتابه / كتابها</span>",
+                "його / її книга"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">بيتنا كبير.</span>",
+                "Наш дім великий."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "object-pronouns-attached",
+        "title": "ضمائر المفعول المتصلة — A2",
+        "emoji": "🙋",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Займенники прямого додатка так само приєднуються суфіксом до дієслова.",
+            "en": {
+              "text": "Direct object pronouns are likewise attached as a suffix to the verb."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Об'єктні суфікси",
+            "rows": [
+              [
+                "<span dir=\"rtl\">رأيتُهُ</span>",
+                "я його бачив"
+              ],
+              [
+                "<span dir=\"rtl\">رأيتُها</span>",
+                "я її бачив"
+              ],
+              [
+                "<span dir=\"rtl\">ساعدني</span>",
+                "він допоміг мені"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">أحبك.</span>",
+                "Я тебе люблю."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "prepositions-basic",
+        "title": "حروف الجر الأساسية (في، على، من، إلى) — A1",
+        "emoji": "🧭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Прийменники завжди керують родовим відмінком іменника, що йде після них.",
+            "en": {
+              "text": "Prepositions always govern the genitive case of the following noun."
+            }
+          },
+          {
+            "type": "table",
+            "title": "في / على / من / إلى",
+            "rows": [
+              [
+                "<span dir=\"rtl\">في البيت</span>",
+                "у домі"
+              ],
+              [
+                "<span dir=\"rtl\">على الطاولة</span>",
+                "на столі"
+              ],
+              [
+                "<span dir=\"rtl\">من مصر</span>",
+                "з Єгипту"
+              ],
+              [
+                "<span dir=\"rtl\">إلى المدرسة</span>",
+                "до школи"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">أنا في البيت.</span>",
+                "Я вдома."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "prepositions-other",
+        "title": "حروف جر أخرى (مع، عن، بـ) — A2",
+        "emoji": "🧭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Інші вживані прийменники: مع (з), عن (про/від), بـ (за допомогою/приєднаний, як префікс).",
+            "en": {
+              "text": "Other common prepositions: مع (with), عن (about/from), بـ (by means of, attached as a prefix)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "مع / عن / بـ",
+            "rows": [
+              [
+                "<span dir=\"rtl\">مع صديقي</span>",
+                "з моїм другом"
+              ],
+              [
+                "<span dir=\"rtl\">أتحدث عن العمل</span>",
+                "я говорю про роботу"
+              ],
+              [
+                "<span dir=\"rtl\">كتبت بالقلم</span>",
+                "я писав ручкою"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">ذهبت مع أخي.</span>",
+                "Я пішов зі своїм братом."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "word-order",
+        "title": "ترتيب الكلمات في الجملة — A2",
+        "emoji": "🔀",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "У класичній арабській звичний порядок VSO (дієслово-підмет-додаток), але в розмовній і сучасній письмовій мові часто вживають SVO.",
+            "en": {
+              "text": "In Classical Arabic the usual order is VSO (verb-subject-object), but in colloquial and modern written language SVO is often used."
+            }
+          },
+          {
+            "type": "table",
+            "title": "VSO vs SVO",
+            "rows": [
+              [
+                "<span dir=\"rtl\">ذهب الولد إلى المدرسة.</span>",
+                "Хлопчик пішов до школи. (VSO)"
+              ],
+              [
+                "<span dir=\"rtl\">الولد ذهب إلى المدرسة.</span>",
+                "Хлопчик пішов до школи. (SVO)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">قرأ الطالب الكتاب.</span>",
+                "Студент прочитав книгу."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "nominal-sentence",
+        "title": "الجملة الاسمية — A1",
+        "emoji": "📝",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Іменне речення (без дієслова «бути» в теперішньому часі) складається з підмета (мубтада) і присудка (хабар).",
+            "en": {
+              "text": "A nominal sentence (with no present-tense 'to be') consists of a subject (mubtada) and a predicate (khabar)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "مبتدأ + خبر",
+            "rows": [
+              [
+                "<span dir=\"rtl\">الجو جميل.</span>",
+                "Погода гарна."
+              ],
+              [
+                "<span dir=\"rtl\">هو طبيب.</span>",
+                "Він лікар."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">البيت كبير.</span>",
+                "Дім великий."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "verbal-sentence",
+        "title": "الجملة الفعلية — A1",
+        "emoji": "📝",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Дієслівне речення починається з дієслова, за яким слідує підмет і додаток.",
+            "en": {
+              "text": "A verbal sentence begins with the verb, followed by the subject and object."
+            }
+          },
+          {
+            "type": "table",
+            "title": "فعل + فاعل + مفعول",
+            "rows": [
+              [
+                "<span dir=\"rtl\">أكل الولد التفاحة.</span>",
+                "Хлопчик з'їв яблуко."
+              ],
+              [
+                "<span dir=\"rtl\">تكتب البنت رسالة.</span>",
+                "Дівчинка пише листа."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">شرب الرجل الماء.</span>",
+                "Чоловік випив воду."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "kaana-and-sisters",
+        "title": "كان وأخواتها — B1",
+        "emoji": "🟢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "كان (бути в минулому) і споріднені дієслова ставлять присудок іменного речення в знахідний відмінок замість називного.",
+            "en": {
+              "text": "كان (to be, past) and its sister verbs put the predicate of a nominal sentence into the Accusative case instead of the Nominative."
+            }
+          },
+          {
+            "type": "table",
+            "title": "كان + خبر منصوب",
+            "rows": [
+              [
+                "<span dir=\"rtl\">كان الجو جميلًا.</span>",
+                "Погода була гарною."
+              ],
+              [
+                "<span dir=\"rtl\">أصبح الطقس باردًا.</span>",
+                "Погода стала холодною."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">كنتُ طالبًا.</span>",
+                "Я був студентом."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "inna-and-sisters",
+        "title": "إن وأخواتها — B1",
+        "emoji": "❗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "إن (справді) і споріднені частки ставлять підмет іменного речення в знахідний відмінок для підсилення.",
+            "en": {
+              "text": "إن (indeed) and its sister particles put the subject of a nominal sentence into the Accusative case for emphasis."
+            }
+          },
+          {
+            "type": "table",
+            "title": "إن + اسم منصوب",
+            "rows": [
+              [
+                "<span dir=\"rtl\">إن الجو جميلٌ.</span>",
+                "Справді, погода гарна."
+              ],
+              [
+                "<span dir=\"rtl\">لأن الوقت متأخر.</span>",
+                "Тому що вже пізно."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">إن الحياة جميلة.</span>",
+                "Справді, життя прекрасне."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comparative-superlative",
+        "title": "التفضيل (أفعل التفضيل) — A2",
+        "emoji": "📈",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Ступінь порівняння утворюється за шаблоном أفعل, незмінним для всіх родів у порівнянні; для найвищого ступеня додають означений артикль.",
+            "en": {
+              "text": "The comparative is formed with the أفعل pattern, invariable across genders in comparison; the definite article is added for the superlative."
+            }
+          },
+          {
+            "type": "table",
+            "title": "أفعل",
+            "rows": [
+              [
+                "<span dir=\"rtl\">كبير → أكبر</span>",
+                "великий → більший"
+              ],
+              [
+                "<span dir=\"rtl\">أكبر من</span>",
+                "більший за..."
+              ],
+              [
+                "<span dir=\"rtl\">الأكبر</span>",
+                "найбільший"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">القاهرة أكبر من دبي.</span>",
+                "Каїр більший за Дубай."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "numbers-cardinal-1-10",
+        "title": "الأعداد ١-١٠ — A1",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Числа 1 і 2 узгоджуються з іменником у роді; 3–10 мають зворотне узгодження (див. окреме правило).",
+            "en": {
+              "text": "The numbers 1 and 2 agree with the noun in gender; 3–10 have reversed agreement (see the separate rule)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "1–10",
+            "rows": [
+              [
+                "<span dir=\"rtl\">واحد / اثنان</span>",
+                "1 / 2"
+              ],
+              [
+                "<span dir=\"rtl\">ثلاثة، أربعة، خمسة</span>",
+                "3, 4, 5"
+              ],
+              [
+                "<span dir=\"rtl\">ستة...عشرة</span>",
+                "6...10"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">عندي ثلاثة كتب.</span>",
+                "У мене три книги."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "numbers-cardinal-11-100",
+        "title": "الأعداد ١١-١٠٠ — A2",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "11–19 — незмінне складне слово; десятки (20, 30...) незмінні; сотні утворюються словом مئة.",
+            "en": {
+              "text": "11–19 are a fixed compound word; the tens (20, 30...) are invariable; hundreds are formed with the word مئة."
+            }
+          },
+          {
+            "type": "table",
+            "title": "11–100",
+            "rows": [
+              [
+                "<span dir=\"rtl\">أحد عشر</span>",
+                "11"
+              ],
+              [
+                "<span dir=\"rtl\">عشرون، ثلاثون</span>",
+                "20, 30"
+              ],
+              [
+                "<span dir=\"rtl\">مئة</span>",
+                "100"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">عمري عشرون سنة.</span>",
+                "Мені двадцять років."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "numbers-gender-agreement",
+        "title": "تذكير وتأنيث الأعداد — B1",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Унікальна риса арабської — числа 3–10 узгоджуються з іменником у зворотному роді (число чоловічого роду + іменник жіночого роду, і навпаки).",
+            "en": {
+              "text": "A unique Arabic feature — the numbers 3–10 agree with the noun in reversed gender (a masculine-form number + a feminine noun, and vice versa)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Зворотне узгодження",
+            "rows": [
+              [
+                "<span dir=\"rtl\">ثلاثة كتب</span> (كتاب — чол.)",
+                "три книги — число з ة (жін. форма з чол. іменником)"
+              ],
+              [
+                "<span dir=\"rtl\">ثلاث بنات</span> (بنت — жін.)",
+                "три дівчинки — число без ة з жін. іменником"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "<span dir=\"rtl\">عندي أربع أخوات.</span>",
+                "У мене чотири сестри."
+              ]
+            ]
+          }
+        ]
+      }
+    ]
   }
 ];
