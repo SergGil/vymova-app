@@ -90,7 +90,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Être vs Avoir — A1"
       },
       {
         "id": "gender-nouns",
@@ -162,7 +163,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Noun Gender — A1"
       },
       {
         "id": "articles",
@@ -234,7 +236,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Articles (Definite/Indefinite/Partitive) — A1"
       },
       {
         "id": "plural-nouns",
@@ -295,7 +298,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plural Nouns — A1"
       },
       {
         "id": "adjectives",
@@ -354,7 +358,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adjectives — A1"
       },
       {
         "id": "possessives",
@@ -430,7 +435,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possessive Adjectives — A1"
       },
       {
         "id": "demonstratives",
@@ -487,7 +493,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Demonstrative Adjectives — A1"
       },
       {
         "id": "question-words",
@@ -560,7 +567,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Question Words — A1"
       },
       {
         "id": "negation",
@@ -625,7 +633,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation — A1"
       },
       {
         "id": "present-regular",
@@ -706,7 +715,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Tense (Regular Verbs) — A1"
       }
     ]
   },
@@ -788,7 +798,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Futur Proche (Aller + Infinitive) — A1"
       },
       {
         "id": "passe-compose",
@@ -887,7 +898,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passé Composé — A2"
       },
       {
         "id": "imparfait",
@@ -971,7 +983,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Imparfait — A2"
       },
       {
         "id": "futur-simple",
@@ -1052,7 +1065,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Futur Simple — A2"
       },
       {
         "id": "etre-en-train-de",
@@ -1126,7 +1140,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Être En Train De + Infinitive — A2"
       },
       {
         "id": "plus-que-parfait",
@@ -1197,7 +1212,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plus-que-Parfait (Past Perfect) — B1"
       },
       {
         "id": "conditionnel-present",
@@ -1271,7 +1287,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Conditionnel Présent — B1"
       },
       {
         "id": "subjonctif-present",
@@ -1360,7 +1377,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subjonctif Présent — B1"
       },
       {
         "id": "futur-anterieur",
@@ -1417,7 +1435,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Futur Antérieur (Future Perfect) — B2"
       },
       {
         "id": "passe-recent",
@@ -1487,7 +1506,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passé Récent (Venir De) — A2"
       }
     ]
   },
@@ -1564,7 +1584,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Comparatives & Superlatives — A2"
       },
       {
         "id": "object-pronouns",
@@ -1633,7 +1654,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Direct Object Pronouns (COD) — B1"
       },
       {
         "id": "imperative",
@@ -1700,7 +1722,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Imperative — A2"
       },
       {
         "id": "preposition-villes-pays",
@@ -1765,7 +1788,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Prepositions À/En with Cities & Countries — A2"
       },
       {
         "id": "il-y-a-il-faut",
@@ -1823,7 +1847,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Il Y A / Il Faut — A1"
       },
       {
         "id": "indirect-object-pronouns",
@@ -1888,7 +1913,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Indirect Object Pronouns (COI) — A2"
       },
       {
         "id": "pronoms-en-y",
@@ -1939,7 +1965,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Pronouns En and Y — B1"
       },
       {
         "id": "relative-pronouns",
@@ -2000,7 +2027,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Relative Pronouns (Qui, Que, Où, Dont) — B1"
       },
       {
         "id": "passive-voice",
@@ -2056,7 +2084,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Voice (Être + Participle) — B1"
       },
       {
         "id": "gerondif",
@@ -2108,7 +2137,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Gérondif (En + Present Participle) — B1"
       }
     ]
   },
@@ -2172,7 +2202,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Conditional Sentences with Si — B1"
       },
       {
         "id": "discours-indirect",
@@ -2221,7 +2252,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Reported Speech — B1"
       },
       {
         "id": "pronoms-indefinis",
@@ -2278,7 +2310,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Indefinite Pronouns — A2"
       },
       {
         "id": "nombres-ordinaux",
@@ -2345,7 +2378,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ordinal Numbers — A2"
       },
       {
         "id": "exclamatives",
@@ -2401,7 +2435,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Exclamatory Sentences — A2"
       },
       {
         "id": "prepositions-lieu",
@@ -2458,7 +2493,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Prepositions of Place — A2"
       },
       {
         "id": "ne-que",
@@ -2507,7 +2543,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ne...Que (Only) — B1"
       },
       {
         "id": "pronoms-toniques",
@@ -2566,7 +2603,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Stressed Pronouns — A2"
       },
       {
         "id": "concordance-des-temps",
@@ -2618,7 +2656,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Sequence of Tenses — B2"
       },
       {
         "id": "depuis-pendant-il-y-a",
@@ -2674,7 +2713,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Depuis, Pendant, Il Y A — B1"
       }
     ]
   },
@@ -2743,7 +2783,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subjonctif Passé — B2"
       },
       {
         "id": "imperative-negative",
@@ -2806,7 +2847,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negative Imperative — A2"
       },
       {
         "id": "pronoms-possessifs",
@@ -2863,7 +2905,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possessive Pronouns (Le Mien, Le Tien) — B1"
       },
       {
         "id": "adverbes-ment",
@@ -2920,7 +2963,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adverbs in -Ment — A2"
       },
       {
         "id": "etre-participe-etat",
@@ -2976,7 +3020,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Être + Past Participle (Resultant State) — A2"
       },
       {
         "id": "etre-sur-le-point-de",
@@ -3031,7 +3076,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Être Sur Le Point De + Infinitive — B1"
       },
       {
         "id": "obligation-verbs",
@@ -3087,7 +3133,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Devoir, Il Faut, Avoir Besoin De — A2"
       },
       {
         "id": "quel-vs-quest-ce-que",
@@ -3143,7 +3190,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Quel vs Qu'est-ce Que — B1"
       },
       {
         "id": "ni-ni",
@@ -3192,7 +3240,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ne...Ni...Ni — B1"
       },
       {
         "id": "infinitif-passe",
@@ -3239,7 +3288,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Infinitif Passé (Past Infinitive) — B2"
       },
       {
         "id": "impersonal-expressions",
@@ -3295,7 +3345,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Impersonal Expressions — A2"
       },
       {
         "id": "reported-questions",
@@ -3347,7 +3398,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Reported Speech: Questions — B1"
       },
       {
         "id": "devenir-rendre",
@@ -3403,7 +3455,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Devenir, Rendre, Se Rendre (To Become) — B2"
       },
       {
         "id": "participe-present",
@@ -3450,7 +3503,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Participe Présent vs Gérondif — B2"
       },
       {
         "id": "subjonctif-vs-indicatif",
@@ -3506,7 +3560,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subjunctive or Indicative? — B2"
       }
     ]
   },
@@ -3575,7 +3630,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Conditionnel Passé (Past Conditional) — B2"
       },
       {
         "id": "tu-vs-vous",
@@ -3629,7 +3685,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Tu vs Vous (Formality) — A2"
       },
       {
         "id": "ce-qui-ce-que",
@@ -3680,7 +3737,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "\"Ce Qui\" / \"Ce Que\" — B1"
       },
       {
         "id": "celui-celle",
@@ -3733,7 +3791,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Demonstrative Pronouns (Celui, Celle, Ceux, Celles) — B2"
       },
       {
         "id": "faire-causatif",
@@ -3787,7 +3846,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Faire + Infinitive (Causative) — B2"
       },
       {
         "id": "deja-encore-pas-encore",
@@ -3843,7 +3903,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Déjà, Encore, Pas Encore — A2"
       },
       {
         "id": "si-tellement",
@@ -3899,7 +3960,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Si vs Tellement — B1"
       },
       {
         "id": "position-adjectif",
@@ -3958,7 +4020,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adjective Position — B2"
       },
       {
         "id": "prepositions-extra",
@@ -4019,7 +4082,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Prepositions: Sur, Entre, Vers, Depuis — A2"
       },
       {
         "id": "cest-qui-cest-que",
@@ -4069,7 +4133,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Emphatic Structures \"C'est...Qui/Que\" — B2"
       },
       {
         "id": "grands-nombres",
@@ -4134,7 +4199,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Large Cardinal Numbers — A2"
       },
       {
         "id": "pronoms-reflexifs-emphatiques",
@@ -4183,7 +4249,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Emphatic Reflexive Pronouns (Moi-Même) — B2"
       },
       {
         "id": "souhait-subjonctif",
@@ -4230,7 +4297,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Souhaiter Que + Subjunctive (Wishes) — B1"
       },
       {
         "id": "accent-orthographe",
@@ -4286,7 +4354,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Accent Rules — A2"
       },
       {
         "id": "adverbes-frequence",
@@ -4347,7 +4416,8 @@ export const GRAMMAR_FR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adverbs of Frequency — A2"
       }
     ]
   }
