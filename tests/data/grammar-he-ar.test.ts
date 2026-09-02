@@ -93,7 +93,7 @@ describe('GRAMMAR_ZH', () => {
 });
 
 describe('GRAMMAR_EL', () => {
-  checkGrammarShape(GRAMMAR_EL, 'GRAMMAR_EL');
+  checkGrammarShape(GRAMMAR_EL, 'GRAMMAR_EL', 70);
 });
 
 describe('GRAMMAR_JA', () => {
