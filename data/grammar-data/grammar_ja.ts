@@ -765,5 +765,943 @@ export const GRAMMAR_JA: GrammarCategory[] = [
         ]
       }
     ]
+  },
+  {
+    "id": "grammar",
+    "title": "文法",
+    "titleEn": "Grammar",
+    "emoji": "📖",
+    "rules": [
+      {
+        "id": "particle-ga",
+        "title": "が — 主語を表す助詞 — A1",
+        "emoji": "🏷️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "が позначає граматичний підмет, часто нову або конкретну інформацію, на відміну від は, яка позначає тему.",
+            "en": {
+              "text": "が marks the grammatical subject, often new or specific information, unlike は which marks the topic."
+            }
+          },
+          {
+            "type": "table",
+            "title": "が vs は",
+            "rows": [
+              [
+                "猫がいます。",
+                "Є кіт. (нова інформація)"
+              ],
+              [
+                "誰が来ましたか。",
+                "Хто прийшов?"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "雨が降っています。",
+                "Іде дощ."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "particle-ni",
+        "title": "に — 場所・時間・方向 — A1",
+        "emoji": "📍",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "に позначає місце перебування, конкретний момент часу, напрям руху чи одержувача дії.",
+            "en": {
+              "text": "に marks a location of existence, a specific point in time, direction of movement, or the recipient of an action."
+            }
+          },
+          {
+            "type": "table",
+            "title": "に",
+            "rows": [
+              [
+                "東京にいます。",
+                "Я в Токіо."
+              ],
+              [
+                "7時に起きます。",
+                "Я прокидаюсь о 7-й."
+              ],
+              [
+                "友達に会います。",
+                "Я зустрічаюсь з другом."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "学校に行きます。",
+                "Я йду до школи."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "particle-de",
+        "title": "で — 手段・場所 — A1",
+        "emoji": "🧭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "で позначає місце, де відбувається дія (не існування), а також засіб чи знаряддя.",
+            "en": {
+              "text": "で marks the location where an action takes place (not existence), as well as means or instrument."
+            }
+          },
+          {
+            "type": "table",
+            "title": "で",
+            "rows": [
+              [
+                "レストランで食べます。",
+                "Я їм у ресторані."
+              ],
+              [
+                "バスで行きます。",
+                "Я їду автобусом."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "日本語で話します。",
+                "Я говорю японською."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "particle-to-ya",
+        "title": "と・や — 並列助詞 — A2",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "と перелічує всі елементи повністю («і... і»); や перелічує лише приклади з решти неозначеного списку («і... і т.д.»).",
+            "en": {
+              "text": "と lists all elements exhaustively ('and... and'); や lists only examples from an open-ended list ('and... etc.')."
+            }
+          },
+          {
+            "type": "table",
+            "title": "と vs や",
+            "rows": [
+              [
+                "ペンとノート",
+                "ручка і зошит (тільки ці два)"
+              ],
+              [
+                "ペンやノート",
+                "ручка, зошит і подібне (не тільки ці два)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "リンゴとバナナを買いました。",
+                "Я купив яблуко і банан."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "particle-mo",
+        "title": "も — も助詞（〜も） — A1",
+        "emoji": "➕",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "も замінює は чи が й означає «теж/також».",
+            "en": {
+              "text": "も replaces は or が and means 'also/too'."
+            }
+          },
+          {
+            "type": "table",
+            "title": "も",
+            "rows": [
+              [
+                "私も学生です。",
+                "Я теж студент."
+              ],
+              [
+                "彼も来ます。",
+                "Він теж прийде."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "これも好きです。",
+                "Це мені теж подобається."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "particle-no",
+        "title": "の — 所有・修飾 — A1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "の з'єднує два іменники, виражаючи належність чи означення (аналог «‑ового»).",
+            "en": {
+              "text": "の connects two nouns, expressing possession or modification (like an apostrophe-s)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "の",
+            "rows": [
+              [
+                "私の本",
+                "моя книга"
+              ],
+              [
+                "日本の文化",
+                "японська культура"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "これは友達の車です。",
+                "Це машина мого друга."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "particle-kara-made",
+        "title": "から・まで — A2",
+        "emoji": "🧭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "から (з/від) вказує початкову точку в часі/просторі, まで (до) — кінцеву.",
+            "en": {
+              "text": "から (from/since) marks a starting point in time/space, まで (until/to) marks the ending point."
+            }
+          },
+          {
+            "type": "table",
+            "title": "から / まで",
+            "rows": [
+              [
+                "9時から5時まで",
+                "з 9-ї до 5-ї"
+              ],
+              [
+                "東京から大阪まで",
+                "з Токіо до Осаки"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "月曜日から働きます。",
+                "Я почну працювати з понеділка."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "particle-he",
+        "title": "へ — 方向 — A1",
+        "emoji": "🧭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "へ (вимовляється «e») позначає загальний напрям руху, часто взаємозамінна з に для напрямку.",
+            "en": {
+              "text": "へ (pronounced 'e') marks a general direction of movement, often interchangeable with に for direction."
+            }
+          },
+          {
+            "type": "table",
+            "title": "へ",
+            "rows": [
+              [
+                "日本へ行きます。",
+                "Я їду до Японії."
+              ],
+              [
+                "どちらへ？",
+                "Куди (ви прямуєте)?"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "駅へ向かっています。",
+                "Я прямую до вокзалу."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "question-particle-ka",
+        "title": "か — 疑問文 — A1",
+        "emoji": "❓",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "か в кінці речення перетворює його на питання, без зміни порядку слів чи допоміжного дієслова.",
+            "en": {
+              "text": "か at the end of a sentence turns it into a question, with no word-order change or auxiliary verb."
+            }
+          },
+          {
+            "type": "table",
+            "title": "か",
+            "rows": [
+              [
+                "学生ですか。",
+                "Ти студент?"
+              ],
+              [
+                "何を食べますか。",
+                "Що ти їстимеш?"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "元気ですか。",
+                "Як справи? (букв. Ти бадьорий?)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "counters-classifiers",
+        "title": "助数詞 — A2",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Унікальна риса японської — при рахуванні предметів потрібен спеціальний класифікатор, що залежить від форми/типу предмета: 人 (люди), 匹 (тварини), 本 (довгі предмети), 枚 (плоскі предмети).",
+            "en": {
+              "text": "A unique Japanese feature — counting objects requires a specific classifier depending on the object's shape/type: 人 (people), 匹 (animals), 本 (long objects), 枚 (flat objects)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Класифікатори",
+            "rows": [
+              [
+                "三人 (san-nin)",
+                "троє людей"
+              ],
+              [
+                "二匹 (ni-hiki)",
+                "дві тварини"
+              ],
+              [
+                "一本 (ip-pon)",
+                "один довгий предмет"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "猫が二匹います。",
+                "Є два коти."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "numbers-cardinal",
+        "title": "数字 — A1",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Числа мають дві системи читання (китайську й японську) залежно від контексту й наступного класифікатора.",
+            "en": {
+              "text": "Numbers have two reading systems (Sino-Japanese and native Japanese) depending on context and the following classifier."
+            }
+          },
+          {
+            "type": "table",
+            "title": "1–10",
+            "rows": [
+              [
+                "一、二、三 (ichi, ni, san)",
+                "1, 2, 3"
+              ],
+              [
+                "ひとつ、ふたつ、みっつ",
+                "1, 2, 3 (рахунок предметів)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "りんごを三つください。",
+                "Дайте мені три яблука, будь ласка."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "adjective-conjugation-i",
+        "title": "い形容詞の活用 — A2",
+        "emoji": "🎨",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "い-прикметники самі відмінюються за часом і запереченням, без допомоги です у минулому/заперечному часі.",
+            "en": {
+              "text": "い-adjectives conjugate on their own for tense and negation, without relying on です in the past/negative."
+            }
+          },
+          {
+            "type": "table",
+            "title": "大きい (великий) — відмінювання",
+            "rows": [
+              [
+                "大きい",
+                "великий (теперішній)"
+              ],
+              [
+                "大きくない",
+                "не великий"
+              ],
+              [
+                "大きかった",
+                "був великим"
+              ],
+              [
+                "大きくなかった",
+                "не був великим"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "この映画は面白くなかった。",
+                "Цей фільм не був цікавим."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "adjective-conjugation-na",
+        "title": "な形容詞の活用 — A2",
+        "emoji": "🎨",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "な-прикметники відмінюються, як іменники, за допомогою です/だ, а не власним закінченням.",
+            "en": {
+              "text": "な-adjectives conjugate like nouns, using です/だ, rather than an ending of their own."
+            }
+          },
+          {
+            "type": "table",
+            "title": "静か (тихий) — відмінювання",
+            "rows": [
+              [
+                "静かです",
+                "тихий (теперішній)"
+              ],
+              [
+                "静かじゃないです",
+                "не тихий"
+              ],
+              [
+                "静かでした",
+                "був тихим"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "この部屋は静かじゃないです。",
+                "Ця кімната не тиха."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comparative-superlative",
+        "title": "比較・最上級 — A2",
+        "emoji": "📈",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Порівняльний ступінь: [A]の方が[B]より + прикметник; найвищий: 一番 + прикметник.",
+            "en": {
+              "text": "Comparative: [A] no hō ga [B] yori + adjective; superlative: ichiban + adjective."
+            }
+          },
+          {
+            "type": "table",
+            "title": "の方が...より / 一番",
+            "rows": [
+              [
+                "東京の方が大阪より大きいです。",
+                "Токіо більше за Осаку."
+              ],
+              [
+                "これが一番好きです。",
+                "Це мені подобається найбільше."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "富士山が日本で一番高い山です。",
+                "Фудзі — найвища гора Японії."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "demonstrative-kosoado",
+        "title": "こそあど言葉 — A1",
+        "emoji": "👉",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Систематичний ряд слів на こ- (біля мовця), そ- (біля співрозмовника), あ- (далеко від обох), ど- (питальне).",
+            "en": {
+              "text": "A systematic series of words with こ- (near speaker), そ- (near listener), あ- (far from both), ど- (interrogative)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "これ/それ/あれ/どれ",
+            "rows": [
+              [
+                "これ / この",
+                "це / цей (біля мене)"
+              ],
+              [
+                "それ / その",
+                "те / той (біля тебе)"
+              ],
+              [
+                "あれ / あの",
+                "он те / он той (далеко)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "これは何ですか。",
+                "Що це?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "relative-clause-attributive",
+        "title": "連体修飾（名詞を修飾する文） — B1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Замість відносного займенника («який») ціле речення в звичайній формі ставиться безпосередньо перед іменником, який воно означує.",
+            "en": {
+              "text": "Instead of a relative pronoun ('which'), an entire clause in plain form is placed directly before the noun it modifies."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Означувальне речення + іменник",
+            "rows": [
+              [
+                "私が読んだ本",
+                "книга, яку я прочитав"
+              ],
+              [
+                "昨日会った人",
+                "людина, яку я зустрів учора"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "これは母が作った料理です。",
+                "Це страва, яку приготувала мама."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "giving-receiving-verbs",
+        "title": "あげる・もらう・くれる — B1",
+        "emoji": "🎁",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Унікальна риса японської — вибір дієслова давання/отримання залежить від напряму дії відносно мовця: あげる (я даю комусь), もらう (я отримую від когось), くれる (хтось дає мені).",
+            "en": {
+              "text": "A unique Japanese feature — the giving/receiving verb depends on the direction of the action relative to the speaker: あげる (I give to someone), もらう (I receive from someone), くれる (someone gives to me)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "あげる / もらう / くれる",
+            "rows": [
+              [
+                "私は友達に本をあげました。",
+                "Я дав книгу другові."
+              ],
+              [
+                "私は友達に本をもらいました。",
+                "Я отримав книгу від друга."
+              ],
+              [
+                "友達が私に本をくれました。",
+                "Друг дав мені книгу."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "兄が私に時計をくれた。",
+                "Брат подарував мені годинник."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "desire-tai-form",
+        "title": "たい形 — A2",
+        "emoji": "💭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Форма бажання (-たい, «хочу зробити») утворюється додаванням たい до основи дієслова ます-форми й відмінюється як い-прикметник.",
+            "en": {
+              "text": "The desiderative form (-たい, 'want to do') is formed by adding たい to the masu-form stem and conjugates like an い-adjective."
+            }
+          },
+          {
+            "type": "table",
+            "title": "たい形",
+            "rows": [
+              [
+                "飲みたい",
+                "хочу пити"
+              ],
+              [
+                "行きたくない",
+                "не хочу йти"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "日本に行きたいです。",
+                "Я хочу поїхати до Японії."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "suggestion-mashou",
+        "title": "ましょう・ませんか — A1",
+        "emoji": "🙌",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "ましょう пропонує спільну дію («давайте»), ませんか — ввічливо запрошує («чи не хочете...?»).",
+            "en": {
+              "text": "ましょう proposes a joint action ('let's'), ませんか politely invites ('wouldn't you like to...?')."
+            }
+          },
+          {
+            "type": "table",
+            "title": "ましょう / ませんか",
+            "rows": [
+              [
+                "行きましょう。",
+                "Давайте підемо."
+              ],
+              [
+                "一緒に行きませんか。",
+                "Чи не хочете піти разом?"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "お茶を飲みませんか。",
+                "Не хочете випити чаю?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "request-kudasai",
+        "title": "〜てください — A1",
+        "emoji": "🙏",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "て-форма + ください виражає ввічливе прохання.",
+            "en": {
+              "text": "Te-form + ください expresses a polite request."
+            }
+          },
+          {
+            "type": "table",
+            "title": "てください",
+            "rows": [
+              [
+                "待ってください。",
+                "Зачекайте, будь ласка."
+              ],
+              [
+                "見てください。",
+                "Подивіться, будь ласка."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "ここに名前を書いてください。",
+                "Напишіть тут своє ім'я, будь ласка."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "permission-prohibition",
+        "title": "〜てもいい・〜てはいけない — A2",
+        "emoji": "🚦",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "て-форма + もいい виражає дозвіл («можна»); て-форма + はいけない — заборону («не можна»).",
+            "en": {
+              "text": "Te-form + もいい expresses permission ('may/can'); te-form + はいけない expresses prohibition ('must not')."
+            }
+          },
+          {
+            "type": "table",
+            "title": "てもいい / てはいけない",
+            "rows": [
+              [
+                "入ってもいいです。",
+                "Можна зайти."
+              ],
+              [
+                "ここに座ってはいけません。",
+                "Тут не можна сидіти."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "写真を撮ってもいいですか。",
+                "Можна сфотографувати?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "obligation-nakereba",
+        "title": "〜なければならない — B1",
+        "emoji": "☁️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Заперечна форма + ければならない виражає обов'язок («мушу», букв. «якщо не зроблю, не годиться»).",
+            "en": {
+              "text": "Negative form + kereba naranai expresses obligation ('must', literally 'if I don't do it, it won't do')."
+            }
+          },
+          {
+            "type": "table",
+            "title": "なければならない",
+            "rows": [
+              [
+                "行かなければならない。",
+                "Я мушу піти."
+              ],
+              [
+                "勉強しなければなりません。",
+                "Мені треба вчитися."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "今日中に終わらせなければならない。",
+                "Я мушу закінчити це сьогодні."
+              ]
+            ]
+          }
+        ]
+      }
+    ]
   }
 ];
