@@ -1828,6 +1828,1315 @@ export const GRAMMAR_HI: GrammarCategory[] = [
             ]
           }
         ]
+      },
+      {
+        "id": "numbers-ordinal",
+        "title": "क्रमवाचक संख्या — A2",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Порядкові числівники узгоджуються з іменником, як прикметники на -आ (крім перших чотирьох, які нерегулярні).",
+            "en": {
+              "text": "Ordinal numbers agree with the noun like -आ adjectives (except the first four, which are irregular)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "1-й – 5-й",
+            "rows": [
+              [
+                "पहला",
+                "1-й"
+              ],
+              [
+                "दूसरा",
+                "2-й"
+              ],
+              [
+                "तीसरा, चौथा, पाँचवाँ",
+                "3-й, 4-й, 5-й"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "यह मेरी पहली बार है।",
+                "Це мій перший раз."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "days-of-week",
+        "title": "सप्ताह के दिन — A1",
+        "emoji": "📅",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Дні тижня вживаються з післяйменником को для позначення «у...».",
+            "en": {
+              "text": "Days of the week are used with the postposition को to mean 'on...'."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Дні тижня",
+            "rows": [
+              [
+                "सोमवार, मंगलवार, बुधवार",
+                "понеділок, вівторок, середа"
+              ],
+              [
+                "गुरुवार, शुक्रवार",
+                "четвер, п'ятниця"
+              ],
+              [
+                "शनिवार, रविवार",
+                "субота, неділя"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "हम शुक्रवार को मिलेंगे।",
+                "Ми зустрінемось у п'ятницю."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "months-dates",
+        "title": "महीने और तारीख़ — A2",
+        "emoji": "📅",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "У Гінді вживають переважно назви григоріанських місяців; дата вказується числом + को.",
+            "en": {
+              "text": "Hindi mostly uses Gregorian month names; the date is given by the number + को."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Місяці й дата",
+            "rows": [
+              [
+                "जनवरी, फ़रवरी, मार्च...",
+                "січень, лютий, березень..."
+              ],
+              [
+                "पाँच मई को",
+                "5-го травня"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मेरा जन्मदिन जून में है।",
+                "Мій день народження в червні."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "telling-time",
+        "title": "समय बताना — A2",
+        "emoji": "🕒",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Питання про час: कितने बजे हैं? Відповідь будується числом + बजे.",
+            "en": {
+              "text": "To ask the time: कितने बजे हैं? The answer uses the number + बजे."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Вказування часу",
+            "rows": [
+              [
+                "तीन बजे हैं।",
+                "Третя година."
+              ],
+              [
+                "साढ़े तीन बजे हैं।",
+                "Пів на четверту."
+              ],
+              [
+                "पौने चार बजे हैं।",
+                "Без чверті четверта."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "अभी कितने बजे हैं?",
+                "Котра зараз година?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "conjunctions-basic",
+        "title": "संयोजक (और, या, लेकिन) — A1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Сурядні сполучники з'єднують рівнозначні слова чи речення.",
+            "en": {
+              "text": "Coordinating conjunctions connect equal words or clauses."
+            }
+          },
+          {
+            "type": "markers",
+            "title": "Основні сполучники",
+            "items": [
+              "और (і)",
+              "या (або)",
+              "लेकिन/पर (але)",
+              "इसलिए (тому)"
+            ],
+            "en": {
+              "title": "Main conjunctions"
+            }
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मुझे चाय और कॉफ़ी पसंद है।",
+                "Мені подобаються чай і кава."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "conjunctions-advanced",
+        "title": "अधीनस्थ संयोजक (क्योंकि, अगर, कि) — B1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Підрядні сполучники вводять залежне речення причини, умови чи змісту.",
+            "en": {
+              "text": "Subordinating conjunctions introduce a dependent clause of cause, condition, or content."
+            }
+          },
+          {
+            "type": "markers",
+            "title": "Основні підрядні сполучники",
+            "items": [
+              "क्योंकि (тому що)",
+              "अगर (якщо)",
+              "कि (що)",
+              "जब (коли)",
+              "हालाँकि (хоча)"
+            ],
+            "en": {
+              "title": "Main subordinating conjunctions"
+            }
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मैं नहीं आया क्योंकि मैं बीमार था।",
+                "Я не прийшов, бо був хворий."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "word-order-flexibility",
+        "title": "वाक्य में शब्द क्रम का लचीलापन — B1",
+        "emoji": "🔀",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Хоча дієслово завжди стоїть у кінці (SOV), порядок підмета й додатків доволі гнучкий і використовується для акценту.",
+            "en": {
+              "text": "Although the verb always comes last (SOV), the order of subject and objects is fairly flexible and used for emphasis."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Гнучкий порядок",
+            "rows": [
+              [
+                "राम ने सीता को किताब दी।",
+                "Рам дав книгу Сіті. (нейтрально)"
+              ],
+              [
+                "सीता को राम ने किताब दी।",
+                "Саме Сіті Рам дав книгу. (акцент)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "आज मैं घर जाऊँगा।",
+                "Сьогодні я піду додому."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "reduplication",
+        "title": "पुनरुक्ति — B1",
+        "emoji": "🔁",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Унікальна риса гінді — повторення слова підсилює значення, виражає тривалість/розподільність або утворює приблизні пари слів.",
+            "en": {
+              "text": "A unique Hindi feature — repeating a word intensifies meaning, expresses duration/distributiveness, or forms approximate word pairs."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Повтори",
+            "rows": [
+              [
+                "धीरे-धीरे",
+                "повільно-повільно (поступово)"
+              ],
+              [
+                "घर-घर",
+                "кожен дім"
+              ],
+              [
+                "बड़ा-बड़ा",
+                "дуже великий"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "वह धीरे-धीरे चल रहा है।",
+                "Він іде дуже повільно."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "adverbs",
+        "title": "क्रिया विशेषण — A2",
+        "emoji": "🎯",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Прислівники незмінні й зазвичай стоять перед дієсловом.",
+            "en": {
+              "text": "Adverbs are invariable and usually precede the verb."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Основні прислівники",
+            "rows": [
+              [
+                "जल्दी",
+                "швидко"
+              ],
+              [
+                "धीरे",
+                "повільно"
+              ],
+              [
+                "अच्छी तरह से",
+                "добре"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "वह जल्दी बोलता है।",
+                "Він говорить швидко."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "quantifiers",
+        "title": "परिमाणवाचक शब्द (बहुत, थोड़ा, सब) — A2",
+        "emoji": "⚖️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "बहुत (багато) незмінне; थोड़ा (трохи) і सब (весь) узгоджуються, як прикметник на -आ.",
+            "en": {
+              "text": "बहुत (much/many) is invariable; थोड़ा (a little) and सब (all) agree like -आ adjectives."
+            }
+          },
+          {
+            "type": "table",
+            "title": "बहुत / थोड़ा / सब",
+            "rows": [
+              [
+                "बहुत पानी",
+                "багато води"
+              ],
+              [
+                "थोड़ी चीनी",
+                "трохи цукру"
+              ],
+              [
+                "सब लोग",
+                "усі люди"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मुझे बहुत खुशी हुई।",
+                "Я дуже зрадів."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "question-words",
+        "title": "प्रश्नवाचक शब्द (कहाँ, कब, क्यों) — A1",
+        "emoji": "❓",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Питальні слова, на відміну від багатьох мов, стають перед дієсловом, але не обов'язково на початку речення.",
+            "en": {
+              "text": "Unlike many languages, question words go right before the verb, not necessarily at the start of the sentence."
+            }
+          },
+          {
+            "type": "markers",
+            "title": "Питальні слова",
+            "items": [
+              "कहाँ? (де?)",
+              "कब? (коли?)",
+              "क्यों? (чому?)",
+              "कैसे? (як?)"
+            ],
+            "en": {
+              "title": "Question words"
+            }
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "तुम कहाँ रहते हो?",
+                "Де ти живеш?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "formal-informal",
+        "title": "तुम बनाम आप — A1",
+        "emoji": "🎩",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "तुम — неформальне звертання до рівних/молодших; आप — ввічливе до старших/незнайомих, узгоджується з дієсловом у множині; तू — дуже неформальне/інтимне.",
+            "en": {
+              "text": "तुम is informal, used for peers/juniors; आप is polite, for elders/strangers, agreeing with the verb in the plural; तू is very informal/intimate."
+            }
+          },
+          {
+            "type": "table",
+            "title": "तू / तुम / आप",
+            "rows": [
+              [
+                "तुम कैसे हो?",
+                "Як справи? (неформально)"
+              ],
+              [
+                "आप कैसे हैं?",
+                "Як ви? (ввічливо)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "आप कहाँ से हैं?",
+                "Звідки ви?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "existential-hai",
+        "title": "है/हैं होने का प्रयोग — A1",
+        "emoji": "📌",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "है (однина) / हैं (множина) вживається для позначення наявності, аналог англійського «there is/are».",
+            "en": {
+              "text": "है (singular) / हैं (plural) is used to express existence, like English 'there is/are'."
+            }
+          },
+          {
+            "type": "table",
+            "title": "है / हैं",
+            "rows": [
+              [
+                "यहाँ एक समस्या है।",
+                "Тут є одна проблема."
+              ],
+              [
+                "यहाँ बहुत किताबें हैं।",
+                "Тут є багато книг."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "क्या यहाँ पास में कोई दुकान है?",
+                "Тут поблизу є магазин?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "passive-voice",
+        "title": "कर्मवाच्य — B1",
+        "emoji": "🔄",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Пасивний стан утворюється дієприкметником на -या + допоміжне जाना (замінює होना).",
+            "en": {
+              "text": "The passive voice is formed with the -या participle + the auxiliary जाना (replacing होना)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "या + जाना",
+            "rows": [
+              [
+                "यह किताब पढ़ी जाती है।",
+                "Цю книгу читають."
+              ],
+              [
+                "दरवाज़ा बंद किया गया।",
+                "Двері зачинили."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "यह घर बेचा गया।",
+                "Цей дім було продано."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "causative-verbs",
+        "title": "प्रेरणार्थक क्रिया — B2",
+        "emoji": "🔧",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Унікальна риса гінді — подвійна каузативна форма: перший ступінь (-ा/-वा) означає «змусити зробити», другий — «доручити комусь зробити через посередника».",
+            "en": {
+              "text": "A unique Hindi feature — a double causative: the first degree (-ा/-वा) means 'to make someone do', the second means 'to have someone do it via an intermediary'."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Ступені каузативу",
+            "rows": [
+              [
+                "पढ़ना → पढ़ाना",
+                "читати → навчати (1-й ступінь)"
+              ],
+              [
+                "पढ़ना → पढ़वाना",
+                "читати → доручити навчання (2-й ступінь)"
+              ],
+              [
+                "बनना → बनाना → बनवाना",
+                "виникати → робити → доручити зробити"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मैंने घर बनवाया।",
+                "Я доручив побудувати дім."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "participles-uses",
+        "title": "कृदंत — B1",
+        "emoji": "🎭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Дієприкметник (-या/-ा) вживається не лише в часах, а й самостійно як прикметник, описуючи стан.",
+            "en": {
+              "text": "The participle (-या/-ा) is used not only in tenses, but also on its own as an adjective describing a state."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Дієприкметник як прикметник",
+            "rows": [
+              [
+                "टूटा हुआ गिलास",
+                "розбита склянка"
+              ],
+              [
+                "थका हुआ आदमी",
+                "втомлений чоловік"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "यह खिड़की टूटी हुई है।",
+                "Це вікно розбите."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "genitive-agreement",
+        "title": "संबंधकारक की संख्या-लिंग अनुसार बदलाव — A2",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "На відміну від багатьох мов, का/की/के узгоджується з предметом володіння, а не з володарем — навіть якщо володар жіночого роду, а предмет чоловічого.",
+            "en": {
+              "text": "Unlike many languages, का/की/के agrees with the possessed thing, not the owner — even if the owner is feminine and the thing masculine."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Приклади узгодження",
+            "rows": [
+              [
+                "सीता का भाई",
+                "брат Сіти (чоловік — का, хоч власниця жінка)"
+              ],
+              [
+                "राम की बहन",
+                "сестра Рама (жінка — की, хоч власник чоловік)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "यह मेरी माँ की साड़ी है।",
+                "Це сарі моєї мами."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "vocative-case",
+        "title": "संबोधन कारक — A2",
+        "emoji": "📣",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Кличний відмінок вживається для звертання; форма чоловічого роду множини змінюється на -ओ.",
+            "en": {
+              "text": "The vocative case is used for direct address; the masculine plural form changes to -ओ."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Кличний відмінок",
+            "rows": [
+              [
+                "लड़को, सुनो!",
+                "Хлопці, слухайте!"
+              ],
+              [
+                "बच्चो, आओ!",
+                "Діти, ідіть сюди!"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "दोस्तो, नमस्ते!",
+                "Друзі, вітаю!"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "echo-words",
+        "title": "प्रतिध्वनि शब्द — B2",
+        "emoji": "🔁",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Унікальна риса гінді — «слово-відлуння» повторює перший приголосний основного слова з голосною -व- і додає значення «і подібне до цього».",
+            "en": {
+              "text": "A unique Hindi feature — an 'echo word' repeats the main word with its first consonant replaced by व-, adding the meaning 'and such/etc.'."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Слова-відлуння",
+            "rows": [
+              [
+                "चाय-वाय",
+                "чай і подібне"
+              ],
+              [
+                "किताब-विताब",
+                "книжки і таке інше"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "चाय-वाय पीोगे?",
+                "Вип'єш чаю чи щось таке?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "counting-classifiers",
+        "title": "गणक शब्द — B1",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Класифікатор गो/टुकड़ा іноді вживається при рахуванні, хоча в гінді, на відміну від бенгальської/китайської, зазвичай числа поєднуються з іменником безпосередньо.",
+            "en": {
+              "text": "The classifier गो/टुकड़ा is sometimes used when counting, though in Hindi, unlike Bengali/Chinese, numbers usually combine with the noun directly."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Приклади",
+            "rows": [
+              [
+                "दो कप चाय",
+                "дві чашки чаю"
+              ],
+              [
+                "तीन टुकड़े केक",
+                "три шматки торта"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मुझे एक गिलास पानी चाहिए।",
+                "Мені потрібна одна склянка води."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "common-idioms",
+        "title": "सामान्य मुहावरे — B1",
+        "emoji": "💬",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Стійкі вирази, які використовуються щодня і не завжди перекладаються дослівно.",
+            "en": {
+              "text": "Fixed expressions used every day, not always translated word-for-word."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Поширені вирази",
+            "rows": [
+              [
+                "क्या हाल है?",
+                "Як справи?"
+              ],
+              [
+                "शुक्रिया / धन्यवाद",
+                "дякую"
+              ],
+              [
+                "कोई बात नहीं",
+                "нічого страшного"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "क्या हाल है? — बढ़िया, तुम बताओ।",
+                "Як справи? — Чудово, а ти?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "negation-nuances",
+        "title": "निषेध के भेद (न/मत/नहीं) — B1",
+        "emoji": "🚫",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "नहीं — загальне заперечення; न вживається у формальному/подвійному запереченні (न...न); मत — заперечення в наказовому способі.",
+            "en": {
+              "text": "नहीं is the general negation; न is used in formal/double negation (न...न); मत negates the imperative."
+            }
+          },
+          {
+            "type": "table",
+            "title": "नहीं / न / मत",
+            "rows": [
+              [
+                "मैं नहीं जाऊँगा।",
+                "Я не піду."
+              ],
+              [
+                "न यहाँ, न वहाँ।",
+                "Ні тут, ні там."
+              ],
+              [
+                "मत जाओ!",
+                "Не йди!"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "चिंता मत करो।",
+                "Не хвилюйся."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "postposition-tak-taraf",
+        "title": "तक, तरफ़, बारे में — B1",
+        "emoji": "🧭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "तक (до/аж до), तरफ़ (у бік/сторону), के बारे में (про) — вживані складені післяйменники.",
+            "en": {
+              "text": "तक (until/as far as), तरफ़ (towards), के बारे में (about) — common compound postpositions."
+            }
+          },
+          {
+            "type": "table",
+            "title": "तक / तरफ़ / के बारे में",
+            "rows": [
+              [
+                "कल तक",
+                "до завтра"
+              ],
+              [
+                "घर की तरफ़",
+                "у бік дому"
+              ],
+              [
+                "उसके बारे में",
+                "про нього"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मैं स्टेशन तक पैदल गया।",
+                "Я дійшов до вокзалу пішки."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "possession-with-pass",
+        "title": "पास/को होना से अधिकार — A2",
+        "emoji": "🏠",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Гінді не має дієслова «мати» — конкретні речі виражають के पास + है, а стани/абстракції — को + है.",
+            "en": {
+              "text": "Hindi has no verb 'to have' — concrete possessions are expressed with के पास + है, while states/abstractions use को + है."
+            }
+          },
+          {
+            "type": "table",
+            "title": "के पास vs को",
+            "rows": [
+              [
+                "मेरे पास एक किताब है।",
+                "У мене є книга. (конкретна річ)"
+              ],
+              [
+                "मुझे बुखार है।",
+                "У мене температура. (стан)"
+              ],
+              [
+                "उसके पास पैसे नहीं हैं।",
+                "У нього немає грошей."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मेरे पास समय नहीं है।",
+                "У мене немає часу."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "weather-expressions",
+        "title": "मौसम — A1",
+        "emoji": "🌦️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Погодні вирази здебільшого безособові, з है/हो रहा है.",
+            "en": {
+              "text": "Weather expressions are mostly impersonal, using है/हो रहा है."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Погода",
+            "rows": [
+              [
+                "बारिश हो रही है।",
+                "Іде дощ."
+              ],
+              [
+                "आज गर्मी है।",
+                "Сьогодні спекотно."
+              ],
+              [
+                "बहुत ठंड है।",
+                "Дуже холодно."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "सर्दियों में बर्फ़ पड़ती है।",
+                "Взимку йде сніг."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "greetings-common-phrases",
+        "title": "नमस्ते और सामान्य वाक्यांश — A1",
+        "emoji": "👋",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "नमस्ते — універсальне привітання/прощання, вживане з долонями складеними разом, незалежно від часу доби.",
+            "en": {
+              "text": "नमस्ते is the universal greeting/farewell, said with palms pressed together, regardless of time of day."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Основні фрази",
+            "rows": [
+              [
+                "नमस्ते",
+                "вітаю / до побачення"
+              ],
+              [
+                "धन्यवाद / शुक्रिया",
+                "дякую"
+              ],
+              [
+                "माफ़ कीजिए",
+                "перепрошую"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "नमस्ते, आप कैसे हैं?",
+                "Вітаю, як ви?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "stress-and-pronunciation",
+        "title": "उच्चारण और अनुनासिक — A2",
+        "emoji": "✏️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Носовий знак чандрабінду/анусвар (ँ/ं) над голосною означає назалізацію — важливу для розрізнення значення й правильної вимови.",
+            "en": {
+              "text": "The nasal mark chandrabindu/anusvar (ँ/ं) over a vowel indicates nasalization — important for distinguishing meaning and correct pronunciation."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Назалізація",
+            "rows": [
+              [
+                "हाँ (так) vs हा (сміх, ха)",
+                "назалізація змінює значення"
+              ],
+              [
+                "मैं (я)",
+                "завжди назалізоване"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "हाँ, मैं ठीक हूँ।",
+                "Так, я в порядку."
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "exceptions",
+    "title": "अपवाद",
+    "titleEn": "Exceptions",
+    "emoji": "⚠️",
+    "rules": [
+      {
+        "id": "irregular-verbs",
+        "title": "अनियमित क्रियाएँ — A2",
+        "emoji": "⚠️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Кілька найуживаніших дієслів мають нерегулярні форми, які слід просто запам'ятати: होना (бути), करना (робити), जाना (йти), देना/लेना (давати/брати).",
+            "en": {
+              "text": "A few of the most common verbs have irregular forms that must simply be memorized: होना (to be), करना (to do), जाना (to go), देना/लेना (to give/take)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Нерегулярні минулі форми",
+            "rows": [
+              [
+                "जाना → गया (не *जाया)",
+                "йти → пішов"
+              ],
+              [
+                "करना → किया (не *करा)",
+                "робити → зробив"
+              ],
+              [
+                "देना → दिया / लेना → लिया",
+                "давати → дав / брати → взяв"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "उसने क्या किया?",
+                "Що він зробив?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "irregular-plurals",
+        "title": "अनियमित बहुवचन — B1",
+        "emoji": "⚠️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Кілька іменників (переважно запозичені з санскриту/перської або дуже вживані) мають множину, що не відповідає стандартним закінченням.",
+            "en": {
+              "text": "A few nouns (mostly Sanskrit/Persian loanwords or very common words) have plurals that don't follow the standard endings."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Нерегулярні множини",
+            "rows": [
+              [
+                "आदमी → आदमी (без зміни)",
+                "чоловік → чоловіки"
+              ],
+              [
+                "घर → घर (без зміни)",
+                "дім → доми (незмінне)"
+              ],
+              [
+                "माता-पिता",
+                "батьки (уже множина за формою)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "वहाँ कई आदमी खड़े थे।",
+                "Там стояло кілька чоловіків."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "spelling-rules",
+        "title": "वर्तनी और मात्रा के नियम — B1",
+        "emoji": "✏️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "У деванагарі голосні позначаються знаками (मात्रा), доданими до приголосної; правильний вибір ृ/र, ि/ी чи ु/ू часто плутають початківці.",
+            "en": {
+              "text": "In Devanagari, vowels are marked with signs (matra) attached to a consonant; correctly choosing ि vs ी or ु vs ू is a common beginner mistake."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Поширені пастки",
+            "rows": [
+              [
+                "दिन (день) vs दीन (бідний)",
+                "коротка ि vs довга ी змінює значення"
+              ],
+              [
+                "पुल (міст) vs फूल (квітка)",
+                "коротка ु vs довга ू"
+              ],
+              [
+                "अनुस्वार ं",
+                "назалізація перед приголосними"
+              ]
+            ]
+          },
+          {
+            "type": "tip",
+            "title": "Порада",
+            "text": "Довжина голосної в гінді фонематична — завжди перевіряйте, чи ि/ी та ु/ू написані правильно, бо помилка змінює значення слова.",
+            "en": {
+              "title": "Tip",
+              "text": "Vowel length in Hindi is phonemic — always check whether ि/ी and ु/ू are written correctly, since a mistake changes the word's meaning."
+            }
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "आज कौन-सा दिन है?",
+                "Який сьогодні день?"
+              ]
+            ]
+          }
+        ]
       }
     ]
   }
