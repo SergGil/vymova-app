@@ -65,7 +65,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "zero-copula",
@@ -106,7 +107,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Zero Copula — A1"
       },
       {
         "id": "negation",
@@ -147,7 +149,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with না — A1"
       },
       {
         "id": "questions",
@@ -188,7 +191,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions with কি — A1"
       },
       {
         "id": "plurals",
@@ -229,7 +233,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plurals — A1"
       }
     ]
   },
@@ -297,7 +302,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Simple Present — A1"
       },
       {
         "id": "present-continuous",
@@ -345,7 +351,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Continuous — A1"
       },
       {
         "id": "present-perfect",
@@ -393,7 +400,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Perfect — A2"
       },
       {
         "id": "past-simple",
@@ -441,7 +449,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Simple Past — A1"
       },
       {
         "id": "past-continuous",
@@ -482,7 +491,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Past Continuous — A2"
       },
       {
         "id": "past-habitual",
@@ -523,7 +533,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Habitual Past — B1"
       },
       {
         "id": "past-perfect",
@@ -564,7 +575,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Past Perfect — B1"
       },
       {
         "id": "future-simple",
@@ -612,7 +624,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Simple Future — A1"
       },
       {
         "id": "future-continuous",
@@ -653,7 +666,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Future Continuous — B1"
       },
       {
         "id": "imperative",
@@ -698,7 +712,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Imperative — A2"
       },
       {
         "id": "subjunctive-conditional",
@@ -739,7 +754,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Conditional Sentences (Jodi...Tahole) — B1"
       },
       {
         "id": "verb-conjugation-by-honorific",
@@ -780,7 +796,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Honorific-Based Verb Agreement — A2"
       },
       {
         "id": "compound-verbs-aspect",
@@ -825,7 +842,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Compound Verbs & Aspect — B1"
       }
     ]
   },
@@ -878,7 +896,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Numeral Classifiers টা/টি — A1"
       },
       {
         "id": "definite-article-ta",
@@ -923,7 +942,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Definiteness with টা/টি — A2"
       },
       {
         "id": "classifier-jon",
@@ -968,7 +988,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Classifier জন (For People) — A2"
       },
       {
         "id": "plural-suffixes-detail",
@@ -1013,7 +1034,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plural Suffixes in Detail — A2"
       },
       {
         "id": "case-nominative-objective",
@@ -1054,7 +1076,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subject & Object Marking — A2"
       },
       {
         "id": "postposition-r",
@@ -1099,7 +1122,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Possessive Suffix -র/-এর — A1"
       },
       {
         "id": "postposition-te",
@@ -1144,7 +1168,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Locative Suffix -তে — A1"
       },
       {
         "id": "postposition-theke",
@@ -1189,7 +1214,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "থেকে (From) — A2"
       },
       {
         "id": "postposition-diye-jonno",
@@ -1230,7 +1256,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "দিয়ে, জন্য (With, For) — A2"
       },
       {
         "id": "adjective-invariable",
@@ -1275,7 +1302,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Invariable Adjectives — A1"
       },
       {
         "id": "comparative-superlative",
@@ -1316,7 +1344,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Comparison (চেয়ে, সবচেয়ে) — A2"
       },
       {
         "id": "personal-pronoun-oblique",
@@ -1361,7 +1390,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Oblique Personal Pronouns — A2"
       },
       {
         "id": "possessive-pronouns",
@@ -1406,7 +1436,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possessive Pronouns — A1"
       },
       {
         "id": "demonstrative-pronouns",
@@ -1451,7 +1482,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Demonstrative Pronouns (এই/ওই/সেই) — A1"
       },
       {
         "id": "relative-pronouns",
@@ -1492,7 +1524,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Correlative Relative Pronouns (যে...সে) — B1"
       },
       {
         "id": "interrogative-pronouns",
@@ -1537,7 +1570,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Interrogative Pronouns (কে, কী, কত) — A1"
       },
       {
         "id": "indefinite-pronouns",
@@ -1582,7 +1616,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Indefinite Pronouns (কেউ, কিছু) — A2"
       },
       {
         "id": "three-tier-politeness",
@@ -1627,7 +1662,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Three-Tier Politeness System — A1"
       },
       {
         "id": "numbers-cardinal",
@@ -1672,7 +1708,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Cardinal Numbers — A1"
       },
       {
         "id": "numbers-ordinal",
@@ -1717,7 +1754,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ordinal Numbers — A2"
       },
       {
         "id": "days-of-week",
@@ -1762,7 +1800,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Days of the Week — A1"
       },
       {
         "id": "months-dates",
@@ -1803,7 +1842,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Months & Dates — A2"
       },
       {
         "id": "telling-time",
@@ -1848,7 +1888,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Telling Time — A2"
       },
       {
         "id": "conjunctions-basic",
@@ -1887,7 +1928,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Basic Conjunctions (এবং, বা, কিন্তু) — A1"
       },
       {
         "id": "conjunctions-advanced",
@@ -1928,7 +1970,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subordinating Conjunctions (কারণ, যদি, যে) — B1"
       },
       {
         "id": "word-order-flexibility",
@@ -1969,7 +2012,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Word Order Flexibility — B1"
       },
       {
         "id": "reduplication",
@@ -2014,7 +2058,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Reduplication — B1"
       },
       {
         "id": "adverbs",
@@ -2059,7 +2104,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adverbs — A2"
       },
       {
         "id": "quantifiers",
@@ -2104,7 +2150,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Quantifiers (অনেক, কিছু, সব) — A2"
       },
       {
         "id": "question-words",
@@ -2144,7 +2191,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Question Words (কোথায়, কখন, কেন) — A1"
       },
       {
         "id": "existential-ache",
@@ -2189,7 +2237,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Existence with আছে/নেই — A1"
       },
       {
         "id": "passive-voice",
@@ -2230,7 +2279,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Voice — B1"
       },
       {
         "id": "infinitive-verbal-noun",
@@ -2271,7 +2321,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Infinitive/Verbal Noun (-তে/-আ) — A2"
       },
       {
         "id": "participles-uses",
@@ -2312,7 +2363,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Conjunctive Participles — B1"
       },
       {
         "id": "genitive-of-relation",
@@ -2353,7 +2405,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Kinship Possession — A2"
       },
       {
         "id": "vocative-particle",
@@ -2394,7 +2447,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Vocative Particle ও — A2"
       },
       {
         "id": "common-idioms",
@@ -2439,7 +2493,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Common Expressions — B1"
       },
       {
         "id": "negation-nuances",
@@ -2484,7 +2539,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation Nuances (না/নি/নেই) — B1"
       },
       {
         "id": "echo-words",
@@ -2525,7 +2581,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Echo Words — B2"
       },
       {
         "id": "formal-verb-omission",
@@ -2566,7 +2623,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Honorific Verb Forms Without a Pronoun — B1"
       },
       {
         "id": "possession-with-ache",
@@ -2607,7 +2665,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possession with আছে — A2"
       },
       {
         "id": "weather-expressions",
@@ -2652,7 +2711,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Weather Expressions — A1"
       },
       {
         "id": "greetings-common-phrases",
@@ -2697,7 +2757,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Greetings & Common Phrases — A1"
       },
       {
         "id": "modal-expressions",
@@ -2742,7 +2803,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Modal Expressions (পারা, চাই, উচিত) — A1"
       },
       {
         "id": "causative-verbs",
@@ -2787,7 +2849,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Causative Verbs (-আনো) — B2"
       },
       {
         "id": "adverbial-participle-time",
@@ -2828,7 +2891,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Time Sequencing (পর/আগে) — B1"
       },
       {
         "id": "stress-pronunciation",
@@ -2869,7 +2933,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Stress & the Inherent Vowel — A2"
       },
       {
         "id": "body-part-idioms",
@@ -2914,7 +2979,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Body-Part Idioms — B1"
       },
       {
         "id": "counting-money-prices",
@@ -2955,7 +3021,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Counting Money & Prices — A2"
       }
     ]
   },
@@ -3008,7 +3075,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Verbs — A2"
       },
       {
         "id": "irregular-plurals-honorifics",
@@ -3049,7 +3117,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Honorific Forms — B1"
       },
       {
         "id": "spelling-rules",
@@ -3103,7 +3172,8 @@ export const GRAMMAR_BN: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Conjunct Consonant Spelling — B1"
       }
     ]
   }

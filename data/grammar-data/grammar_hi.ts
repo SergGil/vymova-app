@@ -65,7 +65,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -110,7 +111,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb होना (To Be) — A1"
       },
       {
         "id": "negation",
@@ -151,7 +153,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with नहीं — A1"
       },
       {
         "id": "questions",
@@ -192,7 +195,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions with क्या — A1"
       },
       {
         "id": "word-order",
@@ -223,7 +227,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "SOV Word Order — A1"
       }
     ]
   },
@@ -291,7 +296,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Habitual Present Tense — A1"
       },
       {
         "id": "present-continuous",
@@ -339,7 +345,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Continuous — A1"
       },
       {
         "id": "present-perfect",
@@ -387,7 +394,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Perfect — A2"
       },
       {
         "id": "past-habitual",
@@ -435,7 +443,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Habitual Past Tense — A2"
       },
       {
         "id": "past-continuous",
@@ -483,7 +492,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Past Continuous — A2"
       },
       {
         "id": "simple-past",
@@ -531,7 +541,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Simple Past — A1"
       },
       {
         "id": "past-perfect",
@@ -573,7 +584,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Past Perfect — B1"
       },
       {
         "id": "future-simple",
@@ -627,7 +639,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Simple Future — A1"
       },
       {
         "id": "future-continuous",
@@ -668,7 +681,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Future Continuous — B1"
       },
       {
         "id": "future-perfect",
@@ -709,7 +723,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Future Perfect — B1"
       },
       {
         "id": "imperative",
@@ -754,7 +769,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Imperative — A2"
       },
       {
         "id": "subjunctive",
@@ -795,7 +811,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subjunctive/Presumptive Mood — B1"
       },
       {
         "id": "ergative-ne",
@@ -845,7 +862,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Ergative Ne-Construction — B1"
       }
     ]
   },
@@ -898,7 +916,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Noun Gender — A1"
       },
       {
         "id": "plural-nouns",
@@ -943,7 +962,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plural Nouns — A1"
       },
       {
         "id": "oblique-case",
@@ -988,7 +1008,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Oblique Case — A2"
       },
       {
         "id": "postposition-ka",
@@ -1033,7 +1054,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Possessive Postposition Ka/Ki/Ke — A1"
       },
       {
         "id": "postposition-ko",
@@ -1078,7 +1100,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Postposition Ko (Object Marker) — A1"
       },
       {
         "id": "postposition-se",
@@ -1123,7 +1146,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Postposition Se (With/From) — A2"
       },
       {
         "id": "postposition-mein-par",
@@ -1168,7 +1192,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Postpositions Mein/Par (In/On) — A1"
       },
       {
         "id": "postposition-others",
@@ -1213,7 +1238,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Compound Postpositions (Ke Liye, Ke Saath) — A2"
       },
       {
         "id": "adjective-agreement",
@@ -1258,7 +1284,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adjective Agreement — A1"
       },
       {
         "id": "comparative-superlative",
@@ -1299,7 +1326,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Comparison (Se, Sabse) — A2"
       },
       {
         "id": "personal-pronoun-oblique",
@@ -1344,7 +1372,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Oblique Personal Pronouns — A2"
       },
       {
         "id": "possessive-pronouns",
@@ -1389,7 +1418,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possessive Pronouns — A1"
       },
       {
         "id": "demonstrative-pronouns",
@@ -1434,7 +1464,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Demonstrative Pronouns (Yah/Vah) — A1"
       },
       {
         "id": "relative-pronouns",
@@ -1475,7 +1506,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Correlative Relative Pronouns (Jo...Vah) — B1"
       },
       {
         "id": "interrogative-pronouns",
@@ -1520,7 +1552,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Interrogative Pronouns (Kaun, Kya, Kitna) — A1"
       },
       {
         "id": "indefinite-pronouns",
@@ -1565,7 +1598,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Indefinite Pronouns (Koi, Kuchh) — A2"
       },
       {
         "id": "compound-verbs",
@@ -1610,7 +1644,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Compound Verbs (Light Verb Constructions) — B1"
       },
       {
         "id": "conjunct-verbs",
@@ -1655,7 +1690,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Conjunct Verbs (Noun + Karna) — A2"
       },
       {
         "id": "honorific-verb-agreement",
@@ -1696,7 +1732,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Honorific Verb Agreement (Aap) — A2"
       },
       {
         "id": "infinitive-uses",
@@ -1737,7 +1774,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Infinitive/Verbal Noun (-Na) — A2"
       },
       {
         "id": "modal-expressions",
@@ -1782,7 +1820,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Modal Expressions (Chahiye, Sakna, Padna) — A1"
       },
       {
         "id": "numbers-cardinal",
@@ -1827,7 +1866,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Cardinal Numbers — A1"
       },
       {
         "id": "numbers-ordinal",
@@ -1872,7 +1912,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ordinal Numbers — A2"
       },
       {
         "id": "days-of-week",
@@ -1917,7 +1958,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Days of the Week — A1"
       },
       {
         "id": "months-dates",
@@ -1958,7 +2000,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Months & Dates — A2"
       },
       {
         "id": "telling-time",
@@ -2003,7 +2046,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Telling Time — A2"
       },
       {
         "id": "conjunctions-basic",
@@ -2043,7 +2087,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Basic Conjunctions (Aur, Ya, Lekin) — A1"
       },
       {
         "id": "conjunctions-advanced",
@@ -2084,7 +2129,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subordinating Conjunctions (Kyonki, Agar, Ki) — B1"
       },
       {
         "id": "word-order-flexibility",
@@ -2125,7 +2171,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Word Order Flexibility — B1"
       },
       {
         "id": "reduplication",
@@ -2170,7 +2217,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Reduplication — B1"
       },
       {
         "id": "adverbs",
@@ -2215,7 +2263,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adverbs — A2"
       },
       {
         "id": "quantifiers",
@@ -2260,7 +2309,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Quantifiers (Bahut, Thoda, Sab) — A2"
       },
       {
         "id": "question-words",
@@ -2300,7 +2350,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Question Words (Kahan, Kab, Kyon) — A1"
       },
       {
         "id": "formal-informal",
@@ -2341,7 +2392,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Tum vs Aap (Formality) — A1"
       },
       {
         "id": "existential-hai",
@@ -2382,7 +2434,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Existence with Hai/Hain — A1"
       },
       {
         "id": "passive-voice",
@@ -2423,7 +2476,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Voice — B1"
       },
       {
         "id": "causative-verbs",
@@ -2468,7 +2522,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Double Causative Verbs — B2"
       },
       {
         "id": "participles-uses",
@@ -2509,7 +2564,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Participles as Adjectives — B1"
       },
       {
         "id": "genitive-agreement",
@@ -2550,7 +2606,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Genitive Agreement with the Possessed Noun — A2"
       },
       {
         "id": "vocative-case",
@@ -2591,7 +2648,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Vocative Case — A2"
       },
       {
         "id": "echo-words",
@@ -2632,7 +2690,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Echo Words — B2"
       },
       {
         "id": "counting-classifiers",
@@ -2673,7 +2732,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Counting & Classifiers — B1"
       },
       {
         "id": "common-idioms",
@@ -2718,7 +2778,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Common Expressions — B1"
       },
       {
         "id": "negation-nuances",
@@ -2763,7 +2824,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation Nuances (Nahin/Na/Mat) — B1"
       },
       {
         "id": "postposition-tak-taraf",
@@ -2808,7 +2870,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Tak, Taraf, Ke Baare Mein — B1"
       },
       {
         "id": "possession-with-pass",
@@ -2853,7 +2916,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possession with Ke Paas / Ko — A2"
       },
       {
         "id": "weather-expressions",
@@ -2898,7 +2962,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Weather Expressions — A1"
       },
       {
         "id": "greetings-common-phrases",
@@ -2943,7 +3008,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Namaste & Common Phrases — A1"
       },
       {
         "id": "stress-and-pronunciation",
@@ -2984,7 +3050,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Nasalization & Pronunciation — A2"
       }
     ]
   },
@@ -3037,7 +3104,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Verbs — A2"
       },
       {
         "id": "irregular-plurals",
@@ -3082,7 +3150,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Plurals — B1"
       },
       {
         "id": "spelling-rules",
@@ -3136,7 +3205,8 @@ export const GRAMMAR_HI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Vowel-Length Spelling Rules — B1"
       }
     ]
   }
