@@ -1701,6 +1701,1296 @@ export const GRAMMAR_JA: GrammarCategory[] = [
             ]
           }
         ]
+      },
+      {
+        "id": "experience-koto-ga-aru",
+        "title": "〜たことがある — A2",
+        "emoji": "✅",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "た-форма + ことがある виражає життєвий досвід («колись робив»), а не одноразову минулу дію.",
+            "en": {
+              "text": "Ta-form + koto ga aru expresses life experience ('have done at some point'), not a single past action."
+            }
+          },
+          {
+            "type": "table",
+            "title": "たことがある",
+            "rows": [
+              [
+                "日本に行ったことがあります。",
+                "Я був у Японії (колись)."
+              ],
+              [
+                "寿司を食べたことがない。",
+                "Я ніколи не їв суші."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "富士山に登ったことがありますか。",
+                "Ти колись піднімався на Фудзі?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "quotation-to",
+        "title": "と — 引用 — B1",
+        "emoji": "💬",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "と після прямої чи непрямої мови вводить дієслово говоріння/думки (言う, 思う).",
+            "en": {
+              "text": "と after direct or reported speech introduces a verb of saying/thinking (言う, 思う)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "と言う / と思う",
+            "rows": [
+              [
+                "「元気です」と言いました。",
+                "Він сказав: «Я в порядку»."
+              ],
+              [
+                "雨が降ると思います。",
+                "Я думаю, що піде дощ."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "彼は来ないと言った。",
+                "Він сказав, що не прийде."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "reason-kara-node",
+        "title": "から・ので — A2",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "から вказує причину суб'єктивно (частіше в розмові); ので — об'єктивніше й ввічливіше.",
+            "en": {
+              "text": "から marks a reason subjectively (more common in speech); ので is more objective and polite."
+            }
+          },
+          {
+            "type": "table",
+            "title": "から / ので",
+            "rows": [
+              [
+                "疲れたから、休みます。",
+                "Бо втомився, відпочину."
+              ],
+              [
+                "雨なので、行きません。",
+                "Оскільки дощ, я не піду."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "時間がないから、急ぎましょう。",
+                "Оскільки немає часу, поспішаймо."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "contrast-kedo-ga",
+        "title": "けど・が — A2",
+        "emoji": "🔀",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "けど (розмовне) і が (ввічливіше/письмове) обидва означають «але» й ставляться в кінці підрядного речення.",
+            "en": {
+              "text": "けど (casual) and が (more polite/written) both mean 'but' and are placed at the end of the subordinate clause."
+            }
+          },
+          {
+            "type": "table",
+            "title": "けど / が",
+            "rows": [
+              [
+                "高いけど、買います。",
+                "Хоч і дорого, я куплю."
+              ],
+              [
+                "すみませんが、質問があります。",
+                "Перепрошую, але в мене є питання."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "行きたいけど、時間がない。",
+                "Хочу піти, але немає часу."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "purpose-tame-ni",
+        "title": "ために — B1",
+        "emoji": "🎯",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "辞書形 + ために виражає мету («заради/для того, щоб»).",
+            "en": {
+              "text": "Dictionary form + tame ni expresses purpose ('in order to')."
+            }
+          },
+          {
+            "type": "table",
+            "title": "ために",
+            "rows": [
+              [
+                "日本語を勉強するために、日本に来ました。",
+                "Я приїхав до Японії, щоб вивчати японську."
+              ],
+              [
+                "家族のために働きます。",
+                "Я працюю заради сім'ї."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "健康のために運動します。",
+                "Я займаюся спортом заради здоров'я."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "keigo-sonkeigo",
+        "title": "尊敬語 — B1",
+        "emoji": "🙇",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Шаноблива мова (сонкейго) підносить дію співрозмовника чи третьої особи вищого статусу за допомогою особливих форм дієслів чи конструкції お + ます-основа + になる.",
+            "en": {
+              "text": "Honorific speech (sonkeigo) elevates the action of a listener or a higher-status third person, using special verb forms or the o + masu-stem + ni naru construction."
+            }
+          },
+          {
+            "type": "table",
+            "title": "尊敬語 — приклади",
+            "rows": [
+              [
+                "行く → いらっしゃる",
+                "йти → зволити піти (про іншого)"
+              ],
+              [
+                "読む → お読みになる",
+                "читати → зволити прочитати"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "先生はもういらっしゃいました。",
+                "Вчитель уже прибув."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "keigo-kenjougo",
+        "title": "謙譲語 — B1",
+        "emoji": "🙇",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Скромна мова (кенджого) принижує дію самого мовця, щоб непрямо підвищити статус співрозмовника — окремі дієслова чи конструкція お + ます-основа + する.",
+            "en": {
+              "text": "Humble speech (kenjougo) lowers the speaker's own action to indirectly elevate the listener's status — special verbs or the o + masu-stem + suru construction."
+            }
+          },
+          {
+            "type": "table",
+            "title": "謙譲語 — приклади",
+            "rows": [
+              [
+                "行く → 参る",
+                "йти → скромно піти (про себе)"
+              ],
+              [
+                "言う → 申す",
+                "казати → скромно сказати"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "明日、伺います。",
+                "Завтра я скромно прийду."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "keigo-teineigo",
+        "title": "丁寧語 — A2",
+        "emoji": "🎩",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Ввічлива мова (тейнейго) — нейтральна ввічливість (です/ます), яка не підносить і не принижує нікого, на відміну від сонкейго/кенджого.",
+            "en": {
+              "text": "Polite speech (teineigo) is neutral politeness (desu/masu), which neither elevates nor lowers anyone, unlike sonkeigo/kenjougo."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Три рівні ввічливості",
+            "rows": [
+              [
+                "食べます (丁寧語)",
+                "їм (нейтрально ввічливо)"
+              ],
+              [
+                "召し上がります (尊敬語)",
+                "зволять їсти (про іншого)"
+              ],
+              [
+                "いただきます (謙譲語)",
+                "скромно їм (про себе)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "毎朝コーヒーを飲みます。",
+                "Я щоранку п'ю каву."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "days-of-week",
+        "title": "曜日 — A1",
+        "emoji": "📅",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Усі дні тижня закінчуються на 曜日 (yōbi) і названі на честь стихій/небесних тіл.",
+            "en": {
+              "text": "All days of the week end in 曜日 (yōbi) and are named after elements/celestial bodies."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Дні тижня",
+            "rows": [
+              [
+                "月曜日、火曜日、水曜日",
+                "понеділок, вівторок, середа"
+              ],
+              [
+                "木曜日、金曜日",
+                "четвер, п'ятниця"
+              ],
+              [
+                "土曜日、日曜日",
+                "субота, неділя"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "金曜日に会いましょう。",
+                "Побачимось у п'ятницю."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "months-dates",
+        "title": "月と日付 — A2",
+        "emoji": "📅",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Місяці — це просто числа + 月 (gatsu); дні місяця мають особливі, часто нерегулярні читання для 1-10 числа.",
+            "en": {
+              "text": "Months are just numbers + 月 (gatsu); days of the month have special, often irregular readings for the 1st-10th."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Місяці й дата",
+            "rows": [
+              [
+                "一月、二月、三月",
+                "січень, лютий, березень"
+              ],
+              [
+                "一日 (tsuitachi)",
+                "1-ше число (нерегулярне читання)"
+              ],
+              [
+                "五月五日",
+                "5 травня"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "誕生日は六月です。",
+                "Мій день народження в червні."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "telling-time",
+        "title": "時間の言い方 — A2",
+        "emoji": "🕒",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Питання про час: 何時ですか。Відповідь будується числом + 時 (година) + 分 (хвилина).",
+            "en": {
+              "text": "To ask the time: nanji desu ka. The answer uses number + 時 (hour) + 分 (minute)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Вказування часу",
+            "rows": [
+              [
+                "三時です。",
+                "Третя година."
+              ],
+              [
+                "三時半です。",
+                "Пів на четверту."
+              ],
+              [
+                "三時十五分です。",
+                "Чверть на четверту."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "今何時ですか。",
+                "Котра зараз година?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "plain-form-casual-speech",
+        "title": "普通形とカジュアルな会話 — B1",
+        "emoji": "💬",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "У розмові з друзями й родиною замість ввічливої форми на -ます/です вживають звичайну (辞書形/た形), яку також використовують у підрядних реченнях.",
+            "en": {
+              "text": "In conversation with friends and family, the plain form (dictionary/ta-form) is used instead of the polite -masu/desu form, and it's also used in subordinate clauses."
+            }
+          },
+          {
+            "type": "table",
+            "title": "丁寧語 vs 普通形",
+            "rows": [
+              [
+                "行きます → 行く",
+                "йти (ввічл. → звич.)"
+              ],
+              [
+                "食べました → 食べた",
+                "з'їв (ввічл. → звич.)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "今日、映画見に行く?",
+                "Підеш сьогодні дивитися фільм? (неформально)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "existence-aru-iru",
+        "title": "ある・いる — 存在を表す動詞 — A1",
+        "emoji": "📌",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "いる вживається для істот (людей, тварин), ある — для неживих предметів; обидва означають «є/існує».",
+            "en": {
+              "text": "いる is used for animate beings (people, animals), ある for inanimate objects; both mean 'there is/exist'."
+            }
+          },
+          {
+            "type": "table",
+            "title": "いる vs ある",
+            "rows": [
+              [
+                "猫がいます。",
+                "Є кіт."
+              ],
+              [
+                "本があります。",
+                "Є книга."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "公園に子供がいます。",
+                "У парку є діти."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "adverbs",
+        "title": "副詞 — A2",
+        "emoji": "🎯",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Прислівники здебільшого незмінні й стоять перед дієсловом чи прикметником, який вони описують.",
+            "en": {
+              "text": "Adverbs are mostly invariable and precede the verb or adjective they describe."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Основні прислівники",
+            "rows": [
+              [
+                "とても",
+                "дуже"
+              ],
+              [
+                "ゆっくり",
+                "повільно"
+              ],
+              [
+                "いつも",
+                "завжди"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "彼はゆっくり話します。",
+                "Він говорить повільно."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "onomatopoeia",
+        "title": "擬音語・擬態語 — B1",
+        "emoji": "🔊",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Унікальна риса японської — величезний шар звуконаслідувальних (擬音語) і образних (擬態語) слів, які активно вживаються навіть у формальній мові.",
+            "en": {
+              "text": "A unique Japanese feature — a huge layer of sound-imitating (giongo) and mimetic (gitaigo) words, actively used even in formal speech."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Приклади",
+            "rows": [
+              [
+                "わんわん",
+                "гав-гав (собака)"
+              ],
+              [
+                "どきどき",
+                "калатання серця (від хвилювання)"
+              ],
+              [
+                "にこにこ",
+                "усміхаючись"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "彼女はにこにこ笑っています。",
+                "Вона усміхається."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "word-order-flexibility",
+        "title": "語順の柔軟性 — A2",
+        "emoji": "🔀",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Базовий порядок SOV, але через частки, які позначають роль слова, порядок додатків доволі гнучкий.",
+            "en": {
+              "text": "The basic order is SOV, but since particles mark a word's role, the order of objects is fairly flexible."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Гнучкий порядок",
+            "rows": [
+              [
+                "私は本を読みます。",
+                "Я читаю книгу. (нейтрально)"
+              ],
+              [
+                "本を私は読みます。",
+                "Книгу я читаю. (акцент)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "今日、学校に行きます。",
+                "Сьогодні я йду до школи."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sentence-final-particles",
+        "title": "終助詞（ね・よ・な） — A2",
+        "emoji": "💭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Унікальна риса японської — кінцеві частки додають емоційний відтінок: ね (шукає згоди/підтвердження), よ (повідомляє нову інформацію), な (розмовне ね, більш чоловіче).",
+            "en": {
+              "text": "A unique Japanese feature — sentence-final particles add an emotional nuance: ね (seeks agreement/confirmation), よ (conveys new information), な (casual ね, more masculine)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "ね / よ / な",
+            "rows": [
+              [
+                "いい天気ですね。",
+                "Гарна погода, чи не так?"
+              ],
+              [
+                "これは高いですよ。",
+                "Це дороге, знаєш."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "美味しいですね！",
+                "Смачно, чи не так!"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "transitive-intransitive-verbs",
+        "title": "自動詞・他動詞 — B1",
+        "emoji": "🔄",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Унікальна риса японської — багато дієслів мають парну форму: неперехідну (дія відбувається сама) і перехідну (хтось виконує дію), часто дуже схожі за звучанням.",
+            "en": {
+              "text": "A unique Japanese feature — many verbs have a paired form: intransitive (the action happens by itself) and transitive (someone performs the action), often very similar in sound."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Пари дієслів",
+            "rows": [
+              [
+                "ドアが開く (неперех.)",
+                "Двері відчиняються (самі)"
+              ],
+              [
+                "ドアを開ける (перех.)",
+                "Я відчиняю двері"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "電気が消えた。",
+                "Світло згасло. (само)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "verb-groups-conjugation",
+        "title": "動詞のグループ（活用の種類） — A2",
+        "emoji": "📚",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Дієслова поділяються на три групи за відмінюванням: I група (五段, зміна останнього складу), II група (一段, лише -る відпадає), III група (нерегулярні する/来る).",
+            "en": {
+              "text": "Verbs fall into three conjugation groups: Group I (godan, changing the final syllable), Group II (ichidan, just dropping -る), Group III (irregular suru/kuru)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Три групи",
+            "rows": [
+              [
+                "I група: 飲む → 飲みます",
+                "п'ю (зміна складу む→み)"
+              ],
+              [
+                "II група: 食べる → 食べます",
+                "їм (лише -る відпадає)"
+              ],
+              [
+                "III група: する/来る",
+                "робити/приходити (нерегулярні)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "毎日勉強します。",
+                "Я щодня вчуся."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "negative-question-response",
+        "title": "否定疑問文への答え方 — B1",
+        "emoji": "❓",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "На відміну від української/англійської, відповідь на заперечне питання підтверджує саме твердження, а не факт: はい означає «так, ви праві (заперечення вірне)».",
+            "en": {
+              "text": "Unlike Ukrainian/English, the answer to a negative question confirms the statement itself, not the fact: はい means 'yes, you're right (the negative is true)'."
+            }
+          },
+          {
+            "type": "table",
+            "title": "はい/いいえ на заперечне питання",
+            "rows": [
+              [
+                "行きませんか。— はい、行きません。",
+                "Ти не підеш? — Так (правильно), не піду."
+              ],
+              [
+                "行きませんか。— いいえ、行きます。",
+                "Ти не підеш? — Ні (не так), піду."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "寒くないですか。— はい、寒くないです。",
+                "Тобі не холодно? — Так, не холодно."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "common-idioms",
+        "title": "慣用句 — B1",
+        "emoji": "💬",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Стійкі вирази, які використовуються щодня і не завжди перекладаються дослівно.",
+            "en": {
+              "text": "Fixed expressions used every day, not always translated word-for-word."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Поширені вирази",
+            "rows": [
+              [
+                "お元気ですか。",
+                "Як справи?"
+              ],
+              [
+                "いただきます",
+                "перед їжею (букв. скромно приймаю)"
+              ],
+              [
+                "お疲れ様でした",
+                "дякую за роботу/старання"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "ごちそうさまでした。",
+                "Дякую за їжу. (після їжі)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "counting-people-formal",
+        "title": "人を数える（〜名・〜人） — B1",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "人 (nin) — звичайний класифікатор для людей; 名 (mei) — формальніший, вживається в офіційних оголошеннях і документах.",
+            "en": {
+              "text": "人 (nin) is the ordinary classifier for people; 名 (mei) is more formal, used in official announcements and documents."
+            }
+          },
+          {
+            "type": "table",
+            "title": "人 vs 名",
+            "rows": [
+              [
+                "三人来ました。",
+                "Прийшло троє людей. (звичайно)"
+              ],
+              [
+                "お客様、三名様。",
+                "Три гості, будь ласка. (формально)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "何名様ですか。",
+                "На скільки осіб? (у ресторані)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "formal-informal-address",
+        "title": "敬称（さん・くん・ちゃん） — A1",
+        "emoji": "🎩",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "さん — нейтрально ввічливий суфікс до імені (для будь-кого); くん — до молодших чоловіків/хлопчиків; ちゃん — пестливий, до дітей/близьких.",
+            "en": {
+              "text": "さん is a neutral polite name suffix (for anyone); くん is for younger males/boys; ちゃん is affectionate, for children/close friends."
+            }
+          },
+          {
+            "type": "table",
+            "title": "さん / くん / ちゃん",
+            "rows": [
+              [
+                "田中さん",
+                "пан/пані Танака"
+              ],
+              [
+                "太郎くん",
+                "Таро (молодший хлопець)"
+              ],
+              [
+                "ゆきちゃん",
+                "Юкі (пестливо)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "山田さんはどこですか。",
+                "Де пан/пані Ямада?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "weather-expressions",
+        "title": "天気の表現 — A1",
+        "emoji": "🌦️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Погодні вирази здебільшого будуються з іменника + です або дієсловом降る (падати, про дощ/сніг).",
+            "en": {
+              "text": "Weather expressions are mostly built with a noun + desu, or the verb furu (to fall, for rain/snow)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Погода",
+            "rows": [
+              [
+                "雨が降っています。",
+                "Іде дощ."
+              ],
+              [
+                "今日は暑いです。",
+                "Сьогодні спекотно."
+              ],
+              [
+                "とても寒いです。",
+                "Дуже холодно."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "冬は雪が降ります。",
+                "Взимку йде сніг."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "greetings-common-phrases",
+        "title": "挨拶と一般的な表現 — A1",
+        "emoji": "👋",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Привітання в японській залежать від часу доби, на відміну від універсального привітання в деяких інших мовах.",
+            "en": {
+              "text": "Greetings in Japanese depend on the time of day, unlike a universal greeting in some other languages."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Основні фрази",
+            "rows": [
+              [
+                "おはようございます",
+                "доброго ранку"
+              ],
+              [
+                "こんにちは",
+                "добрий день"
+              ],
+              [
+                "こんばんは",
+                "добрий вечір"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "ありがとうございます。",
+                "Дуже дякую."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "quantifiers",
+        "title": "数量詞（たくさん・少し） — A2",
+        "emoji": "⚖️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "たくさん (багато), 少し (трохи), 全部 (усе) незмінні й зазвичай стоять після іменника з に/を або перед дієсловом.",
+            "en": {
+              "text": "たくさん (much/many), 少し (a little), 全部 (all) are invariable and usually come after the noun with に/を or before the verb."
+            }
+          },
+          {
+            "type": "table",
+            "title": "たくさん / 少し / 全部",
+            "rows": [
+              [
+                "水をたくさん飲みます。",
+                "Я п'ю багато води."
+              ],
+              [
+                "少し休みましょう。",
+                "Давайте трохи відпочинемо."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "友達がたくさんいます。",
+                "У мене багато друзів."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "genitive-nominalizer-no",
+        "title": "の — 名詞化（〜のが好き） — B1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "の після дієслова в звичайній формі перетворює всю дію на іменник, що дозволяє вживати її як підмет чи додаток.",
+            "en": {
+              "text": "の after a plain-form verb turns the whole action into a noun, allowing it to be used as a subject or object."
+            }
+          },
+          {
+            "type": "table",
+            "title": "の — номіналізація",
+            "rows": [
+              [
+                "泳ぐのが好きです。",
+                "Мені подобається плавати."
+              ],
+              [
+                "日本語を勉強するのは楽しいです。",
+                "Вивчати японську весело."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "音楽を聞くのが好きです。",
+                "Мені подобається слухати музику."
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "exceptions",
+    "title": "例外",
+    "titleEn": "Exceptions",
+    "emoji": "⚠️",
+    "rules": [
+      {
+        "id": "irregular-verbs",
+        "title": "不規則動詞（する・来る） — A2",
+        "emoji": "⚠️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "する (робити) і 来る (приходити) — єдині два справді нерегулярні дієслова японської; їхнє відмінювання слід просто запам'ятати.",
+            "en": {
+              "text": "する (to do) and 来る (to come) are the only two truly irregular verbs in Japanese; their conjugation must simply be memorized."
+            }
+          },
+          {
+            "type": "table",
+            "title": "する / 来る",
+            "rows": [
+              [
+                "する → します → した → しない",
+                "робити (форми)"
+              ],
+              [
+                "来る → 来ます → 来た → 来ない",
+                "приходити (форми, читання き/こ змінюється)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "彼は明日来ます。",
+                "Він прийде завтра."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "irregular-readings-kanji",
+        "title": "特殊な読み方（数字・日付） — B1",
+        "emoji": "⚠️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Дні місяця з 1-го по 10-те й кілька чисел мають унікальні, історично зумовлені читання, відмінні від звичайних числівників.",
+            "en": {
+              "text": "Days of the month from the 1st to the 10th, and a few numbers, have unique, historically rooted readings different from ordinary numerals."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Особливі читання",
+            "rows": [
+              [
+                "一日 (tsuitachi)",
+                "1-ше число (не *ichinichi)"
+              ],
+              [
+                "二十日 (hatsuka)",
+                "20-те число (не *nijūnichi)"
+              ],
+              [
+                "一人 (hitori) / 二人 (futari)",
+                "одна людина / дві людини (не звичайні *ichi-nin/*ni-nin)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "今日は八日です。",
+                "Сьогодні восьме число."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "honorific-irregular-verbs",
+        "title": "尊敬語・謙譲語の特殊動詞 — B1",
+        "emoji": "⚠️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Кілька найуживаніших дієслів мають повністю окремі, непередбачувані форми в шанобливій і скромній мові замість регулярного утворення.",
+            "en": {
+              "text": "A few of the most common verbs have completely separate, unpredictable forms in honorific and humble speech instead of the regular pattern."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Особливі ввічливі дієслова",
+            "rows": [
+              [
+                "行く/来る/いる → いらっしゃる (尊敬語)",
+                "йти/приходити/бути (про іншого)"
+              ],
+              [
+                "食べる/飲む → 召し上がる (尊敬語)",
+                "їсти/пити (про іншого)"
+              ],
+              [
+                "見る → 拝見する (謙譲語)",
+                "дивитися (скромно, про себе)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "どうぞ召し上がってください。",
+                "Прошу, їжте (пригощайтеся)."
+              ]
+            ]
+          }
+        ]
       }
     ]
   }
