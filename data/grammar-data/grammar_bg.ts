@@ -2249,6 +2249,1029 @@ export const GRAMMAR_BG: GrammarCategory[] = [
             ]
           }
         ]
+      },
+      {
+        "id": "participles-active",
+        "title": "Причастия — деятелно сегашно/минало — B1",
+        "emoji": "🎭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Дійсний дієприкметник сучасний (-щ) описує одночасну дію; дійсний дієприкметник минулий (-л) вживається для утворення складених часів і як прикметник.",
+            "en": {
+              "text": "The present active participle (-щ) describes a simultaneous action; the past active participle (-л) is used to form compound tenses and as an adjective."
+            }
+          },
+          {
+            "type": "table",
+            "title": "-щ / -л",
+            "rows": [
+              [
+                "четящ (той, който чете)",
+                "той, що читає"
+              ],
+              [
+                "чел (съм чел)",
+                "читав (я читав)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Спящото дете е тихо.",
+                "Дитина, що спить, тиха."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "participles-passive",
+        "title": "Причастия — страдателно — B1",
+        "emoji": "🎭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Страдальний дієприкметник (-н/-т) узгоджується з іменником, як прикметник, і виражає стан у результаті дії.",
+            "en": {
+              "text": "The passive participle (-н/-т) agrees with the noun like an adjective and expresses a state resulting from an action."
+            }
+          },
+          {
+            "type": "table",
+            "title": "-н / -т",
+            "rows": [
+              [
+                "написан",
+                "написаний"
+              ],
+              [
+                "затворен",
+                "зачинений"
+              ],
+              [
+                "уморен",
+                "втомлений"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Вратата е затворена.",
+                "Двері зачинені."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "verbal-adverb-uses",
+        "title": "Употреба на деепричастието — B1",
+        "emoji": "🎭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Дієприслівник (-йки, незмінний) описує одночасну дію того самого підмета, аналог англійського «-ing».",
+            "en": {
+              "text": "The verbal adverb (-йки, invariable) describes a simultaneous action of the same subject, similar to English '-ing'."
+            }
+          },
+          {
+            "type": "table",
+            "title": "-йки",
+            "rows": [
+              [
+                "четейки",
+                "читаючи"
+              ],
+              [
+                "вървейки",
+                "ідучи"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Вървейки, той мислеше за нея.",
+                "Ідучи, він думав про неї."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "passive-voice",
+        "title": "Страдателен залог — B1",
+        "emoji": "🔄",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Пасивний стан утворюється съм + страдателно причастие, узгоджене з підметом.",
+            "en": {
+              "text": "The passive voice is formed with съм + passive participle, agreeing with the subject."
+            }
+          },
+          {
+            "type": "table",
+            "title": "съм + причастие",
+            "rows": [
+              [
+                "Книгата е написана от нея.",
+                "Книга написана нею."
+              ],
+              [
+                "Вратите са затворени.",
+                "Двері зачинені."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Къщата беше продадена.",
+                "Дім було продано."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "genitive-possession-with-na",
+        "title": "Притежание с предлог \"на\" — A2",
+        "emoji": "🏠",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Оскільки родового відмінка немає, належність виражають прийменником на після іменника-власника.",
+            "en": {
+              "text": "Since there is no genitive case, possession is expressed with the preposition на after the owner noun."
+            }
+          },
+          {
+            "type": "table",
+            "title": "на для належності",
+            "rows": [
+              [
+                "колата на Иван",
+                "машина Івана"
+              ],
+              [
+                "къщата на родителите ми",
+                "дім моїх батьків"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Това е книгата на сестра ми.",
+                "Це книга моєї сестри."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "days-of-week",
+        "title": "Дни от седмицата — A1",
+        "emoji": "📅",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Дні тижня вживаються з прийменником в для позначення «у...».",
+            "en": {
+              "text": "Days of the week are used with в to mean 'on...'."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Дні тижня",
+            "rows": [
+              [
+                "понеделник",
+                "понеділок"
+              ],
+              [
+                "вторник",
+                "вівторок"
+              ],
+              [
+                "сряда",
+                "середа"
+              ],
+              [
+                "четвъртък",
+                "четвер"
+              ],
+              [
+                "петък",
+                "п'ятниця"
+              ],
+              [
+                "събота",
+                "субота"
+              ],
+              [
+                "неделя",
+                "неділя"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Ще се видим в петък.",
+                "Побачимось у п'ятницю."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "months-dates",
+        "title": "Месеци и дати — A2",
+        "emoji": "📅",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Дата вказується порядковим числівником + місяць, обидва в чоловічому роді.",
+            "en": {
+              "text": "Dates use an ordinal number + month, both in the masculine form."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Місяці й дата",
+            "rows": [
+              [
+                "януари, февруари, март...",
+                "січень, лютий, березень..."
+              ],
+              [
+                "първи януари",
+                "перше січня"
+              ],
+              [
+                "на пети май",
+                "5-го травня"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Роден съм през май.",
+                "Я народився у травні."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "telling-time",
+        "title": "Часът — A2",
+        "emoji": "🕒",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Питання про час: Колко е часът? Відповідь будується числівником + часа/часът.",
+            "en": {
+              "text": "To ask the time: Колко е часът? The answer uses the number + часа/часът."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Вказування часу",
+            "rows": [
+              [
+                "Часът е три.",
+                "Третя година."
+              ],
+              [
+                "Три и половина.",
+                "Пів на четверту."
+              ],
+              [
+                "Три без петнайсет.",
+                "Без п'ятнадцяти три."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Колко е часът?",
+                "Котра година?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "diminutives",
+        "title": "Умалителни имена (-че, -ка, -ица) — B1",
+        "emoji": "🐣",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Пестливі суфікси надають значення «маленький» або ласкавого відтінку: -че (сер.), -ка/-ица (жін.), -ец/-чо (чол.).",
+            "en": {
+              "text": "Diminutive suffixes add a 'small' or affectionate meaning: -че (neut.), -ка/-ица (fem.), -ец/-чо (masc.)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Пестливі суфікси",
+            "rows": [
+              [
+                "куче → кученце",
+                "пес → песик"
+              ],
+              [
+                "книга → книжка",
+                "книга → книжечка"
+              ],
+              [
+                "град → градче",
+                "місто → містечко"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Какво сладко коте!",
+                "Яке миле кошеня!"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "adverbs",
+        "title": "Наречия — A2",
+        "emoji": "🎯",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Більшість прислівників способу дії збігаються з формою середнього роду прикметника.",
+            "en": {
+              "text": "Most manner adverbs are identical to the neuter form of the adjective."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Прикметник → прислівник",
+            "rows": [
+              [
+                "добър → добре",
+                "хороший → добре"
+              ],
+              [
+                "бърз → бързо",
+                "швидкий → швидко"
+              ],
+              [
+                "лесен → лесно",
+                "легкий → легко"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Той говори бавно.",
+                "Він говорить повільно."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "quantifiers",
+        "title": "Количествени определения (много, малко, доста) — A2",
+        "emoji": "⚖️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Кількісні слова много (багато), малко (мало), доста (достатньо) незмінні й стоять перед іменником.",
+            "en": {
+              "text": "Quantity words много (much/many), малко (little/few), доста (quite a lot) are invariable and precede the noun."
+            }
+          },
+          {
+            "type": "table",
+            "title": "много / малко / доста",
+            "rows": [
+              [
+                "много работа",
+                "багато роботи"
+              ],
+              [
+                "малко пари",
+                "мало грошей"
+              ],
+              [
+                "доста време",
+                "достатньо часу"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Имам много приятели.",
+                "У мене багато друзів."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "irregular-comparatives",
+        "title": "Неправилни степени за сравнение — B1",
+        "emoji": "📈",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Кілька дуже вживаних прикметників мають нерегулярний вищий ступінь, який слід запам'ятати окремо.",
+            "en": {
+              "text": "A few very common adjectives have irregular comparative forms that must be memorized separately."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Неправильні ступені порівняння",
+            "rows": [
+              [
+                "добър → по-добър",
+                "хороший → кращий"
+              ],
+              [
+                "лош → по-лош",
+                "поганий → гірший"
+              ],
+              [
+                "голям → по-голям",
+                "великий → більший"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Днес е по-добре.",
+                "Сьогодні краще."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "common-idioms",
+        "title": "Разговорни изрази — B1",
+        "emoji": "💬",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Стійкі вирази, які використовуються щодня і не завжди перекладаються дослівно.",
+            "en": {
+              "text": "Fixed expressions used every day, not always translated word-for-word."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Поширені вирази",
+            "rows": [
+              [
+                "Как си?",
+                "Як справи?"
+              ],
+              [
+                "Наздраве!",
+                "Будьмо!/Будь здоровий!"
+              ],
+              [
+                "Няма проблем.",
+                "Немає проблем."
+              ],
+              [
+                "Дай Боже!",
+                "Дай Боже!"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Как си? — Добре, а ти?",
+                "Як справи? — Добре, а ти?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "formal-informal",
+        "title": "Ти срещу Вие (учтивост) — A1",
+        "emoji": "🎩",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Ти — неформальне звертання, Вие — ввічливе до незнайомих/старших (і звичайна множина «ви»), з дієсловом у 2-й особі множини.",
+            "en": {
+              "text": "Ти is informal, Вие is polite for strangers/elders (and the ordinary plural 'you'), used with the verb in 2nd person plural."
+            }
+          },
+          {
+            "type": "table",
+            "title": "ти vs Вие",
+            "rows": [
+              [
+                "Как си? (ти)",
+                "Як справи? (неформально)"
+              ],
+              [
+                "Как сте? (Вие)",
+                "Як ви? (ввічливо)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Вие ли сте новият колега?",
+                "Ви новий колега?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "existential-ima",
+        "title": "Конструкция \"има\" — A2",
+        "emoji": "📌",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Има (є) — незмінна конструкція для однини й множини, аналог англійського «there is/are».",
+            "en": {
+              "text": "Има (there is/are) is an invariable construction for both singular and plural, like English 'there is/are'."
+            }
+          },
+          {
+            "type": "table",
+            "title": "има / няма",
+            "rows": [
+              [
+                "Има един проблем.",
+                "Є одна проблема."
+              ],
+              [
+                "Има много книги.",
+                "Є багато книг."
+              ],
+              [
+                "Няма нищо.",
+                "Немає нічого."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Има ли аптека наблизо?",
+                "Тут поблизу є аптека?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "time-expressions-relative",
+        "title": "Изрази за време (вече, още, скоро) — A2",
+        "emoji": "⏱️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Вече (вже), още (ще), вече не (більше не) — ключові слова для опису стану дії в часі.",
+            "en": {
+              "text": "Вече (already), още (still/yet), вече не (no longer) — key words for describing the state of an action over time."
+            }
+          },
+          {
+            "type": "table",
+            "title": "вече / още / скоро",
+            "rows": [
+              [
+                "Вече го направих.",
+                "Я вже це зробив."
+              ],
+              [
+                "Още ли си тук?",
+                "Ти ще тут?"
+              ],
+              [
+                "Скоро ще си тръгна.",
+                "Скоро я піду."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Вече не работи тук.",
+                "Він тут більше не працює."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "stress-rules",
+        "title": "Ударение — A2",
+        "emoji": "✏️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "На відміну від польської чи чеської, наголос у болгарській вільний і може падати на будь-який склад, тому його слід запам'ятовувати для кожного слова окремо.",
+            "en": {
+              "text": "Unlike Polish or Czech, Bulgarian stress is free and can fall on any syllable, so it must be memorized for each word individually."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Наголос змінює значення",
+            "rows": [
+              [
+                "пари (гроші) vs пара́ (пара)",
+                "різний наголос — різне значення"
+              ],
+              [
+                "Иван, момиче",
+                "наголос — за словником"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Нямам пари.",
+                "У мене немає грошей."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "seasons-weather",
+        "title": "Сезони и време (метеорология) — A1",
+        "emoji": "🌦️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Пори року вживаються з прийменником през (протягом); погодні вирази часто безособові.",
+            "en": {
+              "text": "Seasons are used with the preposition през (during); weather expressions are often impersonal."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Сезони й погода",
+            "rows": [
+              [
+                "пролет, лято, есен, зима",
+                "весна, літо, осінь, зима"
+              ],
+              [
+                "Вали дъжд.",
+                "Іде дощ."
+              ],
+              [
+                "Навън е студено.",
+                "Надворі холодно."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "През зимата вали сняг.",
+                "Взимку йде сніг."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "greetings-common-phrases",
+        "title": "Поздрави и учтиви изрази — A1",
+        "emoji": "👋",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Основні формули ввічливості для привітань і подяки.",
+            "en": {
+              "text": "Basic politeness formulas for greetings and thanks."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Основні фрази",
+            "rows": [
+              [
+                "Здравей / Здравейте",
+                "Привіт / Вітаю (ввічл.)"
+              ],
+              [
+                "Благодаря",
+                "Дякую"
+              ],
+              [
+                "Моля",
+                "Будь ласка"
+              ],
+              [
+                "Довиждане",
+                "До побачення"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Благодаря много!",
+                "Дуже дякую!"
+              ]
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "exceptions",
+    "title": "Изключения",
+    "titleEn": "Exceptions",
+    "emoji": "⚠️",
+    "rules": [
+      {
+        "id": "irregular-verbs",
+        "title": "Неправилни глаголи — A2",
+        "emoji": "⚠️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Кілька найуживаніших дієслів мають нерегулярне відмінювання в теперішньому часі й аористі, які слід просто запам'ятати.",
+            "en": {
+              "text": "A few of the most common verbs have irregular present-tense and Aorist conjugations that must simply be memorized."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Найпоширеніші нерегулярні дієслова",
+            "rows": [
+              [
+                "съм → бях",
+                "бути → був"
+              ],
+              [
+                "ям → ядох",
+                "їсти → з'їв"
+              ],
+              [
+                "дам → дадох",
+                "дати → дав"
+              ],
+              [
+                "ида → идвах",
+                "йти/приходити → йшов"
+              ],
+              [
+                "мога → можах",
+                "могти → зміг"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Ядох преди час.",
+                "Я поїв годину тому."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "irregular-plurals",
+        "title": "Неправилно множествено число — B1",
+        "emoji": "⚠️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Деякі іменники утворюють множину не за стандартною парадигмою свого закінчення.",
+            "en": {
+              "text": "Some nouns form their plural outside their ending's standard pattern."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Нерегулярні множини",
+            "rows": [
+              [
+                "дете → деца",
+                "дитина → діти"
+              ],
+              [
+                "брат → братя",
+                "брат → брати"
+              ],
+              [
+                "син → синове",
+                "син → сини"
+              ],
+              [
+                "око → очи",
+                "око → очі"
+              ],
+              [
+                "ухо → уши",
+                "вухо → вуха"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Братята ми живеят в чужбина.",
+                "Мої брати живуть за кордоном."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "spelling-rules",
+        "title": "Правописни особености (ъ, ь, звучни/беззвучни) — B1",
+        "emoji": "✏️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Літера ъ передає особливий звук, якого немає в українській; дзвінкі приголосні в кінці слова оглушуються на письмі й вимовляються глухо.",
+            "en": {
+              "text": "The letter ъ represents a distinct sound not found in Ukrainian; voiced consonants at the end of a word are devoiced in pronunciation but kept in spelling."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Правописні пастки",
+            "rows": [
+              [
+                "българин, дъжд, някой",
+                "звук ъ — щось середнє між «и» та «е»"
+              ],
+              [
+                "град (вимовляється [грат])",
+                "кінцеве д/б/г/з/в оглушуються у вимові"
+              ],
+              [
+                "Ь тільки перед о (Ю, каньон)",
+                "рідкісний, лише в кількох позиціях"
+              ]
+            ]
+          },
+          {
+            "type": "tip",
+            "title": "Порада",
+            "text": "Оскільки вимова кінцевих приголосних не завжди відповідає написанню, перевіряйте правопис слова за словником, а не лише на слух.",
+            "en": {
+              "title": "Tip",
+              "text": "Since the pronunciation of final consonants doesn't always match spelling, check a word's spelling in a dictionary rather than relying on sound alone."
+            }
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Градът е красив.",
+                "Місто гарне."
+              ]
+            ]
+          }
+        ]
       }
     ]
   }
