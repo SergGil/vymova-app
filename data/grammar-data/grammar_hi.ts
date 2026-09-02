@@ -848,5 +848,987 @@ export const GRAMMAR_HI: GrammarCategory[] = [
         ]
       }
     ]
+  },
+  {
+    "id": "grammar",
+    "title": "व्याकरण",
+    "titleEn": "Grammar",
+    "emoji": "📖",
+    "rules": [
+      {
+        "id": "gender-nouns",
+        "title": "संज्ञा का लिंग — A1",
+        "emoji": "⚥",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "У гінді два роди — чоловічий і жіночий; іменники на -आ переважно чоловічого, на -ई/-िया — жіночого роду, але є багато винятків.",
+            "en": {
+              "text": "Hindi has two genders — masculine and feminine; nouns ending in -आ are mostly masculine, -ई/-िया mostly feminine, but there are many exceptions."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Рід за закінченням",
+            "rows": [
+              [
+                "लड़का (хлопчик)",
+                "чоловічий (-आ)"
+              ],
+              [
+                "लड़की (дівчинка)",
+                "жіночий (-ई)"
+              ],
+              [
+                "किताब (книга)",
+                "жіночий (без правила)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "यह किताब अच्छी है।",
+                "Ця книга хороша."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "plural-nouns",
+        "title": "संज्ञा का बहुवचन — A1",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Множина утворюється за родом і закінченням: чоловічий рід на -आ → -е, жіночий на приголосну → +ें, жіночий на -ई → +याँ.",
+            "en": {
+              "text": "The plural is formed by gender and ending: masculine -आ → -े, feminine ending in a consonant → +ें, feminine -ई → +याँ."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Однина → множина",
+            "rows": [
+              [
+                "लड़का → लड़के",
+                "хлопчик → хлопчики"
+              ],
+              [
+                "किताब → किताबें",
+                "книга → книги"
+              ],
+              [
+                "लड़की → लड़कियाँ",
+                "дівчинка → дівчатка"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "लड़के खेल रहे हैं।",
+                "Хлопчики грають."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "oblique-case",
+        "title": "परोक्ष कारक — A2",
+        "emoji": "🏷️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Ключова риса гінді — перед будь-яким післяйменником іменник (і узгоджений з ним прикметник) переходить у непряму («косу») форму, відмінну від прямої.",
+            "en": {
+              "text": "A key Hindi feature — before any postposition, the noun (and its agreeing adjective) shifts to the oblique ('slanted') form, distinct from the direct form."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Пряма vs непряма форма",
+            "rows": [
+              [
+                "लड़का (прямий) → लड़के को (непрямий)",
+                "хлопчик → хлопчику (додаток)"
+              ],
+              [
+                "घर (прямий) → घर में (без зміни, незмінне слово)",
+                "дім → у домі"
+              ],
+              [
+                "अच्छा लड़का → अच्छे लड़के को",
+                "хороший хлопчик → хорошому хлопчику"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मैं लड़के को देखता हूँ।",
+                "Я бачу хлопчика."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "postposition-ka",
+        "title": "संबंधकारक \"का/की/के\" — A1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Післяйменник का (та його форми की/के) виражає належність і узгоджується не з володарем, а з предметом володіння.",
+            "en": {
+              "text": "The postposition का (and its forms की/के) expresses possession and agrees not with the owner, but with the possessed thing."
+            }
+          },
+          {
+            "type": "table",
+            "title": "का / की / के",
+            "rows": [
+              [
+                "राम का घर",
+                "дім Рама (чол. однина)"
+              ],
+              [
+                "राम की किताब",
+                "книга Рама (жін.)"
+              ],
+              [
+                "राम के बच्चे",
+                "діти Рама (чол. множина)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "यह मेरे भाई का कमरा है।",
+                "Це кімната мого брата."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "postposition-ko",
+        "title": "कर्म कारक \"को\" — A1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Післяйменник को позначає непрямий додаток (кому?) і часто — означений прямий додаток (особу).",
+            "en": {
+              "text": "The postposition को marks the indirect object (to whom?) and often the definite direct object (a person)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "को",
+            "rows": [
+              [
+                "मुझे यह पसंद है।",
+                "Мені це подобається."
+              ],
+              [
+                "मैंने उसे किताब दी।",
+                "Я дав йому книгу."
+              ],
+              [
+                "मैं राम को जानता हूँ।",
+                "Я знаю Рама. (особа-додаток)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "उसे भूख लगी है।",
+                "Він голодний."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "postposition-se",
+        "title": "करण कारक \"से\" — A2",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Післяйменник से означає «з/за допомогою/від» — знаряддя, джерело чи порівняння.",
+            "en": {
+              "text": "The postposition से means 'with/by means of/from' — instrument, source, or comparison."
+            }
+          },
+          {
+            "type": "table",
+            "title": "से",
+            "rows": [
+              [
+                "पेंसिल से लिखो।",
+                "Пиши олівцем."
+              ],
+              [
+                "मैं यूक्रेन से हूँ।",
+                "Я з України."
+              ],
+              [
+                "वह मुझसे लंबा है।",
+                "Він вищий за мене."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मैं स्कूल से आया।",
+                "Я прийшов зі школи."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "postposition-mein-par",
+        "title": "अधिकरण कारक \"में/पर\" — A1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "में означає «в», पर — «на»; обидва вимагають непрямої форми попереднього іменника.",
+            "en": {
+              "text": "में means 'in', पर means 'on'; both require the preceding noun to be in the oblique form."
+            }
+          },
+          {
+            "type": "table",
+            "title": "में / पर",
+            "rows": [
+              [
+                "घर में",
+                "у домі"
+              ],
+              [
+                "मेज़ पर",
+                "на столі"
+              ],
+              [
+                "भारत में",
+                "в Індії"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "किताब मेज़ पर है।",
+                "Книга на столі."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "postposition-others",
+        "title": "अन्य परसर्ग (के लिए, के साथ, के बिना) — A2",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Складені післяйменники будуються з के + слово: के लिए (для), के साथ (з/разом), के बिना (без).",
+            "en": {
+              "text": "Compound postpositions are built with के + a word: के लिए (for), के साथ (with), के बिना (without)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "के लिए / के साथ / के बिना",
+            "rows": [
+              [
+                "तुम्हारे लिए",
+                "для тебе"
+              ],
+              [
+                "दोस्त के साथ",
+                "з другом"
+              ],
+              [
+                "पानी के बिना",
+                "без води"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "यह उपहार तुम्हारे लिए है।",
+                "Цей подарунок для тебе."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "adjective-agreement",
+        "title": "विशेषण का लिंग-वचन अनुसार रूप — A1",
+        "emoji": "🎨",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Прикметники на -आ змінюють закінчення за родом і числом іменника (-आ/-ी/-े); прикметники на інші голосні незмінні.",
+            "en": {
+              "text": "Adjectives ending in -आ change their ending according to the noun's gender and number (-आ/-ी/-े); adjectives ending in other vowels are invariable."
+            }
+          },
+          {
+            "type": "table",
+            "title": "अच्छा (гарний) — узгодження",
+            "rows": [
+              [
+                "अच्छा लड़का",
+                "хороший хлопчик"
+              ],
+              [
+                "अच्छी लड़की",
+                "хороша дівчинка"
+              ],
+              [
+                "अच्छे लड़के",
+                "хороші хлопчики"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "यह सुंदर घर है।",
+                "Це гарний дім. (सुंदर незмінне)"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comparative-superlative",
+        "title": "तुलना (से ज़्यादा, सबसे ज़्यादा) — A2",
+        "emoji": "📈",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Порівняльний ступінь: [іменник] + से + прикметник; найвищий ступінь: सबसे + прикметник.",
+            "en": {
+              "text": "Comparative: [noun] + से + adjective; superlative: सबसे + adjective."
+            }
+          },
+          {
+            "type": "table",
+            "title": "से / सबसे",
+            "rows": [
+              [
+                "वह मुझसे बड़ा है।",
+                "Він старший за мене."
+              ],
+              [
+                "वह सबसे बड़ा है।",
+                "Він найстарший."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "दिल्ली मुंबई से बड़ी है।",
+                "Делі більший за Мумбаї."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "personal-pronoun-oblique",
+        "title": "सर्वनाम का परोक्ष रूप — A2",
+        "emoji": "🙋",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Особові займенники мають окремі непрямі форми перед післяйменниками, часто зливаючись з को в скорочену форму.",
+            "en": {
+              "text": "Personal pronouns have distinct oblique forms before postpositions, often fusing with को into a shortened form."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Непрямі форми",
+            "rows": [
+              [
+                "मैं → मुझे / मुझसे",
+                "я → мені / мною"
+              ],
+              [
+                "तुम → तुम्हें / तुमसे",
+                "ти → тобі / тобою"
+              ],
+              [
+                "वह → उसे / उससे",
+                "він/вона → йому/їй / ним/нею"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मुझे यह पसंद है।",
+                "Мені це подобається."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "possessive-pronouns",
+        "title": "संबंधवाचक सर्वनाम — A1",
+        "emoji": "🙋",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Присвійні займенники узгоджуються з предметом володіння, як прикметники на -आ.",
+            "en": {
+              "text": "Possessive pronouns agree with the possessed thing, like -आ adjectives."
+            }
+          },
+          {
+            "type": "table",
+            "title": "मेरा / तुम्हारा / उसका",
+            "rows": [
+              [
+                "मेरा घर / मेरी किताब",
+                "мій дім / моя книга"
+              ],
+              [
+                "तुम्हारा घर / तुम्हारी किताब",
+                "твій дім / твоя книга"
+              ],
+              [
+                "उसका घर / उसकी किताब",
+                "його/її дім / книга"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "यह मेरी बहन है।",
+                "Це моя сестра."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "demonstrative-pronouns",
+        "title": "निश्चयवाचक सर्वनाम (यह/वह) — A1",
+        "emoji": "👉",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "यह (це/цей) вказує на ближче, वह (те/той) — на дальше; обидва вживаються і як займенники, і як означення.",
+            "en": {
+              "text": "यह (this) points to something near, वह (that) to something farther; both are used as pronouns and as determiners."
+            }
+          },
+          {
+            "type": "table",
+            "title": "यह / वह",
+            "rows": [
+              [
+                "यह किताब",
+                "ця книга"
+              ],
+              [
+                "वह घर",
+                "той дім"
+              ],
+              [
+                "ये / वे (множина)",
+                "ці / ті"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "यह मेरा दोस्त है।",
+                "Це мій друг."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "relative-pronouns",
+        "title": "संबंधवाचक सर्वनाम जो...वह — B1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Гінді використовує кореляцію जो (який)...वह (той) — обидва слова присутні в реченні, на відміну від англійської.",
+            "en": {
+              "text": "Hindi uses the correlative जो (who/which)...वह (that one) — both words appear in the sentence, unlike English."
+            }
+          },
+          {
+            "type": "table",
+            "title": "जो...वह",
+            "rows": [
+              [
+                "जो लड़का आया, वह मेरा भाई है।",
+                "Хлопчик, який прийшов, — мій брат."
+              ],
+              [
+                "जो किताब मैंने पढ़ी, वह अच्छी थी।",
+                "Книга, яку я прочитав, була хорошою."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "जो चाहो, वह करो।",
+                "Роби, що хочеш."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "interrogative-pronouns",
+        "title": "प्रश्नवाचक सर्वनाम (कौन, क्या, कितना) — A1",
+        "emoji": "❓",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "कौन (хто) вживається для осіб; क्या (що) для речей; कितना узгоджується за родом і числом («скільки»).",
+            "en": {
+              "text": "कौन (who) is used for people; क्या (what) for things; कितना agrees in gender and number ('how much/many')."
+            }
+          },
+          {
+            "type": "table",
+            "title": "कौन / क्या / कितना",
+            "rows": [
+              [
+                "कौन है?",
+                "Хто це?"
+              ],
+              [
+                "यह क्या है?",
+                "Що це?"
+              ],
+              [
+                "यह कितने का है?",
+                "Скільки це коштує?"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "तुम्हारा नाम क्या है?",
+                "Як тебе звати?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "indefinite-pronouns",
+        "title": "अनिश्चयवाचक सर्वनाम (कोई, कुछ) — A2",
+        "emoji": "🔘",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "कोई (хтось/будь-хто) для осіб; कुछ (щось/дещо) для речей і незлічуваних понять.",
+            "en": {
+              "text": "कोई (someone/anyone) is for people; कुछ (something/some) is for things and uncountable concepts."
+            }
+          },
+          {
+            "type": "table",
+            "title": "कोई / कुछ",
+            "rows": [
+              [
+                "कोई आया।",
+                "Хтось прийшов."
+              ],
+              [
+                "मुझे कुछ चाहिए।",
+                "Мені щось потрібно."
+              ],
+              [
+                "कोई बात नहीं।",
+                "Нічого страшного."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "कुछ मत कहो।",
+                "Нічого не кажи."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "compound-verbs",
+        "title": "संयुक्त क्रिया — B1",
+        "emoji": "🔧",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Унікальна риса гінді — основне дієслово + допоміжне «легке» дієслово (जाना, लेना, देना, डालना), яке додає відтінок завершеності, користі собі/іншим чи раптовості.",
+            "en": {
+              "text": "A unique Hindi feature — main verb + a 'light' auxiliary verb (जाना, लेना, देना, डालना) that adds a nuance of completion, benefit to self/others, or suddenness."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Складені дієслова",
+            "rows": [
+              [
+                "खा लेना",
+                "з'їсти (для себе)"
+              ],
+              [
+                "खा जाना",
+                "з'їсти все (завершено)"
+              ],
+              [
+                "बता देना",
+                "розповісти (комусь)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "उसने सारा खाना खा लिया।",
+                "Він з'їв усю їжу."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "conjunct-verbs",
+        "title": "समासयुक्त क्रिया — A2",
+        "emoji": "🔧",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Багато дієслів утворюються поєднанням іменника (частіше запозиченого) з करना (робити) чи होना (бути): काम करना (працювати), पसंद होना (подобатися).",
+            "en": {
+              "text": "Many verbs are formed by combining a noun (often borrowed) with करना (to do) or होना (to be): काम करना (to work), पसंद होना (to be liked)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "संज्ञा + करना",
+            "rows": [
+              [
+                "काम करना",
+                "працювати"
+              ],
+              [
+                "मदद करना",
+                "допомагати"
+              ],
+              [
+                "शादी करना",
+                "одружуватися"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मैं ऑफिस में काम करता हूँ।",
+                "Я працюю в офісі."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "honorific-verb-agreement",
+        "title": "सम्मानसूचक क्रिया रूप — A2",
+        "emoji": "🎩",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Ввічливе आप завжди узгоджується з дієсловом у множині, навіть для однієї людини.",
+            "en": {
+              "text": "The polite आप always agrees with the verb in the plural, even when referring to one person."
+            }
+          },
+          {
+            "type": "table",
+            "title": "आप + множина",
+            "rows": [
+              [
+                "आप कैसे हैं?",
+                "Як ви? (हैं — множина)"
+              ],
+              [
+                "आप क्या कर रहे हैं?",
+                "Що ви зараз робите?"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "आप आइए, बैठिए।",
+                "Прошу, заходьте, сідайте."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "infinitive-uses",
+        "title": "क्रियार्थक संज्ञा (-ना) — A2",
+        "emoji": "📝",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Форма на -ना (словникова форма дієслова) функціонує як віддієслівний іменник і може відмінюватися за родом/числом/відмінком, як звичайний іменник.",
+            "en": {
+              "text": "The -ना form (the verb's dictionary form) functions as a verbal noun and can be inflected for gender/number/case, like an ordinary noun."
+            }
+          },
+          {
+            "type": "table",
+            "title": "-ना як іменник",
+            "rows": [
+              [
+                "पढ़ना अच्छा है।",
+                "Читання — це добре."
+              ],
+              [
+                "मुझे तैरना पसंद है।",
+                "Мені подобається плавати."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "सोना ज़रूरी है।",
+                "Спати необхідно."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "modal-expressions",
+        "title": "चाहिए, सकना, पड़ना — A1",
+        "emoji": "🧠",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "चाहिए (треба, безособове), सकना (могти, приєднується до основи), पड़ना (доводитися, вимушений обов'язок).",
+            "en": {
+              "text": "चाहिए (should, impersonal), सकना (can, attaches to the stem), पड़ना (to be forced to, compulsion)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Модальні конструкції",
+            "rows": [
+              [
+                "मुझे जाना चाहिए।",
+                "Мені треба йти."
+              ],
+              [
+                "मैं तैर सकता हूँ।",
+                "Я вмію плавати."
+              ],
+              [
+                "मुझे जाना पड़ा।",
+                "Мені довелося піти."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "तुम्हें पढ़ना चाहिए।",
+                "Тобі варто вчитися."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "numbers-cardinal",
+        "title": "गिनती — A1",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Числа 1-100 у гінді здебільшого нерегулярні й вимагають індивідуального запам'ятовування (на відміну від багатьох інших мов).",
+            "en": {
+              "text": "Numbers 1-100 in Hindi are mostly irregular and must be memorized individually (unlike many other languages)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "1–10",
+            "rows": [
+              [
+                "एक, दो, तीन",
+                "1, 2, 3"
+              ],
+              [
+                "चार, पाँच",
+                "4, 5"
+              ],
+              [
+                "छह...दस",
+                "6...10"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "मेरे तीन भाई हैं।",
+                "У мене три брати."
+              ]
+            ]
+          }
+        ]
+      }
+    ]
   }
 ];
