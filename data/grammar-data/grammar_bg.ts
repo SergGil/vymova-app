@@ -868,5 +868,1388 @@ export const GRAMMAR_BG: GrammarCategory[] = [
         ]
       }
     ]
+  },
+  {
+    "id": "grammar",
+    "title": "Граматика",
+    "titleEn": "Grammar",
+    "emoji": "📖",
+    "rules": [
+      {
+        "id": "vocative-case",
+        "title": "Звателна форма (запазен падеж) — A2",
+        "emoji": "🏷️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Хоча болгарська втратила відмінки, звертальна форма (кличний відмінок) збереглася для чоловічих і жіночих імен та деяких іменників.",
+            "en": {
+              "text": "Although Bulgarian lost its case system, the vocative form survived for masculine and feminine names and some nouns."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Звателна форма",
+            "rows": [
+              [
+                "Иван → Иване!",
+                "Іван → Іване!"
+              ],
+              [
+                "Мария → Марийо!",
+                "Марія → Маріє!"
+              ],
+              [
+                "майка → майко!",
+                "мама → мамо!"
+              ],
+              [
+                "приятел → приятелю!",
+                "друг → друже!"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Иване, ела тук!",
+                "Іване, іди сюди!"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "full-short-article",
+        "title": "Пълен и кратък член (-ът / -а) — B1",
+        "emoji": "🔤",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "У чоловічому роді однини означений артикль має дві форми: повну (-ът/-ят) для підмета й коротку (-а/-я) для додатка.",
+            "en": {
+              "text": "For masculine singular nouns, the definite article has two forms: the full one (-ът/-ят) for the subject and the short one (-а/-я) for the object."
+            }
+          },
+          {
+            "type": "table",
+            "title": "-ът vs -а",
+            "rows": [
+              [
+                "Столът е нов. (підмет)",
+                "Стілець новий."
+              ],
+              [
+                "Виждам стола. (додаток)",
+                "Я бачу стілець."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Мъжът чете вестника.",
+                "Чоловік читає газету."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "plural-definite-article",
+        "title": "Определителен член в множествено число — A2",
+        "emoji": "🔤",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "У множині означений артикль -те (для іменників на -и) або -та (для іменників середнього роду на -а) додається до форми множини.",
+            "en": {
+              "text": "In the plural, the definite article -те (for nouns ending in -и) or -та (for neuter nouns ending in -а) is added to the plural form."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Артикль у множині",
+            "rows": [
+              [
+                "книги → книгите",
+                "книги → ці книги"
+              ],
+              [
+                "деца → децата",
+                "діти → ці діти"
+              ],
+              [
+                "мъже → мъжете",
+                "чоловіки → ці чоловіки"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Децата играят навън.",
+                "Ці діти грають надворі."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "gender-nouns",
+        "title": "Род на съществителните — A1",
+        "emoji": "⚥",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Три роди визначаються переважно за закінченням у словниковій формі: приголосна (чол.), -а/-я (жін.), -о/-е (сер.).",
+            "en": {
+              "text": "The three genders are mostly determined by the dictionary-form ending: a consonant (masc.), -а/-я (fem.), -о/-е (neut.)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Рід за закінченням",
+            "rows": [
+              [
+                "мъж, стол",
+                "чоловічий (приголосна)"
+              ],
+              [
+                "жена, книга",
+                "жіночий (-а)"
+              ],
+              [
+                "дете, море",
+                "середній (-е/-о)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Голямата книга е тук.",
+                "Велика книга тут."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "plural-nouns",
+        "title": "Множествено число на съществителните — A1",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Множина утворюється за родом: чоловічий рід переважно на -и, жіночий на -и, середній на -а/-я.",
+            "en": {
+              "text": "The plural is formed by gender: masculine mostly -и, feminine -и, neuter -а/-я."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Однина → множина",
+            "rows": [
+              [
+                "стол → столове",
+                "стілець → стільці"
+              ],
+              [
+                "жена → жени",
+                "жінка → жінки"
+              ],
+              [
+                "дете → деца",
+                "дитина → діти"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Жените говорят.",
+                "Жінки говорять."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "personal-pronouns-full",
+        "title": "Пълни лични местоимения — A1",
+        "emoji": "🙋",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Повні особові займенники в непрямих відмінках (мене, тебе...) вживаються для наголосу або після прийменників.",
+            "en": {
+              "text": "Full personal pronouns in oblique forms (мене, тебе...) are used for emphasis or after prepositions."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Повні форми (об'єктні)",
+            "rows": [
+              [
+                "мене",
+                "мене"
+              ],
+              [
+                "тебе",
+                "тебе"
+              ],
+              [
+                "него / нея",
+                "його / її"
+              ],
+              [
+                "нас",
+                "нас"
+              ],
+              [
+                "вас",
+                "вас"
+              ],
+              [
+                "тях",
+                "їх"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "За мене е важно.",
+                "Для мене це важливо."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "personal-pronouns-short",
+        "title": "Кратки лични местоимения (обектни) — A2",
+        "emoji": "🙋",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Короткі («ненаголошені») об'єктні форми стоять безпосередньо перед дієсловом (крім наказового способу) і вживаються значно частіше за повні.",
+            "en": {
+              "text": "Short ('unstressed') object forms go directly before the verb (except in the imperative) and are used far more often than the full forms."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Короткі форми",
+            "rows": [
+              [
+                "ме / ми",
+                "мене / мені"
+              ],
+              [
+                "те / ти",
+                "тебе / тобі"
+              ],
+              [
+                "го / му; я / ѝ",
+                "його / йому; її / їй"
+              ],
+              [
+                "ни / ни",
+                "нас / нам"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Виждам го.",
+                "Я його бачу."
+              ],
+              [
+                "Дай ми го.",
+                "Дай мені це."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "possessive-pronouns",
+        "title": "Притежателни местоимения — A1",
+        "emoji": "🙋",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Присвійні займенники узгоджуються з іменником, який вони визначають, у роді й числі.",
+            "en": {
+              "text": "Possessive pronouns agree with the noun they modify in gender and number."
+            }
+          },
+          {
+            "type": "table",
+            "title": "мой / твой / негов",
+            "rows": [
+              [
+                "моят/моята/моето",
+                "мій/моя/моє"
+              ],
+              [
+                "твоят/твоята/твоето",
+                "твій/твоя/твоє"
+              ],
+              [
+                "неговият/нейният",
+                "його/її"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Моята къща е голяма.",
+                "Мій дім великий."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "possessive-short-forms",
+        "title": "Кратки притежателни форми (ми, ти, му...) — A2",
+        "emoji": "🙋",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Розмовний варіант присвійності — короткі форми (ми, ти, му, ѝ, ни, ви, им), приєднані після іменника з артиклем, замінюють повні присвійні займенники.",
+            "en": {
+              "text": "A colloquial way to express possession — short forms (ми, ти, му, ѝ, ни, ви, им) attached after the article-bearing noun replace the full possessive pronouns."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Короткі присвійні форми",
+            "rows": [
+              [
+                "къщата ми",
+                "мій дім (букв. дім-мій)"
+              ],
+              [
+                "баща ти",
+                "твій батько"
+              ],
+              [
+                "колата му",
+                "його машина"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Майка ми е лекар.",
+                "Моя мама лікарка."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "demonstrative-pronouns",
+        "title": "Показателни местоимения (този/онзи) — A1",
+        "emoji": "👉",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Този (цей) вказує на ближче, онзи/оня (той) — на дальше; обидва узгоджуються з іменником у роді й числі.",
+            "en": {
+              "text": "Този (this) points to something near, онзи/оня (that) to something farther; both agree with the noun in gender and number."
+            }
+          },
+          {
+            "type": "table",
+            "title": "този / онзи",
+            "rows": [
+              [
+                "този/тази/това",
+                "цей/ця/це"
+              ],
+              [
+                "тези",
+                "ці"
+              ],
+              [
+                "онзи/онази/онова",
+                "той/та/те"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Тази книга е интересна.",
+                "Ця книга цікава."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "relative-pronouns",
+        "title": "Относителни местоимения (който, което) — B1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Който/която/което/които узгоджуються з іменником, до якого відносяться, у роді й числі.",
+            "en": {
+              "text": "Който/която/което/които agree with the noun they refer to in gender and number."
+            }
+          },
+          {
+            "type": "table",
+            "title": "който",
+            "rows": [
+              [
+                "мъжът, който говори",
+                "чоловік, який говорить"
+              ],
+              [
+                "книгата, която четох",
+                "книга, яку я прочитав"
+              ],
+              [
+                "децата, които играят",
+                "діти, які грають"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Човекът, който видях, беше висок.",
+                "Людина, яку я бачив, була висока."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "interrogative-pronouns",
+        "title": "Въпросителни местоимения (кой, какво, колко) — A1",
+        "emoji": "❓",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Кой (хто/який) узгоджується з родом і числом; какво (що) і колко (скільки) мають свої особливості.",
+            "en": {
+              "text": "Кой (who/which) agrees with gender and number; какво (what) and колко (how much) have their own forms."
+            }
+          },
+          {
+            "type": "table",
+            "title": "кой / какво / колко",
+            "rows": [
+              [
+                "кой, коя, кое",
+                "хто/який, яка, яке"
+              ],
+              [
+                "какво",
+                "що (незмінне)"
+              ],
+              [
+                "колко",
+                "скільки (незмінне)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Кой е той?",
+                "Хто це?"
+              ],
+              [
+                "Колко струва?",
+                "Скільки коштує?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "indefinite-pronouns",
+        "title": "Неопределителни местоимения (някой, никой, всеки) — B1",
+        "emoji": "🔘",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Неозначені займенники: някой (хтось), никой (ніхто), всеки (кожен), нещо (щось), нищо (нічого).",
+            "en": {
+              "text": "Indefinite pronouns: някой (someone), никой (no one), всеки (each/every), нещо (something), нищо (nothing)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Основні неозначені займенники",
+            "rows": [
+              [
+                "някой",
+                "хтось"
+              ],
+              [
+                "никой",
+                "ніхто"
+              ],
+              [
+                "всеки",
+                "кожен"
+              ],
+              [
+                "нещо / нищо",
+                "щось / нічого"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Някой позвъни.",
+                "Хтось подзвонив."
+              ],
+              [
+                "Никой не знае.",
+                "Ніхто не знає."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "clitic-placement",
+        "title": "Позиция на кратките местоимения в изречението — B1",
+        "emoji": "📍",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Короткі займенники стоять перед дієсловом у стверджувальних реченнях, але після дієслова в наказовому способі та коли речення починається з дієслова.",
+            "en": {
+              "text": "Short pronouns come before the verb in statements, but after the verb in the imperative and when the sentence starts with the verb."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Позиція займенника",
+            "rows": [
+              [
+                "Аз го виждам.",
+                "перед дієсловом"
+              ],
+              [
+                "Дай ми го!",
+                "після наказового способу"
+              ],
+              [
+                "Виждам го.",
+                "після дієслова на початку речення"
+              ]
+            ]
+          },
+          {
+            "type": "note",
+            "title": "Подвійні короткі форми",
+            "text": "Коли поєднуються непрямий і прямий об'єктні займенники, непрямий іде першим: Дай ми го! (Дай мені це!)",
+            "en": {
+              "title": "Double clitics",
+              "text": "When indirect and direct object pronouns combine, the indirect one comes first: Дай ми го! (Give it to me!)"
+            }
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Той ми го каза вчера.",
+                "Він сказав це мені вчора."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "adjective-agreement",
+        "title": "Съгласуване на прилагателното — A1",
+        "emoji": "🎨",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Прикметник узгоджується з іменником у роді й числі, стоїть перед іменником і теж набуває артикля.",
+            "en": {
+              "text": "An adjective agrees with the noun in gender and number, precedes the noun, and also takes the article."
+            }
+          },
+          {
+            "type": "table",
+            "title": "хубав (гарний) — узгодження",
+            "rows": [
+              [
+                "хубав мъж / хубавият мъж",
+                "гарний чоловік / цей гарний чоловік"
+              ],
+              [
+                "хубава жена",
+                "гарна жінка"
+              ],
+              [
+                "хубаво дете",
+                "гарна дитина"
+              ],
+              [
+                "хубави хора",
+                "гарні люди"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Имам червена кола.",
+                "У мене червона машина."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comparative-superlative",
+        "title": "Степени за сравнение (по-, най-) — A2",
+        "emoji": "📈",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Ступені порівняння утворюються префіксами по- (вищий) і най- (найвищий) перед прикметником.",
+            "en": {
+              "text": "The degrees of comparison are formed with the prefixes по- (comparative) and най- (superlative) before the adjective."
+            }
+          },
+          {
+            "type": "table",
+            "title": "по- / най-",
+            "rows": [
+              [
+                "хубав → по-хубав → най-хубав",
+                "гарний → гарніший → найгарніший"
+              ],
+              [
+                "голям → по-голям → най-голям",
+                "великий → більший → найбільший"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "София е по-голяма от Пловдив.",
+                "Софія більша за Пловдив."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "numbers-cardinal",
+        "title": "Числителни бройни — A1",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Числа 1 і 2 узгоджуються за родом; решта незмінні.",
+            "en": {
+              "text": "The numbers 1 and 2 agree with gender; the rest are invariable."
+            }
+          },
+          {
+            "type": "table",
+            "title": "1–10",
+            "rows": [
+              [
+                "един / една / едно",
+                "1"
+              ],
+              [
+                "два / две",
+                "2"
+              ],
+              [
+                "три, четири, пет...десет",
+                "3–10"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Имам две сестри.",
+                "У мене дві сестри."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "numbers-ordinal",
+        "title": "Числителни редни — A2",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Порядкові числівники узгоджуються з іменником, як прикметники з трьома закінченнями.",
+            "en": {
+              "text": "Ordinal numbers agree with the noun, like three-ending adjectives."
+            }
+          },
+          {
+            "type": "table",
+            "title": "1-й – 5-й",
+            "rows": [
+              [
+                "първи, първа, първо",
+                "1-й"
+              ],
+              [
+                "втори",
+                "2-й"
+              ],
+              [
+                "трети, четвърти, пети",
+                "3-й, 4-й, 5-й"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Живея на третия етаж.",
+                "Я живу на третьому поверсі."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "numbers-special-form",
+        "title": "Специална форма за мъжки лица (двама, трима) — B1",
+        "emoji": "🔢",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Унікальна риса болгарської — для позначення групи чоловіків (людей) числа 2–6 мають окрему особову форму.",
+            "en": {
+              "text": "A unique Bulgarian feature — for referring to a group of men (people), the numbers 2–6 have a distinct personal form."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Особові числівники",
+            "rows": [
+              [
+                "двама мъже",
+                "двоє чоловіків"
+              ],
+              [
+                "трима студенти",
+                "троє студентів"
+              ],
+              [
+                "четирима приятели",
+                "четверо друзів"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Дойдоха петима гости.",
+                "Прийшло п'ятеро гостей."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "prepositions-basic",
+        "title": "Основни предлози (в, на, с, от, за) — A1",
+        "emoji": "🧭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Оскільки болгарська втратила відмінки, прийменники несуть основне граматичне навантаження — форма іменника після них не змінюється.",
+            "en": {
+              "text": "Since Bulgarian lost its case system, prepositions carry most of the grammatical load — the noun form after them doesn't change."
+            }
+          },
+          {
+            "type": "table",
+            "title": "в / на / с / от / за",
+            "rows": [
+              [
+                "в София",
+                "у Софії"
+              ],
+              [
+                "на масата",
+                "на столі"
+              ],
+              [
+                "с приятел",
+                "з другом"
+              ],
+              [
+                "от България",
+                "з Болгарії"
+              ],
+              [
+                "за теб",
+                "для тебе"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Живея в София.",
+                "Я живу в Софії."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "prepositions-other",
+        "title": "Други предлози (без, до, през, между) — B1",
+        "emoji": "🧭",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Інші вживані прийменники: без (без), до (до/біля), през (через/протягом), между (між).",
+            "en": {
+              "text": "Other common prepositions: без (without), до (to/next to), през (through/during), между (between)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "без / до / през / между",
+            "rows": [
+              [
+                "без захар",
+                "без цукру"
+              ],
+              [
+                "до вратата",
+                "біля дверей"
+              ],
+              [
+                "през лятото",
+                "влітку"
+              ],
+              [
+                "между нас",
+                "між нами"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Ще се видим след работа.",
+                "Побачимось після роботи."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "word-order",
+        "title": "Словоред в изречението — A2",
+        "emoji": "🔀",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Базовий порядок — SVO, але завдяки коротким займенникам і артиклю-суфіксу порядок доволі гнучкий і часто змінюється для акценту.",
+            "en": {
+              "text": "The basic order is SVO, but thanks to short pronouns and the suffixed article, word order is fairly flexible and often changes for emphasis."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Гнучкий порядок",
+            "rows": [
+              [
+                "Иван обича Мария.",
+                "Іван любить Марію. (нейтрально)"
+              ],
+              [
+                "Мария обича Иван.",
+                "Марію любить Іван. (акцент)"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Утре заминавам.",
+                "Завтра я їду."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "conjunctions-coordinating",
+        "title": "Съчинителни съюзи (и, или, но) — A1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Сурядні сполучники з'єднують рівнозначні слова чи речення.",
+            "en": {
+              "text": "Coordinating conjunctions connect equal words or clauses."
+            }
+          },
+          {
+            "type": "markers",
+            "title": "Основні сурядні сполучники",
+            "items": [
+              "и (і)",
+              "или (або)",
+              "но/а (але)",
+              "обаче (проте)",
+              "нито...нито (ні...ні)"
+            ],
+            "en": {
+              "title": "Main coordinating conjunctions"
+            }
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Искам кафе и вода.",
+                "Я хочу каву і воду."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "conjunctions-subordinating",
+        "title": "Подчинителни съюзи (защото, ако, че) — B1",
+        "emoji": "🔗",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Підрядні сполучники вводять залежне речення: причини, умови, наслідку тощо.",
+            "en": {
+              "text": "Subordinating conjunctions introduce a dependent clause: cause, condition, result, etc."
+            }
+          },
+          {
+            "type": "markers",
+            "title": "Основні підрядні сполучники",
+            "items": [
+              "защото (тому що)",
+              "ако (якщо)",
+              "че (що)",
+              "докато (поки)",
+              "въпреки че (хоча)"
+            ],
+            "en": {
+              "title": "Main subordinating conjunctions"
+            }
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Не дойдох, защото бях болен.",
+                "Я не прийшов, бо був хворий."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "negation-nuances",
+        "title": "Нюанси на отрицанието — B1",
+        "emoji": "🚫",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "На відміну від англійської, подвійне заперечення в болгарській нормальне й обов'язкове з неозначеними займенниками.",
+            "en": {
+              "text": "Unlike English, double negation is normal and required in Bulgarian with indefinite pronouns."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Подвійне заперечення",
+            "rows": [
+              [
+                "Нямам нищо.",
+                "У мене нічого немає."
+              ],
+              [
+                "Никой не дойде.",
+                "Ніхто не прийшов."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Не знам нищо за това.",
+                "Я нічого про це не знаю."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "question-words",
+        "title": "Въпросителни думи (къде, кога, защо) — A1",
+        "emoji": "❓",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Питальні слова стоять на початку речення.",
+            "en": {
+              "text": "Question words go at the start of the sentence."
+            }
+          },
+          {
+            "type": "markers",
+            "title": "Питальні слова",
+            "items": [
+              "къде? (де?)",
+              "кога? (коли?)",
+              "защо? (чому?)",
+              "как? (як?)",
+              "колко? (скільки?)"
+            ],
+            "en": {
+              "title": "Question words"
+            }
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Къде живееш?",
+                "Де ти живеш?"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "reflexive-verbs",
+        "title": "Възвратни глаголи (се/си) — A2",
+        "emoji": "🪞",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Зворотні дієслова беруть незмінну частку се (прямий об'єкт) або си (непрямий об'єкт) незалежно від особи.",
+            "en": {
+              "text": "Reflexive verbs take the invariable particle се (direct object) or си (indirect object), regardless of person."
+            }
+          },
+          {
+            "type": "table",
+            "title": "се / си",
+            "rows": [
+              [
+                "мия се",
+                "я миюся"
+              ],
+              [
+                "обличам се",
+                "я одягаюся"
+              ],
+              [
+                "купувам си",
+                "я купую собі"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Той се къпе сутрин.",
+                "Він приймає душ вранці."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "impersonal-constructions",
+        "title": "Безлични конструкции (трябва, може) — A2",
+        "emoji": "☁️",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Безособові конструкції (трябва — треба, може — можна) незмінні й поєднуються з да + дієсловом.",
+            "en": {
+              "text": "Impersonal constructions (трябва — must, може — can/may) are invariable and combine with да + verb."
+            }
+          },
+          {
+            "type": "table",
+            "title": "трябва / може",
+            "rows": [
+              [
+                "трябва да отида",
+                "мені треба піти"
+              ],
+              [
+                "може да дойдеш",
+                "ти можеш прийти"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Трябва да тръгвам.",
+                "Мені треба йти."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "modal-expressions",
+        "title": "Модални изрази (искам да, мога да) — A1",
+        "emoji": "🧠",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Модальність виражається дієсловом + да + інше дієслово (болгарська не має окремого інфінітива).",
+            "en": {
+              "text": "Modality is expressed with a verb + да + another verb (Bulgarian has no separate infinitive)."
+            }
+          },
+          {
+            "type": "table",
+            "title": "Модальні конструкції",
+            "rows": [
+              [
+                "искам да...",
+                "я хочу..."
+              ],
+              [
+                "мога да...",
+                "я можу..."
+              ],
+              [
+                "знам да...",
+                "я вмію..."
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Мога да плувам.",
+                "Я вмію плавати."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "da-constructions",
+        "title": "Конструкции с \"да\" вместо инфинитив — A2",
+        "emoji": "🌀",
+        "sections": [
+          {
+            "type": "intro",
+            "text": "Болгарська втратила інфінітив — там, де інші мови використовують «to + дієслово», болгарська використовує да + дієслово в теперішньому часі, узгоджене з підметом.",
+            "en": {
+              "text": "Bulgarian lost the infinitive — where other languages use 'to + verb', Bulgarian uses да + the present-tense verb, agreeing with the subject."
+            }
+          },
+          {
+            "type": "table",
+            "title": "да + сегашно време",
+            "rows": [
+              [
+                "Искам да ям.",
+                "Я хочу їсти."
+              ],
+              [
+                "Искаш ли да дойдеш?",
+                "Ти хочеш прийти?"
+              ]
+            ]
+          },
+          {
+            "type": "examples",
+            "title": "Приклади",
+            "en": {
+              "title": "Examples"
+            },
+            "rows": [
+              [
+                "Обичам да чета.",
+                "Я люблю читати."
+              ]
+            ]
+          }
+        ]
+      }
+    ]
   }
 ];
