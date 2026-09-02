@@ -61,7 +61,8 @@ export const GRAMMAR_FI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -98,7 +99,8 @@ export const GRAMMAR_FI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Olla (To Be) — A1"
       },
       {
         "id": "negation",
@@ -135,7 +137,8 @@ export const GRAMMAR_FI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with the Verb Ei — A1"
       },
       {
         "id": "questions",
@@ -172,7 +175,8 @@ export const GRAMMAR_FI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions with -Ko/-Kö — A1"
       },
       {
         "id": "cases",
@@ -209,7 +213,8 @@ export const GRAMMAR_FI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Fifteen Cases — A1"
       }
     ]
   }

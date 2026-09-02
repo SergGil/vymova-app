@@ -65,7 +65,8 @@ export const GRAMMAR_KO: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -102,7 +103,8 @@ export const GRAMMAR_KO: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Copula 이다 — A1"
       },
       {
         "id": "negation",
@@ -139,7 +141,8 @@ export const GRAMMAR_KO: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with 안 — A1"
       },
       {
         "id": "questions",
@@ -176,7 +179,8 @@ export const GRAMMAR_KO: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions — A1"
       },
       {
         "id": "particles",
@@ -203,7 +207,8 @@ export const GRAMMAR_KO: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Particles & SOV Word Order — A1"
       }
     ]
   }

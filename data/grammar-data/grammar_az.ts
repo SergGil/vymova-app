@@ -61,7 +61,8 @@ export const GRAMMAR_AZ: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -98,7 +99,8 @@ export const GRAMMAR_AZ: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Copula Suffix — A1"
       },
       {
         "id": "negation",
@@ -135,7 +137,8 @@ export const GRAMMAR_AZ: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with Deyil / -Ma- — A1"
       },
       {
         "id": "questions",
@@ -172,7 +175,8 @@ export const GRAMMAR_AZ: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions with -Mı/-Mi — A1"
       },
       {
         "id": "word-order",
@@ -199,7 +203,8 @@ export const GRAMMAR_AZ: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "SOV Word Order — A1"
       }
     ]
   }

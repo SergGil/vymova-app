@@ -61,7 +61,8 @@ export const GRAMMAR_CS: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -98,7 +99,8 @@ export const GRAMMAR_CS: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Být (To Be) — A1"
       },
       {
         "id": "negation",
@@ -135,7 +137,8 @@ export const GRAMMAR_CS: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with the Prefix Ne- — A1"
       },
       {
         "id": "questions",
@@ -172,7 +175,8 @@ export const GRAMMAR_CS: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions — A1"
       },
       {
         "id": "cases",
@@ -199,7 +203,8 @@ export const GRAMMAR_CS: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Seven Cases — A1"
       }
     ]
   }

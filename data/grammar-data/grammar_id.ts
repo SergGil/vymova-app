@@ -65,7 +65,8 @@ export const GRAMMAR_ID: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "zero-copula",
@@ -106,7 +107,8 @@ export const GRAMMAR_ID: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Zero Copula — A1"
       },
       {
         "id": "negation",
@@ -147,7 +149,8 @@ export const GRAMMAR_ID: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with Tidak / Bukan — A1"
       },
       {
         "id": "questions",
@@ -184,7 +187,8 @@ export const GRAMMAR_ID: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions with Apakah — A1"
       },
       {
         "id": "reduplication",
@@ -225,7 +229,8 @@ export const GRAMMAR_ID: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plural via Reduplication — A1"
       }
     ]
   }

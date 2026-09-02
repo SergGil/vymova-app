@@ -65,7 +65,8 @@ export const GRAMMAR_PCM: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "na-copula",
@@ -106,7 +107,8 @@ export const GRAMMAR_PCM: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Copula Na — A1"
       },
       {
         "id": "negation",
@@ -143,7 +145,8 @@ export const GRAMMAR_PCM: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with No — A1"
       },
       {
         "id": "questions",
@@ -180,7 +183,8 @@ export const GRAMMAR_PCM: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions — A1"
       },
       {
         "id": "dey-marker",
@@ -211,7 +215,8 @@ export const GRAMMAR_PCM: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Marker Dey — A1"
       }
     ]
   }

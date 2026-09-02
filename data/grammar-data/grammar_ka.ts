@@ -61,7 +61,8 @@ export const GRAMMAR_KA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -98,7 +99,8 @@ export const GRAMMAR_KA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Copula ვარ/ხარ/არის — A1"
       },
       {
         "id": "negation",
@@ -135,7 +137,8 @@ export const GRAMMAR_KA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with არ — A1"
       },
       {
         "id": "questions",
@@ -172,7 +175,8 @@ export const GRAMMAR_KA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions — A1"
       },
       {
         "id": "verb-agreement",
@@ -199,7 +203,8 @@ export const GRAMMAR_KA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Verb Agreement with Two Participants — A1"
       }
     ]
   }

@@ -61,7 +61,8 @@ export const GRAMMAR_SV: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -98,7 +99,8 @@ export const GRAMMAR_SV: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Att Vara (To Be) — A1"
       },
       {
         "id": "negation",
@@ -135,7 +137,8 @@ export const GRAMMAR_SV: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with Inte — A1"
       },
       {
         "id": "questions",
@@ -172,7 +175,8 @@ export const GRAMMAR_SV: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions — Inversion — A1"
       },
       {
         "id": "suffixed-article",
@@ -213,7 +217,8 @@ export const GRAMMAR_SV: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Suffixed Article — A1"
       }
     ]
   }

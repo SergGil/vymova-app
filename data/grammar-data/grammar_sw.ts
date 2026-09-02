@@ -61,7 +61,8 @@ export const GRAMMAR_SW: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subject Prefixes — A1"
       },
       {
         "id": "to-be",
@@ -98,7 +99,8 @@ export const GRAMMAR_SW: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Copula Ni — A1"
       },
       {
         "id": "negation",
@@ -135,7 +137,8 @@ export const GRAMMAR_SW: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with Si / Ha- — A1"
       },
       {
         "id": "questions",
@@ -172,7 +175,8 @@ export const GRAMMAR_SW: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions with Je — A1"
       },
       {
         "id": "noun-classes",
@@ -213,7 +217,8 @@ export const GRAMMAR_SW: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Noun Classes — A1"
       }
     ]
   }

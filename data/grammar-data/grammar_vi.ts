@@ -69,7 +69,8 @@ export const GRAMMAR_VI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "verb-la",
@@ -121,7 +122,8 @@ export const GRAMMAR_VI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Là (To Be) — A1"
       },
       {
         "id": "negation",
@@ -166,7 +168,8 @@ export const GRAMMAR_VI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with Không — A1"
       },
       {
         "id": "questions",
@@ -213,7 +216,8 @@ export const GRAMMAR_VI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions with Có...Không? — A1"
       },
       {
         "id": "classifiers",
@@ -266,7 +270,8 @@ export const GRAMMAR_VI: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Classifiers — A1"
       }
     ]
   }

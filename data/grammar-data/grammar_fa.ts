@@ -61,7 +61,8 @@ export const GRAMMAR_FA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -98,7 +99,8 @@ export const GRAMMAR_FA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Budan (To Be) — A1"
       },
       {
         "id": "negation",
@@ -135,7 +137,8 @@ export const GRAMMAR_FA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with Na- — A1"
       },
       {
         "id": "questions",
@@ -172,7 +175,8 @@ export const GRAMMAR_FA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions with Āyā — A1"
       },
       {
         "id": "word-order",
@@ -199,7 +203,8 @@ export const GRAMMAR_FA: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "SOV Word Order — A1"
       }
     ]
   }

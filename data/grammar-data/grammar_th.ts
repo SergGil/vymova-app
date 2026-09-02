@@ -61,7 +61,8 @@ export const GRAMMAR_TH: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -98,7 +99,8 @@ export const GRAMMAR_TH: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb เป็น (To Be) — A1"
       },
       {
         "id": "negation",
@@ -135,7 +137,8 @@ export const GRAMMAR_TH: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with ไม่ — A1"
       },
       {
         "id": "questions",
@@ -172,7 +175,8 @@ export const GRAMMAR_TH: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions with ไหม — A1"
       },
       {
         "id": "no-conjugation",
@@ -199,7 +203,8 @@ export const GRAMMAR_TH: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "No Conjugation or Tense — A1"
       }
     ]
   }

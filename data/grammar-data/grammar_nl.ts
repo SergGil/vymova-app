@@ -53,7 +53,8 @@ export const GRAMMAR_NL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Articles De / Het — A1"
       },
       {
         "id": "verb-zijn",
@@ -120,7 +121,8 @@ export const GRAMMAR_NL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Zijn (To Be) — A1"
       },
       {
         "id": "plural",
@@ -169,7 +171,8 @@ export const GRAMMAR_NL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plural Nouns — A1"
       },
       {
         "id": "pronouns",
@@ -223,7 +226,8 @@ export const GRAMMAR_NL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "present-tense",
@@ -280,7 +284,8 @@ export const GRAMMAR_NL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Tense — A1"
       }
     ]
   }

@@ -60,7 +60,8 @@ export const GRAMMAR_PL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Noun Gender — A1"
       },
       {
         "id": "verb-byc",
@@ -127,7 +128,8 @@ export const GRAMMAR_PL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Być (To Be) — A1"
       },
       {
         "id": "plural",
@@ -176,7 +178,8 @@ export const GRAMMAR_PL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plural Nouns — A1"
       },
       {
         "id": "pronouns",
@@ -230,7 +233,8 @@ export const GRAMMAR_PL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "cases-intro",
@@ -275,7 +279,8 @@ export const GRAMMAR_PL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Introduction to the Cases — A2"
       }
     ]
   }

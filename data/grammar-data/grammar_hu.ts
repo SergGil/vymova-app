@@ -61,7 +61,8 @@ export const GRAMMAR_HU: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -102,7 +103,8 @@ export const GRAMMAR_HU: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Van (To Be) — A1"
       },
       {
         "id": "negation",
@@ -139,7 +141,8 @@ export const GRAMMAR_HU: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with Nem — A1"
       },
       {
         "id": "questions",
@@ -176,7 +179,8 @@ export const GRAMMAR_HU: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions — A1"
       },
       {
         "id": "case-suffixes",
@@ -213,7 +217,8 @@ export const GRAMMAR_HU: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Case Suffixes Instead of Prepositions — A1"
       }
     ]
   }

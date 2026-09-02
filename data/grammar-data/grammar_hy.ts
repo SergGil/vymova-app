@@ -61,7 +61,8 @@ export const GRAMMAR_HY: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -98,7 +99,8 @@ export const GRAMMAR_HY: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Copula Եմ/Ես/Է — A1"
       },
       {
         "id": "negation",
@@ -135,7 +137,8 @@ export const GRAMMAR_HY: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation with the Prefix Չ- — A1"
       },
       {
         "id": "questions",
@@ -172,7 +175,8 @@ export const GRAMMAR_HY: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Questions — Stress Shift — A1"
       },
       {
         "id": "no-gender",
@@ -199,7 +203,8 @@ export const GRAMMAR_HY: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "No Grammatical Gender or Prepositions — A1"
       }
     ]
   }

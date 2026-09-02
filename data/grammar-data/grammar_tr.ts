@@ -62,7 +62,8 @@ export const GRAMMAR_TR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "to-be",
@@ -119,7 +120,8 @@ export const GRAMMAR_TR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "-Dır / The Equivalent of \"To Be\" — A1"
       },
       {
         "id": "plural",
@@ -168,7 +170,8 @@ export const GRAMMAR_TR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Plural Suffix -Lar/-Ler — A1"
       },
       {
         "id": "possessive",
@@ -221,7 +224,8 @@ export const GRAMMAR_TR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possessive Suffixes — A2"
       },
       {
         "id": "present-tense",
@@ -278,7 +282,8 @@ export const GRAMMAR_TR: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Tense — A1"
       }
     ]
   }
