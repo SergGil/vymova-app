@@ -57,7 +57,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Definite Article Ha- — A1"
       },
       {
         "id": "gender",
@@ -106,7 +107,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Masculine & Feminine — A1"
       },
       {
         "id": "present-tense",
@@ -168,7 +170,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Tense (Verb Conjugation) — A1"
       },
       {
         "id": "pronouns-to-be",
@@ -234,7 +237,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "אני מורה literally means \"I teacher\" — no equivalent of \"am/is/are\" is needed in the present tense."
             }
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "plural",
@@ -287,7 +291,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plural — A1"
       },
       {
         "id": "adjective-agreement",
@@ -357,7 +362,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "If the noun is definite, ה- is added to BOTH the noun and the adjective: הבית הגדול (\"the big house\")."
             }
           }
-        ]
+        ],
+        "titleEn": "Adjective-Noun Agreement — A1"
       },
       {
         "id": "yesh-ein",
@@ -445,7 +451,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Hebrew has no separate verb \"to have\" — the construction יש ל- literally means \"there is, to me\", not \"I have\"."
             }
           }
-        ]
+        ],
+        "titleEn": "Yesh / Ein (There Is/Isn't) — A1"
       },
       {
         "id": "possession-shel",
@@ -522,7 +529,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possession with Shel — A1"
       },
       {
         "id": "negation-lo",
@@ -578,7 +586,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "לא negates an action or quality (\"I don't...\"), אין negates existence (\"there isn't...\"), and בלי means \"without\" (a preposition)."
             }
           }
-        ]
+        ],
+        "titleEn": "Negation with Lo — A1"
       },
       {
         "id": "numbers-cardinal-basic",
@@ -668,7 +677,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Counter-intuitively, the form with the ה- suffix (e.g. שלושה) is used for MASCULINE nouns, while the shorter form (שלוש) is used for FEMININE nouns."
             }
           }
-        ]
+        ],
+        "titleEn": "Numbers 1-10 — A1"
       }
     ]
   },
@@ -740,7 +750,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Recognizing the binyan lets you predict a new verb's entire conjugation pattern once you spot its vowel/prefix template — this is the single most powerful tool for learning Hebrew verbs."
             }
           }
-        ]
+        ],
+        "titleEn": "The Seven Binyanim (Verb Patterns) — A2"
       },
       {
         "id": "paal-past",
@@ -834,7 +845,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Second-person masculine and first-person forms look similar: כתבת (\"you\", m.) vs כתבתי (\"I\") — the suffix is what distinguishes them."
             }
           }
-        ]
+        ],
+        "titleEn": "Binyan Pa'al — Past"
       },
       {
         "id": "paal-present-full",
@@ -904,7 +916,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "The present-tense form (beinoni) also doubles as a plain adjective and as a noun: כותב can mean \"writing\", \"one who writes\", or \"a writer\" depending on context."
             }
           }
-        ]
+        ],
+        "titleEn": "Binyan Pa'al — Present (Extended)"
       },
       {
         "id": "paal-future",
@@ -998,7 +1011,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Remember the future-tense prefixes as spelling the word איתן (\"sturdy\"): א (I), ת (you/she), י (he/they), נ (we)."
             }
           }
-        ]
+        ],
+        "titleEn": "Binyan Pa'al — Future"
       },
       {
         "id": "paal-imperative",
@@ -1062,7 +1076,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "You cannot negate the imperative directly — use אל + the future tense instead: אל תכתוב! (\"Don't write!\")."
             }
           }
-        ]
+        ],
+        "titleEn": "Binyan Pa'al — Imperative"
       },
       {
         "id": "piel-conjugation",
@@ -1202,7 +1217,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Piel is recognizable by its \"doubled\" middle root consonant (in the dictionary form) and by the מ- prefix in the present tense without the extra vowel pattern Hifil has."
             }
           }
-        ]
+        ],
+        "titleEn": "Binyan Piel — A2"
       },
       {
         "id": "hifil-conjugation",
@@ -1342,7 +1358,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Many Hifil verbs express \"causing\": להכניס (\"to bring in\", lit. \"to cause to enter\"), להסביר (\"to explain\", lit. \"to make clear\")."
             }
           }
-        ]
+        ],
+        "titleEn": "Binyan Hif'il — A2"
       },
       {
         "id": "nifal-conjugation",
@@ -1482,7 +1499,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "In the dictionary form (past tense, \"he\"), Nifal verbs always start with נ-: נכנס, נשבר, נולד."
             }
           }
-        ]
+        ],
+        "titleEn": "Binyan Nif'al — A2"
       },
       {
         "id": "hitpael-conjugation",
@@ -1622,7 +1640,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Hitpael always starts with הת- (past/dictionary form) or מת- (present tense): התלבש (\"got dressed\"), מתאמן (\"is training\")."
             }
           }
-        ]
+        ],
+        "titleEn": "Binyan Hitpael — A2"
       },
       {
         "id": "pual-hufal",
@@ -1688,7 +1707,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Both passive binyanim feature a characteristic \"u\" vowel in the first syllable — the fastest way to spot a passive form at a glance."
             }
           }
-        ]
+        ],
+        "titleEn": "Passive Binyanim — Pu'al & Huf'al"
       },
       {
         "id": "infinitive-construct",
@@ -1758,7 +1778,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "רוצה (want), צריך (need to), יכול (can), אוהב (like [doing]), מתחיל (start to) — all require the ל- infinitive right after them."
             }
           }
-        ]
+        ],
+        "titleEn": "The Infinitive — A2"
       }
     ]
   },
@@ -1824,7 +1845,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Unlike adjective agreement (where ה- is doubled), in smichut the ה- goes ONLY before the second word: בית הספר, never הבית הספר."
             }
           }
-        ]
+        ],
+        "titleEn": "The Construct State (Smichut) — B1"
       },
       {
         "id": "direct-object-et",
@@ -1903,7 +1925,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Direct Object Marker Et — A2"
       },
       {
         "id": "prepositions-le",
@@ -1964,7 +1987,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Preposition Le- — A1"
       },
       {
         "id": "prepositions-be",
@@ -2029,7 +2053,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Preposition Be- — A1"
       },
       {
         "id": "prepositions-im-etzel",
@@ -2086,7 +2111,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Im / Etzel (With/At) — A2"
       },
       {
         "id": "prepositions-al-min",
@@ -2143,7 +2169,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Al / Min (On/From) — A2"
       },
       {
         "id": "question-words",
@@ -2216,7 +2243,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Question Words — A1"
       },
       {
         "id": "word-order",
@@ -2268,7 +2296,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Time/place adverbials are often fronted for emphasis, without changing the meaning: היום אני עובד = אני עובד היום (\"Today I'm working\")."
             }
           }
-        ]
+        ],
+        "titleEn": "Word Order — A2"
       },
       {
         "id": "relative-clause-she",
@@ -2324,7 +2353,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "אשר is a literary/formal synonym for ש-, but everyday spoken Hebrew almost always uses the shorter ש-."
             }
           }
-        ]
+        ],
+        "titleEn": "Relative Clauses with She- — A2"
       },
       {
         "id": "comparatives-superlatives",
@@ -2382,7 +2412,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "In comparisons, the second element (\"than X\") is introduced with the preposition מ-: גדול יותר ממנו (\"bigger than him\")."
             }
           }
-        ]
+        ],
+        "titleEn": "Comparison — Yoter, Hachi"
       },
       {
         "id": "modal-words",
@@ -2452,7 +2483,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Unlike צריך and יכול, the words מותר and אסור do NOT agree in gender/number — they always stay in one fixed form."
             }
           }
-        ]
+        ],
+        "titleEn": "Modal Words — Tsarich, Yachol, Rotse"
       },
       {
         "id": "numbers-11-20",
@@ -2509,7 +2541,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Numbers 11-20 — A2"
       },
       {
         "id": "numbers-tens-hundreds",
@@ -2583,7 +2616,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Just like with nouns, the -ayim suffix means \"two\": מאתיים (200 = \"two hundreds\"), אלפיים (2000 = \"two thousands\")."
             }
           }
-        ]
+        ],
+        "titleEn": "Tens & Hundreds — B1"
       },
       {
         "id": "ordinal-numbers",
@@ -2640,7 +2674,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ordinal Numbers — A2"
       },
       {
         "id": "days-of-week",
@@ -2705,7 +2740,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Days of the Week — A1"
       },
       {
         "id": "telling-time",
@@ -2762,7 +2798,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Telling Time — A2"
       },
       {
         "id": "months-dates",
@@ -2819,7 +2856,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Months & Dates — A2"
       },
       {
         "id": "conjunctions-basic",
@@ -2880,7 +2918,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Basic Conjunctions — A1"
       },
       {
         "id": "conjunctions-advanced",
@@ -2945,7 +2984,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Advanced Conjunctions — B1"
       },
       {
         "id": "adverbs",
@@ -3006,7 +3046,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adverbs — A2"
       },
       {
         "id": "gam-rak",
@@ -3041,7 +3082,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Gam / Rak (Also/Only) — A2"
       },
       {
         "id": "dual-number",
@@ -3107,7 +3149,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "The -ayim form specifically means \"two\", not just \"plural\": \"three days\" needs the regular plural with a numeral instead — שלושה ימים."
             }
           }
-        ]
+        ],
+        "titleEn": "The Dual Number (-Ayim) — B1"
       },
       {
         "id": "root-pattern-system",
@@ -3156,7 +3199,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Once you recognize the root ל-מ-ד (\"to learn\"), you can guess the meaning of many unfamiliar words that contain the same three consonants in different patterns."
             }
           }
-        ]
+        ],
+        "titleEn": "Root & Pattern System (Shoresh U-Mishkal) — B1"
       },
       {
         "id": "passive-voice-overview",
@@ -3197,7 +3241,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Unlike English (\"by someone\"), Hebrew passive sentences typically do NOT specify who performed the action — that's a natural feature of the passive here."
             }
           }
-        ]
+        ],
+        "titleEn": "Passive Voice in Hebrew — B1"
       },
       {
         "id": "negation-nuances",
@@ -3262,7 +3307,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation Nuances — B1"
       },
       {
         "id": "quantifiers",
@@ -3323,7 +3369,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Quantifiers — Harbe, Me'at, Kol"
       },
       {
         "id": "possessive-suffixes-attached",
@@ -3385,7 +3432,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "In daily spoken Hebrew, the של construction (e.g. אבא שלי) is used far more often than attached suffixes, which sound more formal or literary."
             }
           }
-        ]
+        ],
+        "titleEn": "Attached Possessive Suffixes — B1"
       },
       {
         "id": "imperative-politeness",
@@ -3429,7 +3477,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "For polite requests, the future tense is often used instead of the imperative: תסגור את הדלת, בבקשה sounds softer than the blunt סגור! (\"close!\")."
             }
           }
-        ]
+        ],
+        "titleEn": "Politeness & Requests — A2"
       },
       {
         "id": "greetings-basic",
@@ -3490,7 +3539,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Basic Greetings — A1"
       },
       {
         "id": "family-vocab-grammar",
@@ -3547,7 +3597,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Family & Possession — A1"
       },
       {
         "id": "body-health-expr",
@@ -3596,7 +3647,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Expressions with Ko'ev Li (It Hurts Me) — A2"
       },
       {
         "id": "kvar-adayin",
@@ -3649,7 +3701,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Kvar / Adayin (Already/Still) — B1"
       },
       {
         "id": "time-expressions-relative",
@@ -3710,7 +3763,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Time Expressions — A2"
       },
       {
         "id": "subject-pronoun-drop",
@@ -3750,7 +3804,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "In the present tense, the verb form (beinoni) by itself doesn't mark person (only gender/number), so the pronoun is ALWAYS required: אני הולך, never just הולך."
             }
           }
-        ]
+        ],
+        "titleEn": "Subject Pronoun Dropping — B1"
       },
       {
         "id": "comparison-irregular",
@@ -3799,7 +3854,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Comparisons — B1"
       },
       {
         "id": "purpose-kedei",
@@ -3842,7 +3898,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Kedei Le- (Purpose Clauses) — B1"
       },
       {
         "id": "conditional-im",
@@ -3894,7 +3951,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "For unreal/hypothetical conditions (\"if I were...\"), Hebrew uses הייתי + infinitive: אם הייתי עשיר, הייתי קונה בית (\"If I were rich, I would buy a house\")."
             }
           }
-        ]
+        ],
+        "titleEn": "Conditional Sentences with Im — B1"
       },
       {
         "id": "wishes-halevai",
@@ -3925,7 +3983,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Halevai — Wishes"
       },
       {
         "id": "common-idioms",
@@ -3982,7 +4041,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Common Idioms — B1"
       },
       {
         "id": "register-formal-informal",
@@ -4023,7 +4083,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "In letters, résumés, and official documents, avoid casual contractions and slang — use full grammatical forms instead."
             }
           }
-        ]
+        ],
+        "titleEn": "Register — Formal vs Everyday"
       },
       {
         "id": "numbers-currency-prices",
@@ -4058,7 +4119,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Prices & Currency — A2"
       },
       {
         "id": "weather-expressions",
@@ -4115,7 +4177,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Weather Expressions — A1"
       },
       {
         "id": "exclamations",
@@ -4172,7 +4235,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Exclamations & Expressions — A1"
       }
     ]
   },
@@ -4256,7 +4320,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "The same pattern applies to לחשוב (\"to think\"), לחלום (\"to dream\"), לעבוד (\"to work\") — all starting with a guttural consonant."
             }
           }
-        ]
+        ],
+        "titleEn": "Weak Roots — Initial Guttural (Pe Guttural)"
       },
       {
         "id": "weak-roots-first-nun",
@@ -4332,7 +4397,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "ליפול (\"to fall\", root נ-פ-ל) behaves the same way: נופל (present) → נפל (past) → ייפול (future, the נ disappears)."
             }
           }
-        ]
+        ],
+        "titleEn": "Weak Roots — Initial Nun (Pe-Nun)"
       },
       {
         "id": "weak-roots-hollow",
@@ -4408,7 +4474,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "לקום (\"to get up\", root ק-ו-ם) is the same type: קם (present/past, \"he\") → אקום (future, \"I\") → קום! (imperative)."
             }
           }
-        ]
+        ],
+        "titleEn": "Weak Roots — Hollow (Ayin-Vav/Ayin-Yod)"
       },
       {
         "id": "weak-roots-final-heh",
@@ -4484,7 +4551,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Many common verbs belong here: לראות (\"to see\"), לעשות (\"to do\"), לרצות (\"to want\"), לבכות (\"to cry\") — all end in ה- in the dictionary form."
             }
           }
-        ]
+        ],
+        "titleEn": "Weak Roots — Final Heh (Lamed-Heh)"
       },
       {
         "id": "weak-roots-geminate",
@@ -4551,7 +4619,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Weak Roots — Geminate (Ayin-Ayin)"
       },
       {
         "id": "irregular-common-verbs",
@@ -4644,7 +4713,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Common Irregular Verbs — A2"
       },
       {
         "id": "irregular-plurals",
@@ -4714,7 +4784,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "אב (\"father\") is masculine, yet its plural takes the ות- ending (typically feminine) — the plural ending doesn't always reflect the singular's gender."
             }
           }
-        ]
+        ],
+        "titleEn": "Irregular Plurals — A2"
       },
       {
         "id": "spelling-ktiv",
@@ -4755,7 +4826,8 @@ export const GRAMMAR_HE: GrammarCategory[] = [
               "text": "Nearly everything you see in books, on signs, or in the news is written without niqqud, in \"full spelling\". Niqqud mainly appears in children's books, prayer books, and beginner textbooks."
             }
           }
-        ]
+        ],
+        "titleEn": "Full vs Defective Spelling (Ktiv Male/Chaser) — B2"
       }
     ]
   }
