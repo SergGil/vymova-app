@@ -7,7 +7,7 @@ describe('grammar-quiz-logic', () => {
   // grammar-loader's cache (js/features/grammar-loader.ts) — every language
   // it might land on across the tests below needs to be preloaded first.
   beforeAll(async () => {
-    await Promise.all(['en', 'es', 'ua', 'it'].map((lang) => ensureGrammarLoaded(lang)));
+    await Promise.all(['en', 'es', 'ua', 'af'].map((lang) => ensureGrammarLoaded(lang)));
   });
 
   afterEach(() => {
@@ -35,11 +35,11 @@ describe('grammar-quiz-logic', () => {
     });
 
     it('skips a learn language with too few distinct rules for a 4-option quiz, even if it has many example rows', () => {
-      // 'it' currently ships only 2 grammar rules (with several examples
-      // each) — plenty of raw rows, but not enough distinct answer options
-      // for a 4-choice quiz. 'ua' has no grammar data at all, so a
-      // typical Ukrainian-speaking learner of Italian must land on 'en'.
-      localStorage.setItem('ew_learn_lang', 'it');
+      // 'af' currently ships only 1 grammar rule (with several examples) —
+      // plenty of raw rows, but not enough distinct answer options for a
+      // 4-choice quiz. 'ua' has no grammar data at all, so a typical
+      // Ukrainian-speaking learner of Afrikaans must land on 'en'.
+      localStorage.setItem('ew_learn_lang', 'af');
       localStorage.setItem('ew_know_lang', 'ua');
       const { lang, items } = pickPool();
       expect(lang).toBe('en');

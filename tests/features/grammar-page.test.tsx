@@ -115,10 +115,10 @@ describe('grammar-page.tsx GrammarPage', () => {
     expect(container.querySelector('.gr-empty')).toBeNull();
   });
 
-  it('shows Arabic grammar (5 rules) when learning Arabic', async () => {
+  it('shows Arabic grammar (70 rules) when learning Arabic', async () => {
     localStorage.setItem('ew_learn_lang', 'ar');
     const { container } = await mount();
-    expect(container.querySelectorAll('.gr-nav-btn').length).toBe(5);
+    expect(container.querySelectorAll('.gr-nav-btn').length).toBe(70);
     expect(container.querySelector('.gr-empty')).toBeNull();
   });
 

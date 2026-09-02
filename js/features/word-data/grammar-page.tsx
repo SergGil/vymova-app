@@ -14,6 +14,18 @@ function _localizeSection(s: GSection): GSection {
   return s;
 }
 
+// English-UI users get titleEn alone (already fully localized); every other
+// UI language (including Ukrainian) sees the native-script/target-language
+// title with an English gloss appended — English being the only alternate
+// translation this dataset carries per rule, so it's the best universal
+// bridge for a title otherwise opaque to a non-target-language reader
+// (e.g. Arabic/Devanagari/Hanzi script for a French- or Ukrainian-UI user).
+function _displayTitle(title: string, titleEn?: string): string {
+  if (!titleEn) return title;
+  if (getLang() === 'en') return titleEn;
+  return `${title} (${titleEn})`;
+}
+
 // ── Level sort ────────────────────────────────────────────────
 function _levelOrder(title: string): number {
   const m = title.match(/—\s*(A1|A2|B1|B2|C1|C2)/);
@@ -123,7 +135,7 @@ function _renderSection(s: GSection): string {
 
 function _renderRuleHtml(rule: GrammarRule): string {
   return `
-    <div class="gr-rule-title mb-[18px] border-b-2 border-[var(--border)] pb-2.5 font-['DM_Serif_Display',serif] text-[1.6rem] text-[var(--text)] max-[640px]:text-[1.25rem]">${rule.emoji} ${getLang() === 'en' && rule.titleEn ? rule.titleEn : rule.title}</div>
+    <div class="gr-rule-title mb-[18px] border-b-2 border-[var(--border)] pb-2.5 font-['DM_Serif_Display',serif] text-[1.6rem] text-[var(--text)] max-[640px]:text-[1.25rem]">${rule.emoji} ${_displayTitle(rule.title, rule.titleEn)}</div>
     ${rule.sections.map((s) => _renderSection(_localizeSection(s))).join('')}
   `;
 }
@@ -220,7 +232,7 @@ export function GrammarPage(): ReactElement {
           return (
             <div className="gr-cat mb-3.5" key={cat.title}>
               <div className="gr-cat-title mb-1 px-2 text-[.68rem] font-extrabold uppercase tracking-[0.07em] text-[var(--text3)]">
-                {cat.emoji} {getLang() === 'en' && cat.titleEn ? cat.titleEn : cat.title}
+                {cat.emoji} {_displayTitle(cat.title, cat.titleEn)}
               </div>
               <div className="gr-cat-rules flex flex-col gap-0.5 max-[640px]:flex-row max-[640px]:flex-wrap">
                 {sorted.map((r) => (
@@ -237,7 +249,7 @@ export function GrammarPage(): ReactElement {
                       }
                     }}
                   >
-                    {r.emoji} {getLang() === 'en' && r.titleEn ? r.titleEn : r.title}
+                    {r.emoji} {_displayTitle(r.title, r.titleEn)}
                   </button>
                 ))}
               </div>
