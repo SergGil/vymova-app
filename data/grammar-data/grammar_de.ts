@@ -69,7 +69,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Präsens (Present Tense) — A1"
       },
       {
         "id": "perfekt",
@@ -116,7 +117,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Perfekt (Present Perfect) — A2"
       },
       {
         "id": "praeteritum",
@@ -177,7 +179,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Präteritum (Simple Past) — A2"
       },
       {
         "id": "plusquamperfekt",
@@ -219,7 +222,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plusquamperfekt (Past Perfect) — B1"
       },
       {
         "id": "futur-1",
@@ -261,7 +265,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Futur I (Future Tense) — A2"
       },
       {
         "id": "futur-2",
@@ -303,7 +308,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Futur II (Future Perfect) — B2"
       },
       {
         "id": "imperativ",
@@ -352,7 +358,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Imperativ (Imperative) — A1"
       },
       {
         "id": "konjunktiv-2-gegenwart",
@@ -399,7 +406,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Konjunktiv II — Present"
       },
       {
         "id": "konjunktiv-2-vergangenheit",
@@ -441,7 +449,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Konjunktiv II — Past"
       },
       {
         "id": "konjunktiv-1",
@@ -486,7 +495,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Konjunktiv I (Reported Speech) — B2"
       },
       {
         "id": "passiv-vorgang",
@@ -528,7 +538,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Voice (Vorgangspassiv) — B1"
       },
       {
         "id": "passiv-zustand",
@@ -570,7 +581,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Stative Passive (Zustandspassiv) — B2"
       },
       {
         "id": "modalverben-perfekt",
@@ -612,7 +624,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Modal Verbs in the Perfekt — B2"
       }
     ]
   },
@@ -695,7 +708,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Sein vs Haben (To Be vs To Have) — A1"
       },
       {
         "id": "articles",
@@ -760,7 +774,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Articles Der/Die/Das — A1"
       }
     ]
   },
@@ -825,7 +840,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Nominativ (Nominative Case) — A1"
       },
       {
         "id": "akkusativ",
@@ -882,7 +898,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Akkusativ (Accusative Case) — A1"
       },
       {
         "id": "dativ",
@@ -939,7 +956,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Dativ (Dative Case) — A1"
       },
       {
         "id": "genitiv",
@@ -996,7 +1014,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Genitiv (Genitive Case) — B1"
       },
       {
         "id": "personalpronomen",
@@ -1063,7 +1082,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "possessivpronomen",
@@ -1128,7 +1148,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possessive Pronouns — A1"
       },
       {
         "id": "modalverben",
@@ -1189,7 +1210,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Modal Verbs — A2"
       },
       {
         "id": "adjektivdeklination",
@@ -1242,7 +1264,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adjective Declension — B1"
       },
       {
         "id": "komparativ-superlativ",
@@ -1291,7 +1314,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Comparative & Superlative — A2"
       },
       {
         "id": "praepositionen-akkusativ",
@@ -1326,7 +1350,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Prepositions with Akkusativ — A2"
       },
       {
         "id": "praepositionen-dativ",
@@ -1361,7 +1386,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Prepositions with Dativ — A2"
       },
       {
         "id": "wechselpraepositionen",
@@ -1392,7 +1418,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Two-Way Prepositions (Wechselpräpositionen) — B1"
       },
       {
         "id": "praepositionen-genitiv",
@@ -1423,7 +1450,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Prepositions with Genitiv — B2"
       },
       {
         "id": "woertfolge-hauptsatz",
@@ -1454,7 +1482,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Word Order in Main Clauses — A1"
       },
       {
         "id": "woertfolge-nebensatz",
@@ -1485,7 +1514,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Word Order in Subordinate Clauses — A2"
       },
       {
         "id": "konjunktionen-koordinierend",
@@ -1516,7 +1546,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Coordinating Conjunctions — A2"
       },
       {
         "id": "konjunktionen-subordinierend",
@@ -1547,7 +1578,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subordinating Conjunctions — B1"
       },
       {
         "id": "relativsaetze",
@@ -1578,7 +1610,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Relative Clauses — B1"
       },
       {
         "id": "fragewoerter",
@@ -1609,7 +1642,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Question Words — A1"
       },
       {
         "id": "ja-nein-fragen",
@@ -1640,7 +1674,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Yes/No Questions — A1"
       },
       {
         "id": "verneinung",
@@ -1671,7 +1706,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation (Nicht/Kein) — A1"
       },
       {
         "id": "reflexivverben",
@@ -1732,7 +1768,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Reflexive Verbs — A2"
       },
       {
         "id": "trennbare-verben-intro",
@@ -1763,7 +1800,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Separable Verb Prefixes — A2"
       },
       {
         "id": "untrennbare-verben",
@@ -1794,7 +1832,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Inseparable Verb Prefixes — B1"
       },
       {
         "id": "nomen-plural",
@@ -1847,7 +1886,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Noun Plurals — A1"
       },
       {
         "id": "nomen-genus",
@@ -1896,7 +1936,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Noun Gender — A1"
       },
       {
         "id": "zusammengesetzte-nomen",
@@ -1927,7 +1968,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Compound Nouns (Komposita) — A2"
       },
       {
         "id": "da-wo-composita",
@@ -1958,7 +2000,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Da-/Wo- Compounds — B1"
       },
       {
         "id": "zahlen",
@@ -2007,7 +2050,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Cardinal Numbers — A1"
       },
       {
         "id": "ordinalzahlen",
@@ -2056,7 +2100,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ordinal Numbers — A1"
       },
       {
         "id": "uhrzeit",
@@ -2105,7 +2150,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Time of Day (Uhrzeit) — A1"
       },
       {
         "id": "datum",
@@ -2136,7 +2182,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Date — A1"
       },
       {
         "id": "modalpartikeln",
@@ -2167,7 +2214,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Modal Particles — B1"
       },
       {
         "id": "konjunktiv-hoeflichkeit",
@@ -2198,7 +2246,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Polite Requests (Konjunktiv II) — A2"
       },
       {
         "id": "infinitiv-mit-zu",
@@ -2229,7 +2278,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Infinitive with Zu — B1"
       },
       {
         "id": "um-zu-damit",
@@ -2260,7 +2310,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Um...Zu / Damit (Purpose) — B1"
       },
       {
         "id": "lassen-konstruktion",
@@ -2291,7 +2342,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Lassen Construction — B1"
       },
       {
         "id": "es-gibt",
@@ -2322,7 +2374,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Construction Es Gibt — A1"
       },
       {
         "id": "adjektive-praedikativ-attributiv",
@@ -2353,7 +2406,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Predicative vs Attributive Adjectives — A2"
       },
       {
         "id": "adverbien",
@@ -2384,7 +2438,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adverbs — A2"
       },
       {
         "id": "steigerung-unregelmaessig",
@@ -2437,7 +2492,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Comparatives — A2"
       },
       {
         "id": "genitiv-vs-von",
@@ -2468,7 +2524,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Genitiv vs Von + Dativ — B1"
       },
       {
         "id": "indirekte-fragesaetze",
@@ -2499,7 +2556,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Indirect Questions — B1"
       },
       {
         "id": "konjunktiv-wuensche",
@@ -2530,7 +2588,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Wishes (Ich Wünschte...) — B2"
       },
       {
         "id": "partizip-1-2",
@@ -2561,7 +2620,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Partizip I & II as Adjectives — B1"
       },
       {
         "id": "erweitertes-partizip",
@@ -2592,7 +2652,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Extended Participle Construction — C1"
       },
       {
         "id": "nominalisierung",
@@ -2623,7 +2684,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Nominalization of Verbs — B2"
       },
       {
         "id": "satzklammer",
@@ -2654,7 +2716,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Sentence Bracket (Satzklammer) — B1"
       },
       {
         "id": "stellung-objekte",
@@ -2685,7 +2748,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Object Order (Akkusativ vs Dativ) — B1"
       },
       {
         "id": "hoeflichkeitsform",
@@ -2716,7 +2780,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Polite Form Sie — A1"
       },
       {
         "id": "anrede-briefe",
@@ -2747,7 +2812,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Forms of Address in Letters & Email — A2"
       },
       {
         "id": "modalverben-subjektiv",
@@ -2778,7 +2844,8 @@ export const GRAMMAR_DE: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subjective Use of Modal Verbs — C1"
       }
     ]
   },
