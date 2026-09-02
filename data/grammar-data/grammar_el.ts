@@ -57,7 +57,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Articles Ο/Η/Το — A1"
       },
       {
         "id": "verb-eimai",
@@ -124,7 +125,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Είμαι (To Be) — A1"
       },
       {
         "id": "plural",
@@ -173,7 +175,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Plural Nouns — A1"
       },
       {
         "id": "pronouns",
@@ -227,7 +230,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Personal Pronouns — A1"
       },
       {
         "id": "verb-echo",
@@ -284,7 +288,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Verb Έχω (To Have) — A1"
       }
     ]
   },
@@ -381,7 +386,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Tense — 1st Conjugation (-ω)"
       },
       {
         "id": "present-b-conjugation",
@@ -487,7 +493,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Tense — 2nd Conjugation (-άω/-ώ)"
       },
       {
         "id": "imperfect",
@@ -577,7 +584,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Imperfect (Παρατατικός) — A2"
       },
       {
         "id": "aorist",
@@ -680,7 +688,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Aorist (Αόριστος) — A2"
       },
       {
         "id": "future-simple",
@@ -764,7 +773,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Simple Future (Θα + Aorist) — A1"
       },
       {
         "id": "future-continuous",
@@ -831,7 +841,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Continuous Future (Θα + Present) — A2"
       },
       {
         "id": "present-perfect",
@@ -916,7 +927,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Present Perfect (Παρακείμενος) — B1"
       },
       {
         "id": "pluperfect",
@@ -992,7 +1004,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Pluperfect (Υπερσυντέλικος) — B1"
       },
       {
         "id": "subjunctive-na",
@@ -1054,7 +1067,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Subjunctive with Να — A2"
       },
       {
         "id": "imperative",
@@ -1133,7 +1147,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Imperative (Προστακτική) — A2"
       },
       {
         "id": "passive-present",
@@ -1209,7 +1224,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Voice — Present"
       },
       {
         "id": "passive-aorist",
@@ -1285,7 +1301,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Voice — Aorist"
       },
       {
         "id": "aspect-overview",
@@ -1339,7 +1356,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Verbal Aspect: Imperfective vs Perfective — B1"
       }
     ]
   },
@@ -1392,7 +1410,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Nominative Case — A1"
       },
       {
         "id": "case-genitive",
@@ -1450,7 +1469,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Genitive Case — A2"
       },
       {
         "id": "case-accusative",
@@ -1503,7 +1523,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Accusative Case — A1"
       },
       {
         "id": "case-vocative",
@@ -1556,7 +1577,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Vocative Case — A2"
       },
       {
         "id": "decl-masc-os",
@@ -1609,7 +1631,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Masculine Nouns in -ος — Declension"
       },
       {
         "id": "decl-masc-is-as",
@@ -1666,7 +1689,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Masculine Nouns in -ης/-ας — Declension"
       },
       {
         "id": "decl-fem-a",
@@ -1719,7 +1743,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Feminine Nouns in -α — Declension"
       },
       {
         "id": "decl-fem-i",
@@ -1768,7 +1793,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Feminine Nouns in -η — Declension"
       },
       {
         "id": "decl-neut-o",
@@ -1817,7 +1843,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Neuter Nouns in -ο — Declension"
       },
       {
         "id": "decl-neut-i",
@@ -1870,7 +1897,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Neuter Nouns in -ι — Declension"
       },
       {
         "id": "decl-irregular-nouns",
@@ -1931,7 +1959,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Nouns — Declension"
       },
       {
         "id": "adjective-agreement",
@@ -1984,7 +2013,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adjective-Noun Agreement — A1"
       },
       {
         "id": "comparative-superlative",
@@ -2037,7 +2067,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Comparative & Superlative Degree — A2"
       },
       {
         "id": "weak-personal-pronouns",
@@ -2102,7 +2133,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Weak Personal Pronouns — A2"
       },
       {
         "id": "possessive-pronouns",
@@ -2163,7 +2195,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possessive Pronouns — A1"
       },
       {
         "id": "demonstrative-pronouns",
@@ -2216,7 +2249,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Demonstrative Pronouns (Αυτός/Εκείνος) — A2"
       },
       {
         "id": "relative-pronouns",
@@ -2265,7 +2299,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Relative Pronouns (Που, Ο Οποίος) — B1"
       },
       {
         "id": "interrogative-pronouns",
@@ -2318,7 +2353,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Interrogative Pronouns (Ποιος, Τι, Πόσος) — A1"
       },
       {
         "id": "indefinite-pronouns",
@@ -2379,7 +2415,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Indefinite Pronouns (Κάποιος, Κανένας, Όλος) — B1"
       },
       {
         "id": "clitic-placement",
@@ -2441,7 +2478,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Placement of Weak Pronouns — B1"
       },
       {
         "id": "preposition-se",
@@ -2494,7 +2532,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Preposition Σε — A1"
       },
       {
         "id": "preposition-apo",
@@ -2543,7 +2582,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Preposition Από — A1"
       },
       {
         "id": "preposition-me-gia",
@@ -2596,7 +2636,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "The Prepositions Με and Για — A2"
       },
       {
         "id": "preposition-other",
@@ -2653,7 +2694,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Other Prepositions (Χωρίς, Πριν, Μετά, Κατά) — B1"
       },
       {
         "id": "word-order",
@@ -2707,7 +2749,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Word Order — A2"
       },
       {
         "id": "conjunctions-coordinating",
@@ -2753,7 +2796,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Coordinating Conjunctions (Και, Ή, Αλλά) — A1"
       },
       {
         "id": "conjunctions-subordinating",
@@ -2803,7 +2847,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Subordinating Conjunctions (Επειδή, Αν, Ότι) — B1"
       },
       {
         "id": "negation",
@@ -2852,7 +2897,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Negation: Δεν vs Μην — A1"
       },
       {
         "id": "yes-no-questions",
@@ -2906,7 +2952,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Yes/No Questions — A1"
       },
       {
         "id": "question-words",
@@ -2956,7 +3003,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Question Words (Πού, Πότε, Πώς, Γιατί) — A1"
       },
       {
         "id": "cardinal-numbers",
@@ -3013,7 +3061,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Cardinal Numbers — A1"
       },
       {
         "id": "ordinal-numbers",
@@ -3070,7 +3119,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Ordinal Numbers — A2"
       },
       {
         "id": "days-of-week",
@@ -3135,7 +3185,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Days of the Week — A1"
       },
       {
         "id": "months-dates",
@@ -3184,7 +3235,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Months & Dates — A2"
       },
       {
         "id": "telling-time",
@@ -3237,7 +3289,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Telling Time — A2"
       },
       {
         "id": "diminutives",
@@ -3290,7 +3343,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Diminutives (-άκι, -ούλα) — B1"
       },
       {
         "id": "reflexive-verbs",
@@ -3348,7 +3402,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Reflexive Verbs — A2"
       },
       {
         "id": "impersonal-verbs",
@@ -3401,7 +3456,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Impersonal Verbs (Πρέπει, Φαίνεται, Αξίζει) — A2"
       },
       {
         "id": "modal-expressions",
@@ -3454,7 +3510,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Modal Expressions (Μπορώ Να, Πρέπει Να, Θέλω Να) — A1"
       },
       {
         "id": "active-participle",
@@ -3503,7 +3560,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Active Participle (-Οντας) — B1"
       },
       {
         "id": "passive-participle",
@@ -3552,7 +3610,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Passive Participle (-Μένος) — B1"
       },
       {
         "id": "genitive-possession",
@@ -3597,7 +3656,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Possession with the Genitive vs Από — A2"
       },
       {
         "id": "formal-informal",
@@ -3638,7 +3698,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Εσύ vs Εσείς (Formality) — A1"
       },
       {
         "id": "existential-yparxei",
@@ -3683,7 +3744,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Υπάρχει/Υπάρχουν (There Is/Are) — A2"
       },
       {
         "id": "adverbs",
@@ -3732,7 +3794,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Adverbs — A2"
       },
       {
         "id": "quantifiers",
@@ -3781,7 +3844,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Quantifiers (Πολύς, Λίγος, Αρκετός) — A2"
       },
       {
         "id": "irregular-comparatives",
@@ -3838,7 +3902,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Comparatives — B1"
       },
       {
         "id": "common-idioms",
@@ -3891,7 +3956,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Common Expressions — B1"
       },
       {
         "id": "stress-accent",
@@ -3949,7 +4015,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Stress Accent Rules — A1"
       }
     ]
   },
@@ -4034,7 +4101,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Verbs — Common"
       },
       {
         "id": "irregular-plurals",
@@ -4095,7 +4163,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Irregular Noun Plurals — B1"
       },
       {
         "id": "spelling-rules",
@@ -4165,7 +4234,8 @@ export const GRAMMAR_EL: GrammarCategory[] = [
               ]
             ]
           }
-        ]
+        ],
+        "titleEn": "Spelling Pitfalls (γ/γκ, ι/η/υ, Double Consonants) — B1"
       }
     ]
   }
