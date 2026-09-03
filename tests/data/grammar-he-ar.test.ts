@@ -105,7 +105,7 @@ describe('GRAMMAR_TR', () => {
 });
 
 describe('GRAMMAR_NL', () => {
-  checkGrammarShape(GRAMMAR_NL, 'GRAMMAR_NL');
+  checkGrammarShape(GRAMMAR_NL, 'GRAMMAR_NL', 70);
 });
 
 // Former GRAMMAR_BY_LANG aggregation is gone (js/features/grammar-loader.ts
