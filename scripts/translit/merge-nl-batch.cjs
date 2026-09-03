@@ -2,8 +2,10 @@
 // Loads a batch JSON of [english, dutch_translation, dutch_example, ipa]
 // tuples, validates against the base word list, merges into words_nl.js in
 // canonical base-list key order, and rewrites the file (minified, single line).
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require('fs');
 const path = require('path');
+/* eslint-enable @typescript-eslint/no-require-imports */
 
 const batchPath = process.argv[2];
 if (!batchPath) {
@@ -15,7 +17,7 @@ const basePath = path.join(__dirname, '../../data/words-data/words.js');
 const nlPath = path.join(__dirname, '../../data/words-data/words_nl.js');
 
 function loadArr(filePath, varName) {
-  const src = fs.readFileSync(filePath, 'utf8').replace(/^﻿/, '');
+  const src = fs.readFileSync(filePath, 'utf8').replace(/^\uFEFF/, '');
   const declIdx = src.indexOf('const ' + varName);
   const eqIdx = src.indexOf('=', declIdx);
   const rest = src.slice(eqIdx + 1);
