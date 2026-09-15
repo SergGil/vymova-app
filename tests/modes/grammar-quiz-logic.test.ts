@@ -1,6 +1,26 @@
-import { describe, it, expect, afterEach, beforeAll } from 'vitest';
+import { describe, it, expect, afterEach, beforeAll, vi } from 'vitest';
 import { pickPool, buildQuestion } from '../../js/modes/grammar-quiz.tsx';
 import { ensureGrammarLoaded, getGrammarForLang } from '../../js/features/word-data/grammar-loader.ts';
+
+// Every one of the 97 target languages now ships a full 70-rule grammar
+// reference (the last one, Zulu, completed 2026-09-16), so there's no real
+// language left with "too few distinct rules" to exercise pickPool()'s
+// fallback-to-'en' branch against. Truncate 'af's real (large) dataset down
+// to a single rule here instead of relying on a stub that no longer exists.
+vi.mock('../../js/features/word-data/grammar-loader.ts', async (importOriginal) => {
+  const actual =
+    await importOriginal<typeof import('../../js/features/word-data/grammar-loader.ts')>();
+  return {
+    ...actual,
+    getGrammarForLang: (lang: string) => {
+      const real = actual.getGrammarForLang(lang);
+      if (lang === 'af' && real && real.length > 0) {
+        return [{ ...real[0], rules: real[0].rules.slice(0, 1) }];
+      }
+      return real;
+    },
+  };
+});
 
 describe('grammar-quiz-logic', () => {
   // pickPool() itself stays synchronous, reading whatever's already in
@@ -35,10 +55,11 @@ describe('grammar-quiz-logic', () => {
     });
 
     it('skips a learn language with too few distinct rules for a 4-option quiz, even if it has many example rows', () => {
-      // 'af' currently ships only 1 grammar rule (with several examples) —
-      // plenty of raw rows, but not enough distinct answer options for a
-      // 4-choice quiz. 'ua' has no grammar data at all, so a typical
-      // Ukrainian-speaking learner of Afrikaans must land on 'en'.
+      // The module mock above truncates 'af' to a single rule — plenty of
+      // raw example rows within that one rule, but not enough distinct
+      // answer options for a 4-choice quiz. 'ua' has no grammar data at
+      // all, so a typical Ukrainian-speaking learner of Afrikaans must
+      // land on 'en'.
       localStorage.setItem('ew_learn_lang', 'af');
       localStorage.setItem('ew_know_lang', 'ua');
       const { lang, items } = pickPool();
