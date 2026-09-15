@@ -68,7 +68,7 @@ describe('search-overlay.tsx SearchOverlay', () => {
     expect(document.querySelector('input')).not.toBeNull();
   });
 
-  it('closes on Escape', () => {
+  it('closes on Escape', async () => {
     const { container } = mount();
     act(() => {
       document
@@ -76,6 +76,18 @@ describe('search-overlay.tsx SearchOverlay', () => {
         .dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
     expect(document.querySelector('input')).not.toBeNull();
+
+    // Dialog (base-ui) wires its document-level Escape listener from a
+    // useEffect keyed on the popup's floating element ref, which lands a
+    // tick after the click that opens the overlay — under full-suite load a
+    // microtask-scheduled piece of that wiring can still be pending right
+    // after the click's act() returns. Flush microtasks with an explicit
+    // tick before dispatching Escape so this doesn't depend on scheduler
+    // timing (this is what made it flaky under full-suite parallel load,
+    // though never in isolation).
+    await act(async () => {
+      await Promise.resolve();
+    });
 
     act(() => {
       document.dispatchEvent(

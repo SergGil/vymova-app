@@ -129,9 +129,20 @@ describe('goal-modal.tsx GoalModal', () => {
   // itself, so it silently did nothing once focus moved anywhere else (e.g.
   // after clicking a button). Dialog's own Escape dismissal is a document-
   // level listener, so it now works regardless of what has focus.
-  it('closes on Escape key regardless of what has focus', () => {
+  it('closes on Escape key regardless of what has focus', async () => {
     mount();
     openModal();
+    // Dialog (base-ui) wires its document-level Escape listener from a
+    // useEffect keyed on the popup's floating element ref, which lands a
+    // tick after the click that opens the modal. openModal()'s act() flushes
+    // React's own effect queue synchronously, but under full-suite load a
+    // microtask-scheduled piece of that wiring can still be pending — flush
+    // microtasks with an explicit tick before dispatching Escape so this
+    // doesn't depend on scheduler timing (this is what made it flaky under
+    // full-suite parallel load, though never in isolation).
+    await act(async () => {
+      await Promise.resolve();
+    });
     act(() => {
       document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     });
