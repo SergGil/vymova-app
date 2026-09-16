@@ -106,8 +106,8 @@ describe('POLISH_IDIOMS', () => {
 describe('CHINESE_IDIOMS', () => {
   checkIdiomShape(CHINESE_IDIOMS, 'CHINESE_IDIOMS');
 
-  it('has exactly 5 idioms', () => {
-    expect(CHINESE_IDIOMS.length).toBe(5);
+  it('has reached flagship-level coverage (70 idioms)', () => {
+    expect(CHINESE_IDIOMS.length).toBe(70);
   });
 
   it('every Chinese idiom has an English meaning as well', () => {
