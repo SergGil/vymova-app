@@ -162,8 +162,8 @@ describe('TURKISH_IDIOMS', () => {
 describe('DUTCH_IDIOMS', () => {
   checkIdiomShape(DUTCH_IDIOMS, 'DUTCH_IDIOMS');
 
-  it('has exactly 5 idioms', () => {
-    expect(DUTCH_IDIOMS.length).toBe(5);
+  it('has reached flagship-level coverage (70 idioms)', () => {
+    expect(DUTCH_IDIOMS.length).toBe(70);
   });
 
   it('every Dutch idiom has an English meaning as well', () => {
