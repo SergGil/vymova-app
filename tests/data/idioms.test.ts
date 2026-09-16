@@ -134,8 +134,8 @@ describe('GREEK_IDIOMS', () => {
 describe('JAPANESE_IDIOMS', () => {
   checkIdiomShape(JAPANESE_IDIOMS, 'JAPANESE_IDIOMS');
 
-  it('has exactly 5 idioms', () => {
-    expect(JAPANESE_IDIOMS.length).toBe(5);
+  it('has reached flagship-level coverage (70 idioms)', () => {
+    expect(JAPANESE_IDIOMS.length).toBe(70);
   });
 
   it('every Japanese idiom has an English meaning as well', () => {
