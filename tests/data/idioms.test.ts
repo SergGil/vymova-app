@@ -120,8 +120,8 @@ describe('CHINESE_IDIOMS', () => {
 describe('GREEK_IDIOMS', () => {
   checkIdiomShape(GREEK_IDIOMS, 'GREEK_IDIOMS');
 
-  it('has exactly 5 idioms', () => {
-    expect(GREEK_IDIOMS.length).toBe(5);
+  it('has reached flagship-level coverage (70 idioms)', () => {
+    expect(GREEK_IDIOMS.length).toBe(70);
   });
 
   it('every Greek idiom has an English meaning as well', () => {
