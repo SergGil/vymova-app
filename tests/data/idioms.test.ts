@@ -78,8 +78,8 @@ describe('HEBREW_IDIOMS', () => {
 describe('ARABIC_IDIOMS', () => {
   checkIdiomShape(ARABIC_IDIOMS, 'ARABIC_IDIOMS');
 
-  it('has exactly 5 idioms', () => {
-    expect(ARABIC_IDIOMS.length).toBe(5);
+  it('has reached flagship-level coverage (70 idioms)', () => {
+    expect(ARABIC_IDIOMS.length).toBe(70);
   });
 
   it('every Arabic idiom has an English meaning as well', () => {
