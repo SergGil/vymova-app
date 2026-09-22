@@ -272,10 +272,10 @@ export const IDIOMS_WO: Idiom[] = [
   },
   {
     "emoji": "🧘",
-    "phrase": "Muñ mooy jikko bu réy",
-    "meaning": "Терпіння — велика чеснота",
-    "exampleSrc": "Xam nañu ko li jamono yagg — Muñ mooy jikko bu réy.",
-    "exampleTr": "Вона мала терпіння у важкі часи."
+    "phrase": "Ku muñ muuñ",
+    "meaning": "Хто терпить, той врешті усміхається",
+    "exampleSrc": "Ñu wax na — ku muñ muuñ.",
+    "exampleTr": "Вона мала терпіння у важкі часи — хто терпить, той врешті усміхається."
   },
   {
     "emoji": "🔨",

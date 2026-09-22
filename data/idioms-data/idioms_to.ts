@@ -272,10 +272,10 @@ export const IDIOMS_TO: Idiom[] = [
   },
   {
     "emoji": "🧘",
-    "phrase": "Ko e kātaki ko ha ʻulungāanga lahi",
-    "meaning": "Терпіння — велика чеснота",
-    "exampleSrc": "Kuo ʻiloʻi talu mei muʻa — Ko e kātaki ko ha ʻulungāanga lahi.",
-    "exampleTr": "Вона мала терпіння у важкі часи."
+    "phrase": "Holo pe tu'u he ko e ngalu e fasi",
+    "meaning": "Стій непохитно, і хвиля розіб'ється",
+    "exampleSrc": "ʻOku pehē ʻa e lea motuʻa — holo pe tu'u he ko e ngalu e fasi.",
+    "exampleTr": "Вона мала терпіння у важкі часи — стій непохитно, і хвиля розіб'ється."
   },
   {
     "emoji": "🔨",

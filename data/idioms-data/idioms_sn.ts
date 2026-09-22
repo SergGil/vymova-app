@@ -202,10 +202,10 @@ export const IDIOMS_SN: Idiom[] = [
   },
   {
     "emoji": "🔦",
-    "phrase": "Chokwadi chinouya kuchiedza nguva dzose",
-    "meaning": "Правда завжди виходить на світло",
-    "exampleSrc": "Vakachenjera vanoti — Chokwadi chinouya kuchiedza nguva dzose.",
-    "exampleTr": "Зрештою все з'ясувалось — правда завжди виходить на світло."
+    "phrase": "Chinyama chine nyanga hachivigwi mubindu",
+    "meaning": "Те, що має роги, не приховаєш у в'язанці трави — правда завжди виявляється",
+    "exampleSrc": "Sekuru vaiti — chinyama chine nyanga hachivigwi mubindu.",
+    "exampleTr": "Зрештою все з'ясувалось — те, що має роги, не приховаєш у в'язанці трави."
   },
   {
     "emoji": "☁️",

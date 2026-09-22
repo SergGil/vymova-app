@@ -48,10 +48,10 @@ export const IDIOMS_JV: Idiom[] = [
   },
   {
     "emoji": "🥇",
-    "phrase": "Kasuksesan teka saka usaha",
-    "meaning": "Успіх приходить через зусилля",
-    "exampleSrc": "Wis dikenal wiwit jaman kuna — Kasuksesan teka saka usaha.",
-    "exampleTr": "Вона досягла успіху завдяки зусиллям."
+    "phrase": "Jer basuki mawa bea",
+    "meaning": "Успіх вимагає зусиль і жертв",
+    "exampleSrc": "Kaya kang diucapake — jer basuki mawa bea.",
+    "exampleTr": "Вона досягла успіху завдяки зусиллям — успіх вимагає зусиль і жертв."
   },
   {
     "emoji": "❤️‍🩹",

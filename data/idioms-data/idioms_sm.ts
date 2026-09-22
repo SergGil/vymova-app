@@ -139,10 +139,10 @@ export const IDIOMS_SM: Idiom[] = [
   },
   {
     "emoji": "🌾",
-    "phrase": "O lē e galue e maua",
-    "meaning": "Хто працює, той і збирає",
-    "exampleSrc": "O se muagagana anamua e fai mai — O lē e galue e maua.",
-    "exampleTr": "Він допомагав багатьом, і потім йому теж допомогли."
+    "phrase": "Fale-taeao e le afiafi",
+    "meaning": "Хто сидить удома вранці, той не їстиме ввечері",
+    "exampleSrc": "E pei ona fai mai le muagagana — fale-taeao e le afiafi.",
+    "exampleTr": "Він допомагав багатьом, і потім йому теж допомогли — хто сидить удома, той не їстиме ввечері."
   },
   {
     "emoji": "🎯",
