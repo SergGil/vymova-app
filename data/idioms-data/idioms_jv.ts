@@ -10,5 +10,488 @@ export const IDIOMS_JV: Idiom[] = [
     "meaning": "Вчинки важать більше за слова",
     "exampleSrc": "aja mung janji — tumindak luwih kuwat tinimbang tembung.",
     "exampleTr": "Не просто обіцяй — вчинки говорять голосніше за слова."
+  },
+  {
+    "emoji": "⏳",
+    "phrase": "Wektu iku migunani banget",
+    "meaning": "Час має велику цінність",
+    "exampleSrc": "Kaya kang diucapake — Wektu iku migunani banget.",
+    "exampleTr": "Не гай часу — час має велику цінність."
+  },
+  {
+    "emoji": "💎",
+    "phrase": "Kawruh iku bandha sing tanpa wates",
+    "meaning": "Знання — безмежне багатство",
+    "exampleSrc": "Kaya kang diucapake — Kawruh iku bandha sing tanpa wates.",
+    "exampleTr": "Вона не переставала навчатись — знання безмежне багатство."
+  },
+  {
+    "emoji": "🔦",
+    "phrase": "Kasunyatan tansah ketara",
+    "meaning": "Правда завжди виявляється",
+    "exampleSrc": "Kaya kang diucapake — Kasunyatan tansah ketara.",
+    "exampleTr": "Зрештою все з'ясувалось — правда завжди виявляється."
+  },
+  {
+    "emoji": "💉",
+    "phrase": "Ngati-ati luwih apik tinimbang ngobati",
+    "meaning": "Краще запобігти, ніж лікувати",
+    "exampleSrc": "Kaya kang diucapake — Ngati-ati luwih apik tinimbang ngobati.",
+    "exampleTr": "Пройди огляд, поки не пізно — краще запобігти, ніж лікувати."
+  },
+  {
+    "emoji": "🤝",
+    "phrase": "Persatuan menehi kekuwatan",
+    "meaning": "Спільна праця збільшує силу",
+    "exampleSrc": "Kaya kang diucapake — Persatuan menehi kekuwatan.",
+    "exampleTr": "Усе село допомагало будувати міст."
+  },
+  {
+    "emoji": "🥇",
+    "phrase": "Kasuksesan teka saka usaha",
+    "meaning": "Успіх приходить через зусилля",
+    "exampleSrc": "Kaya kang diucapake — Kasuksesan teka saka usaha.",
+    "exampleTr": "Вона досягла успіху завдяки зусиллям."
+  },
+  {
+    "emoji": "❤️‍🩹",
+    "phrase": "Kesehatan iku bandha sing paling gedhe",
+    "meaning": "Здоров'я — найбільше багатство",
+    "exampleSrc": "Kaya kang diucapake — Kesehatan iku bandha sing paling gedhe.",
+    "exampleTr": "Хоч бідний, він щасливий — здоров'я найбільше багатство."
+  },
+  {
+    "emoji": "🗣️",
+    "phrase": "Tumindak luwih banter tinimbang tembung",
+    "meaning": "Вчинки важать більше за слова",
+    "exampleSrc": "Kaya kang diucapake — Tumindak luwih banter tinimbang tembung.",
+    "exampleTr": "Не просто обіцяй — вчинки говорять голосніше за слова."
+  },
+  {
+    "emoji": "🏛️",
+    "phrase": "Roma ora dibangun sedina",
+    "meaning": "Рим не за один день збудували",
+    "exampleSrc": "Kaya kang diucapake — Roma ora dibangun sedina.",
+    "exampleTr": "Будь терплячим із проєктом — Рим не за один день збудували."
+  },
+  {
+    "emoji": "🍀",
+    "phrase": "Kasep isih luwih apik tinimbang ora babar pisan",
+    "meaning": "Краще пізно, ніж ніколи",
+    "exampleSrc": "Kaya kang diucapake — Kasep isih luwih apik tinimbang ora babar pisan.",
+    "exampleTr": "Він почав навчатись у п'ятдесят років — краще пізно, ніж ніколи."
+  },
+  {
+    "emoji": "✨",
+    "phrase": "Ora kabeh sing kumilat iku emas",
+    "meaning": "Не все золото, що блищить",
+    "exampleSrc": "Kaya kang diucapake — Ora kabeh sing kumilat iku emas.",
+    "exampleTr": "Робота здавалась ідеальною спочатку — не все золото, що блищить."
+  },
+  {
+    "emoji": "🐕",
+    "phrase": "Asu sing njeritan ora nyokot",
+    "meaning": "Собака, що гавкає, не кусає",
+    "exampleSrc": "Kaya kang diucapake — Asu sing njeritan ora nyokot.",
+    "exampleTr": "Він багато погрожує, та ніколи не діє."
+  },
+  {
+    "emoji": "🐦",
+    "phrase": "Manuk siji ing tangan luwih apik tinimbang loro ing wit",
+    "meaning": "Краще птах у руці, ніж сто в повітрі",
+    "exampleSrc": "Kaya kang diucapake — Manuk siji ing tangan luwih apik tinimbang loro ing wit.",
+    "exampleTr": "Прийми надійну пропозицію — краще птах у руці, ніж сто в повітрі."
+  },
+  {
+    "emoji": "🛤️",
+    "phrase": "Ana karep, ana dalan",
+    "meaning": "Де є бажання, там є і шлях",
+    "exampleSrc": "Kaya kang diucapake — Ana karep, ana dalan.",
+    "exampleTr": "Вона не здалась попри труднощі — де є бажання, там є і шлях."
+  },
+  {
+    "emoji": "💘",
+    "phrase": "Katresnan iku wuta",
+    "meaning": "Кохання сліпе",
+    "exampleSrc": "Kaya kang diucapake — Katresnan iku wuta.",
+    "exampleTr": "Вона не бачить його недоліків — кохання сліпе."
+  },
+  {
+    "emoji": "🎲",
+    "phrase": "Sing ora wani nyoba ora bakal menang",
+    "meaning": "Хто не ризикує, той не виграє",
+    "exampleSrc": "Kaya kang diucapake — Sing ora wani nyoba ora bakal menang.",
+    "exampleTr": "Спробуй нову можливість — хто не ризикує, той не виграє."
+  },
+  {
+    "emoji": "🧠",
+    "phrase": "Loro sirah luwih apik tinimbang siji",
+    "meaning": "Дві голови кращі за одну",
+    "exampleSrc": "Kaya kang diucapake — Loro sirah luwih apik tinimbang siji.",
+    "exampleTr": "Вони вирішили разом — дві голови кращі за одну."
+  },
+  {
+    "emoji": "🥇",
+    "phrase": "Meneng iku emas",
+    "meaning": "Мовчання — золото",
+    "exampleSrc": "Kaya kang diucapake — Meneng iku emas.",
+    "exampleTr": "Іноді краще промовчати — мовчання золото."
+  },
+  {
+    "emoji": "🌾",
+    "phrase": "Sing makarya bakal nampa",
+    "meaning": "Хто працює, той і збирає",
+    "exampleSrc": "Kaya kang diucapake — Sing makarya bakal nampa.",
+    "exampleTr": "Він допомагав багатьом, і потім йому теж допомогли."
+  },
+  {
+    "emoji": "🎯",
+    "phrase": "Latihan ndadekake sampurna",
+    "meaning": "Практика робить майстра",
+    "exampleSrc": "Kaya kang diucapake — Latihan ndadekake sampurna.",
+    "exampleTr": "Вона тренується щодня — практика робить майстра."
+  },
+  {
+    "emoji": "⏳",
+    "phrase": "Sing nunggu bakal entuk",
+    "meaning": "Хто чекає, той дочекається",
+    "exampleSrc": "Kaya kang diucapake — Sing nunggu bakal entuk.",
+    "exampleTr": "Він був терплячим і зрештою досягнув успіху."
+  },
+  {
+    "emoji": "👘",
+    "phrase": "Sandhangan ora nemtokake wong",
+    "meaning": "Одяг не робить ченця",
+    "exampleSrc": "Kaya kang diucapake — Sandhangan ora nemtokake wong.",
+    "exampleTr": "Він був гарно вдягнений, та не був чесним."
+  },
+  {
+    "emoji": "⏰",
+    "phrase": "Wektu ndandani kabeh tatu",
+    "meaning": "Час лікує всі рани",
+    "exampleSrc": "Kaya kang diucapake — Wektu ndandani kabeh tatu.",
+    "exampleTr": "З часом біль зменшився — час лікує всі рани."
+  },
+  {
+    "emoji": "🔥",
+    "phrase": "Ora ana kukus tanpa geni",
+    "meaning": "Немає диму без вогню",
+    "exampleSrc": "Kaya kang diucapake — Ora ana kukus tanpa geni.",
+    "exampleTr": "Ця чутка могла бути правдою — немає диму без вогню."
+  },
+  {
+    "emoji": "🚪",
+    "phrase": "Saben wiwitan iku angel",
+    "meaning": "Кожен початок важкий",
+    "exampleSrc": "Kaya kang diucapake — Saben wiwitan iku angel.",
+    "exampleTr": "Не впадай у відчай через перші невдачі — кожен початок важкий."
+  },
+  {
+    "emoji": "🐣",
+    "phrase": "Aja ngetung pitik sadurunge endhog netes",
+    "meaning": "Не рахуй курчат, поки не вилупились",
+    "exampleSrc": "Kaya kang diucapake — Aja ngetung pitik sadurunge endhog netes.",
+    "exampleTr": "Зачекаймо результату — не рахуй курчат, поки не вилупились."
+  },
+  {
+    "emoji": "🤲",
+    "phrase": "Sing nyekel akeh mung entuk sithik",
+    "meaning": "Хто багато обіймає, той мало стискає",
+    "exampleSrc": "Kaya kang diucapake — Sing nyekel akeh mung entuk sithik.",
+    "exampleTr": "Не берись за забагато справ одразу."
+  },
+  {
+    "emoji": "🔦",
+    "phrase": "Kasunyatan tansah metu ing pepadhang",
+    "meaning": "Правда завжди виходить на світло",
+    "exampleSrc": "Kaya kang diucapake — Kasunyatan tansah metu ing pepadhang.",
+    "exampleTr": "Зрештою все з'ясувалось — правда завжди виходить на світло."
+  },
+  {
+    "emoji": "☁️",
+    "phrase": "Saben mendhung ana pinggiran perak",
+    "meaning": "У кожної хмари є срібна облямівка",
+    "exampleSrc": "Kaya kang diucapake — Saben mendhung ana pinggiran perak.",
+    "exampleTr": "Щось хороше завжди виходить із поганого."
+  },
+  {
+    "emoji": "🫂",
+    "phrase": "Kanca sejati dikenali nalika susah",
+    "meaning": "Справжнього друга пізнають у нужді",
+    "exampleSrc": "Kaya kang diucapake — Kanca sejati dikenali nalika susah.",
+    "exampleTr": "Вона допомогла мені у найважчий момент."
+  },
+  {
+    "emoji": "🕯️",
+    "phrase": "Pangarep-arep ora tau mati",
+    "meaning": "Надія не вмирає ніколи",
+    "exampleSrc": "Kaya kang diucapake — Pangarep-arep ora tau mati.",
+    "exampleTr": "Попри все, вона не втратила надії."
+  },
+  {
+    "emoji": "🌱",
+    "phrase": "Saben usaha ana wohe",
+    "meaning": "Кожне зусилля приносить свій плід",
+    "exampleSrc": "Kaya kang diucapake — Saben usaha ana wohe.",
+    "exampleTr": "Після років праці вона отримала свій успіх."
+  },
+  {
+    "emoji": "🥾",
+    "phrase": "Jangkah pisanan sing paling angel",
+    "meaning": "Перший крок найважчий",
+    "exampleSrc": "Kaya kang diucapake — Jangkah pisanan sing paling angel.",
+    "exampleTr": "Після першого кроку все пішло легше."
+  },
+  {
+    "emoji": "💎",
+    "phrase": "Kekancan sejati ora bisa dituku",
+    "meaning": "Справжню дружбу не купиш",
+    "exampleSrc": "Kaya kang diucapake — Kekancan sejati ora bisa dituku.",
+    "exampleTr": "Їхню дружбу не можна купити за гроші."
+  },
+  {
+    "emoji": "🎁",
+    "phrase": "Saben pangorbanan ana ajine",
+    "meaning": "Кожна жертва має свою цінність",
+    "exampleSrc": "Kaya kang diucapake — Saben pangorbanan ana ajine.",
+    "exampleTr": "Після стількох жертв прийшов успіх."
+  },
+  {
+    "emoji": "👨‍👩‍👧‍👦",
+    "phrase": "Kulawarga iku bandha sing paling gedhe",
+    "meaning": "Родина — найбільший скарб",
+    "exampleSrc": "Kaya kang diucapake — Kulawarga iku bandha sing paling gedhe.",
+    "exampleTr": "Його родина завжди підтримувала його."
+  },
+  {
+    "emoji": "🌪️",
+    "phrase": "Sing nyebar angin bakal ngundhuh prahara",
+    "meaning": "Хто сіє вітер, той пожне бурю",
+    "exampleSrc": "Kaya kang diucapake — Sing nyebar angin bakal ngundhuh prahara.",
+    "exampleTr": "Своєю брехнею він посіяв вітер і пожав бурю."
+  },
+  {
+    "emoji": "🧘",
+    "phrase": "Sabar iku kaluhuran gedhe",
+    "meaning": "Терпіння — велика чеснота",
+    "exampleSrc": "Kaya kang diucapake — Sabar iku kaluhuran gedhe.",
+    "exampleTr": "Вона мала терпіння у важкі часи."
+  },
+  {
+    "emoji": "🔨",
+    "phrase": "Saben wong iku pandhe kanggo nasibe dhewe",
+    "meaning": "Кожен коваль своєї долі",
+    "exampleSrc": "Kaya kang diucapake — Saben wong iku pandhe kanggo nasibe dhewe.",
+    "exampleTr": "Вона побудувала свій успіх власними руками."
+  },
+  {
+    "emoji": "🤝",
+    "phrase": "Kekuwatan teka saka persatuan",
+    "meaning": "Єдність робить силу",
+    "exampleSrc": "Kaya kang diucapake — Kekuwatan teka saka persatuan.",
+    "exampleTr": "Усе село допомагало будувати міст."
+  },
+  {
+    "emoji": "💗",
+    "phrase": "Ati sing apik luwih aji tinimbang bandha",
+    "meaning": "Добре серце цінніше за багатство",
+    "exampleSrc": "Kaya kang diucapake — Ati sing apik luwih aji tinimbang bandha.",
+    "exampleTr": "У нього небагато грошей, та всі його люблять."
+  },
+  {
+    "emoji": "🎓",
+    "phrase": "Saben kesalahan mulangake soko",
+    "meaning": "Кожна помилка чогось вчить",
+    "exampleSrc": "Kaya kang diucapake — Saben kesalahan mulangake soko.",
+    "exampleTr": "Він визнав свою помилку і навчився на ній."
+  },
+  {
+    "emoji": "📚",
+    "phrase": "Urip iku sekolah gedhe",
+    "meaning": "Життя — велика школа",
+    "exampleSrc": "Kaya kang diucapake — Urip iku sekolah gedhe.",
+    "exampleTr": "Кожен досвід чогось її навчив."
+  },
+  {
+    "emoji": "🤷",
+    "phrase": "Ora bisa nyenengake kabeh wong",
+    "meaning": "Не можна догодити всім",
+    "exampleSrc": "Kaya kang diucapake — Ora bisa nyenengake kabeh wong.",
+    "exampleTr": "Вона намагалась, та не змогла — не можна догодити всім."
+  },
+  {
+    "emoji": "☮️",
+    "phrase": "Sing urip tentrem uripe luwih apik",
+    "meaning": "Хто живе в мирі, той живе краще",
+    "exampleSrc": "Kaya kang diucapake — Sing urip tentrem uripe luwih apik.",
+    "exampleTr": "Він уникав сварок і жив спокійно."
+  },
+  {
+    "emoji": "👴",
+    "phrase": "Kawicaksanan teka bareng umur",
+    "meaning": "Мудрість приходить з віком",
+    "exampleSrc": "Kaya kang diucapake — Kawicaksanan teka bareng umur.",
+    "exampleTr": "З віком він став мудрішим."
+  },
+  {
+    "emoji": "🌅",
+    "phrase": "Saben dina ana pepadhange dhewe",
+    "meaning": "Кожен день має своє світло",
+    "exampleSrc": "Kaya kang diucapake — Saben dina ana pepadhange dhewe.",
+    "exampleTr": "Навіть у важкі часи завжди є щось хороше."
+  },
+  {
+    "emoji": "💞",
+    "phrase": "Katresnan sejati ora bakal rampung",
+    "meaning": "Справжня любов ніколи не закінчується",
+    "exampleSrc": "Kaya kang diucapake — Katresnan sejati ora bakal rampung.",
+    "exampleTr": "Хоч час минав, їхнє кохання не змінювалось."
+  },
+  {
+    "emoji": "😊",
+    "phrase": "Sing makarya kanthi ati bakal sukses",
+    "meaning": "Хто працює від серця, той досягає успіху",
+    "exampleSrc": "Kaya kang diucapake — Sing makarya kanthi ati bakal sukses.",
+    "exampleTr": "Вона виконала роботу від щирого серця."
+  },
+  {
+    "emoji": "💰",
+    "phrase": "Dhuwit ora nekakake kabegjan",
+    "meaning": "Гроші не приносять щастя",
+    "exampleSrc": "Kaya kang diucapake — Dhuwit ora nekakake kabegjan.",
+    "exampleTr": "Попри багатство, він не був задоволений."
+  },
+  {
+    "emoji": "🌸",
+    "phrase": "Saben kembang ana wektune dhewe",
+    "meaning": "Кожна квітка має свій час",
+    "exampleSrc": "Kaya kang diucapake — Saben kembang ana wektune dhewe.",
+    "exampleTr": "Зачекай трохи, кожна квітка має свій час."
+  },
+  {
+    "emoji": "🙏",
+    "phrase": "Kapercayan menehi kekuwatan",
+    "meaning": "Віра дає силу",
+    "exampleSrc": "Kaya kang diucapake — Kapercayan menehi kekuwatan.",
+    "exampleTr": "Її віра допомогла їй у важкий момент."
+  },
+  {
+    "emoji": "🎒",
+    "phrase": "Saben omah ana bebane dhewe",
+    "meaning": "Кожен дім має свій хрест",
+    "exampleSrc": "Kaya kang diucapake — Saben omah ana bebane dhewe.",
+    "exampleTr": "У всіх свої проблеми."
+  },
+  {
+    "emoji": "🕊️",
+    "phrase": "Sing ngapura bakal bebas",
+    "meaning": "Хто прощає, той звільняється",
+    "exampleSrc": "Kaya kang diucapake — Sing ngapura bakal bebas.",
+    "exampleTr": "Вона пробачила і відчула полегшення."
+  },
+  {
+    "emoji": "🙇",
+    "phrase": "Kurmat diolehi kanthi tumindak",
+    "meaning": "Повагу заслуговують вчинками",
+    "exampleSrc": "Kaya kang diucapake — Kurmat diolehi kanthi tumindak.",
+    "exampleTr": "Вона заслужила повагу всіх своєю працею."
+  },
+  {
+    "emoji": "🌗",
+    "phrase": "Saben ayang-ayang ana pepadhange dhewe",
+    "meaning": "Кожна тінь має своє світло",
+    "exampleSrc": "Kaya kang diucapake — Saben ayang-ayang ana pepadhange dhewe.",
+    "exampleTr": "Навіть у чорні моменти завжди є щось позитивне."
+  },
+  {
+    "emoji": "🌻",
+    "phrase": "Kemurahan tansah bali",
+    "meaning": "Щедрість завжди повертається",
+    "exampleSrc": "Kaya kang diucapake — Kemurahan tansah bali.",
+    "exampleTr": "Вона давала, не чекаючи нічого, і отримала багато."
+  },
+  {
+    "emoji": "🌈",
+    "phrase": "Sing urip kanthi pangarep-arep ora bakal semplah",
+    "meaning": "Хто живе з надією, той ніколи не занепадає духом",
+    "exampleSrc": "Kaya kang diucapake — Sing urip kanthi pangarep-arep ora bakal semplah.",
+    "exampleTr": "Попри все, вона ніколи не занепадала духом."
+  },
+  {
+    "emoji": "🥇",
+    "phrase": "Kasuksesan teka sawise perjuangan",
+    "meaning": "Успіх приходить після боротьби",
+    "exampleSrc": "Kaya kang diucapake — Kasuksesan teka sawise perjuangan.",
+    "exampleTr": "Після днів боротьби вона досягла успіху."
+  },
+  {
+    "emoji": "🌳",
+    "phrase": "Saben kekancan butuh kawigaten",
+    "meaning": "Кожна дружба потребує турботи",
+    "exampleSrc": "Kaya kang diucapake — Saben kekancan butuh kawigaten.",
+    "exampleTr": "Вони завжди дбали про свою дружбу."
+  },
+  {
+    "emoji": "❤️‍🩹",
+    "phrase": "Bandha sejati iku kesehatan",
+    "meaning": "Справжнє багатство — здоров'я",
+    "exampleSrc": "Kaya kang diucapake — Bandha sejati iku kesehatan.",
+    "exampleTr": "Хоч бідний, він щасливий — справжнє багатство здоров'я."
+  },
+  {
+    "emoji": "🤝",
+    "phrase": "Sing mbantu bakal dibantu",
+    "meaning": "Хто допомагає, тому й допомагають",
+    "exampleSrc": "Kaya kang diucapake — Sing mbantu bakal dibantu.",
+    "exampleTr": "Він допомагав іншим, і потім йому теж допомогли."
+  },
+  {
+    "emoji": "💌",
+    "phrase": "Saben tembung apik nyenengake ati",
+    "meaning": "Кожне добре слово радує серце",
+    "exampleSrc": "Kaya kang diucapake — Saben tembung apik nyenengake ati.",
+    "exampleTr": "Він заговорив до неї лагідно."
+  },
+  {
+    "emoji": "⏱️",
+    "phrase": "Wektu ora ngenteni sapa-sapa",
+    "meaning": "Час нікого не чекає",
+    "exampleSrc": "Kaya kang diucapake — Wektu ora ngenteni sapa-sapa.",
+    "exampleTr": "Не гай часу — час нікого не чекає."
+  },
+  {
+    "emoji": "💪",
+    "phrase": "Kekuwatan teka saka persatuan",
+    "meaning": "Сила приходить з єдності",
+    "exampleSrc": "Kaya kang diucapake — Kekuwatan teka saka persatuan.",
+    "exampleTr": "Команда працювала разом і перемогла."
+  },
+  {
+    "emoji": "🏅",
+    "phrase": "Saben usaha ana ganjarane",
+    "meaning": "Кожне зусилля має свою нагороду",
+    "exampleSrc": "Kaya kang diucapake — Saben usaha ana ganjarane.",
+    "exampleTr": "Після великої праці вона отримала свою нагороду."
+  },
+  {
+    "emoji": "🦁",
+    "phrase": "Sing wani bakal ngalahake wedi",
+    "meaning": "Хто має мужність, той перемагає страх",
+    "exampleSrc": "Kaya kang diucapake — Sing wani bakal ngalahake wedi.",
+    "exampleTr": "Вона представила свою ідею попри страх."
+  },
+  {
+    "emoji": "🧘",
+    "phrase": "Kabegjan sejati teka saka jero",
+    "meaning": "Справжнє щастя приходить зсередини",
+    "exampleSrc": "Kaya kang diucapake — Kabegjan sejati teka saka jero.",
+    "exampleTr": "Матеріальні речі не приносили їй щастя."
+  },
+  {
+    "emoji": "🌟",
+    "phrase": "Saben dina iku kesempatan anyar",
+    "meaning": "Кожен день — нова можливість",
+    "exampleSrc": "Kaya kang diucapake — Saben dina iku kesempatan anyar.",
+    "exampleTr": "Вона прокидається з новою енергією щодня."
   }
 ];
