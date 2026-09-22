@@ -20,10 +20,10 @@ export const IDIOMS_FO: Idiom[] = [
   },
   {
     "emoji": "💎",
-    "phrase": "Kunnleiki er endaleys ríkidømi",
-    "meaning": "Знання — безмежне багатство",
-    "exampleSrc": "Fólk siga at — Kunnleiki er endaleys ríkidømi.",
-    "exampleTr": "Вона не переставала навчатись — знання безмежне багатство."
+    "phrase": "Ein bókleysur maður er blindur",
+    "meaning": "Людина без книг — сліпа",
+    "exampleSrc": "Sum sagt verður — ein bókleysur maður er blindur.",
+    "exampleTr": "Вона не переставала навчатись — людина без книг сліпа."
   },
   {
     "emoji": "🔦",

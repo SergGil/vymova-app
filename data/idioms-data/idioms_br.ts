@@ -482,10 +482,10 @@ export const IDIOMS_BR: Idiom[] = [
   },
   {
     "emoji": "🧘",
-    "phrase": "Al levenez wirion a zeu eus an diabarzh",
-    "meaning": "Справжнє щастя приходить зсередини",
-    "exampleSrc": "Ar re fur a lavar — Al levenez wirion a zeu eus an diabarzh.",
-    "exampleTr": "Матеріальні речі не приносили їй щастя."
+    "phrase": "Evit bevañ gant levenez, n'eus ket ezhomm a aour nag a berlez",
+    "meaning": "Щоб жити з радістю, не потрібні ні золото, ні перли",
+    "exampleSrc": "Evel ma lavarer — evit bevañ gant levenez, n'eus ket ezhomm a aour nag a berlez.",
+    "exampleTr": "Матеріальні речі не приносили їй щастя — щоб жити радісно, не потрібні ні золото, ні перли."
   },
   {
     "emoji": "🌟",

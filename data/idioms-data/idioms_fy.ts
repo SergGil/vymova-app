@@ -356,10 +356,10 @@ export const IDIOMS_FY: Idiom[] = [
   },
   {
     "emoji": "💰",
-    "phrase": "Jild bringt gjin gelok",
-    "meaning": "Гроші не приносять щастя",
-    "exampleSrc": "Minsken sizze dat — Jild bringt gjin gelok.",
-    "exampleTr": "Попри багатство, він не був задоволений."
+    "phrase": "Better in lyts hûs mei freugde as in grut hûs mei fertriet",
+    "meaning": "Краще маленький дім з радістю, ніж великий дім з горем",
+    "exampleSrc": "Sa't se sizze — better in lyts hûs mei freugde as in grut hûs mei fertriet.",
+    "exampleTr": "Попри багатство, він не був задоволений — краще маленький дім з радістю, ніж великий з горем."
   },
   {
     "emoji": "🌸",
