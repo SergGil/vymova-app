@@ -447,10 +447,10 @@ export const IDIOMS_PAU: Idiom[] = [
   },
   {
     "emoji": "💌",
-    "phrase": "A rokui el ungil el tekoi a mengai a deurreng",
-    "meaning": "Кожне добре слово радує серце",
-    "exampleSrc": "Belkul el melekoi — A rokui el ungil el tekoi a mengai a deurreng.",
-    "exampleTr": "Він заговорив до неї лагідно."
+    "phrase": "A mekngit el tekoi a dub, e a ungil el tekoi a ollak",
+    "meaning": "Погані слова — прокляття, добрі слова — благословення",
+    "exampleSrc": "Le domdomel a mo er a kelulau — a mekngit el tekoi a dub, e a ungil el tekoi a ollak.",
+    "exampleTr": "Він заговорив до неї лагідно — добрі слова є благословенням."
   },
   {
     "emoji": "⏱️",
