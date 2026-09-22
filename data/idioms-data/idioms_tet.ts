@@ -22,49 +22,49 @@ export const IDIOMS_TET: Idiom[] = [
     "emoji": "💎",
     "phrase": "Matenek mak riku-soin la hotu",
     "meaning": "Знання — безмежне багатство",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Matenek mak riku-soin la hotu.",
+    "exampleSrc": "Ema hotu hatete — Matenek mak riku-soin la hotu.",
     "exampleTr": "Вона не переставала навчатись — знання безмежне багатство."
   },
   {
     "emoji": "🔦",
     "phrase": "Lia-loos hatudu nafatin",
     "meaning": "Правда завжди виявляється",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Lia-loos hatudu nafatin.",
+    "exampleSrc": "Lia-fuan tuan ida hatete — Lia-loos hatudu nafatin.",
     "exampleTr": "Зрештою все з'ясувалось — правда завжди виявляється."
   },
   {
     "emoji": "💉",
     "phrase": "Prevene diak liu kura",
     "meaning": "Краще запобігти, ніж лікувати",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Prevene diak liu kura.",
+    "exampleSrc": "Ema matenek hatete — Prevene diak liu kura.",
     "exampleTr": "Пройди огляд, поки не пізно — краще запобігти, ніж лікувати."
   },
   {
     "emoji": "🤝",
     "phrase": "Unidade fó forsa",
     "meaning": "Спільна праця збільшує силу",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Unidade fó forsa.",
+    "exampleSrc": "Ida neʼe loos — Unidade fó forsa.",
     "exampleTr": "Усе село допомагало будувати міст."
   },
   {
     "emoji": "🥇",
     "phrase": "Susesu mai husi esforsu",
     "meaning": "Успіх приходить через зусилля",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Susesu mai husi esforsu.",
+    "exampleSrc": "Sai buat husi tempu uluk — Susesu mai husi esforsu.",
     "exampleTr": "Вона досягла успіху завдяки зусиллям."
   },
   {
     "emoji": "❤️‍🩹",
     "phrase": "Saúde mak riku-soin boot liu",
     "meaning": "Здоров'я — найбільше багатство",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Saúde mak riku-soin boot liu.",
+    "exampleSrc": "Hatete — Saúde mak riku-soin boot liu.",
     "exampleTr": "Хоч бідний, він щасливий — здоров'я найбільше багатство."
   },
   {
     "emoji": "🗣️",
     "phrase": "Hahalok koalia makas liu duke lia-fuan",
     "meaning": "Вчинки важать більше за слова",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Hahalok koalia makas liu duke lia-fuan.",
+    "exampleSrc": "Katuas sira uluk hatete — Hahalok koalia makas liu duke lia-fuan.",
     "exampleTr": "Не просто обіцяй — вчинки говорять голосніше за слова."
   },
   {
@@ -78,49 +78,49 @@ export const IDIOMS_TET: Idiom[] = [
     "emoji": "🍀",
     "phrase": "Lakleur diak liu duke lae",
     "meaning": "Краще пізно, ніж ніколи",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Lakleur diak liu duke lae.",
+    "exampleSrc": "Ema hotu hatete — Lakleur diak liu duke lae.",
     "exampleTr": "Він почав навчатись у п'ятдесят років — краще пізно, ніж ніколи."
   },
   {
     "emoji": "✨",
     "phrase": "La'ós buat hotu-hotu neʼebé krilat mak osan-mean",
     "meaning": "Не все золото, що блищить",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — La'ós buat hotu-hotu neʼebé krilat mak osan-mean.",
+    "exampleSrc": "Lia-fuan tuan ida hatete — La'ós buat hotu-hotu neʼebé krilat mak osan-mean.",
     "exampleTr": "Робота здавалась ідеальною спочатку — не все золото, що блищить."
   },
   {
     "emoji": "🐕",
     "phrase": "Asu neʼebé tanis la kaan",
     "meaning": "Собака, що гавкає, не кусає",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Asu neʼebé tanis la kaan.",
+    "exampleSrc": "Ema matenek hatete — Asu neʼebé tanis la kaan.",
     "exampleTr": "Він багато погрожує, та ніколи не діє."
   },
   {
     "emoji": "🐦",
     "phrase": "Manu-fuik ida iha liman diak liu duke rua iha ai-hun",
     "meaning": "Краще птах у руці, ніж сто в повітрі",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Manu-fuik ida iha liman diak liu duke rua iha ai-hun.",
+    "exampleSrc": "Ida neʼe loos — Manu-fuik ida iha liman diak liu duke rua iha ai-hun.",
     "exampleTr": "Прийми надійну пропозицію — краще птах у руці, ніж сто в повітрі."
   },
   {
     "emoji": "🛤️",
     "phrase": "Fatin iha hakarak, fatin iha dalan",
     "meaning": "Де є бажання, там є і шлях",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Fatin iha hakarak, fatin iha dalan.",
+    "exampleSrc": "Sai buat husi tempu uluk — Fatin iha hakarak, fatin iha dalan.",
     "exampleTr": "Вона не здалась попри труднощі — де є бажання, там є і шлях."
   },
   {
     "emoji": "💘",
     "phrase": "Domin mak matan-delek",
     "meaning": "Кохання сліпе",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Domin mak matan-delek.",
+    "exampleSrc": "Hatete — Domin mak matan-delek.",
     "exampleTr": "Вона не бачить його недоліків — кохання сліпе."
   },
   {
     "emoji": "🎲",
     "phrase": "Ida neʼebé la hakaas an la manán",
     "meaning": "Хто не ризикує, той не виграє",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Ida neʼebé la hakaas an la manán.",
+    "exampleSrc": "Katuas sira uluk hatete — Ida neʼebé la hakaas an la manán.",
     "exampleTr": "Спробуй нову можливість — хто не ризикує, той не виграє."
   },
   {
@@ -134,49 +134,49 @@ export const IDIOMS_TET: Idiom[] = [
     "emoji": "🥇",
     "phrase": "Kalma mak osan-mean",
     "meaning": "Мовчання — золото",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Kalma mak osan-mean.",
+    "exampleSrc": "Ema hotu hatete — Kalma mak osan-mean.",
     "exampleTr": "Іноді краще промовчати — мовчання золото."
   },
   {
     "emoji": "🌾",
     "phrase": "Ida neʼebé serbisu simu",
     "meaning": "Хто працює, той і збирає",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Ida neʼebé serbisu simu.",
+    "exampleSrc": "Lia-fuan tuan ida hatete — Ida neʼebé serbisu simu.",
     "exampleTr": "Він допомагав багатьом, і потім йому теж допомогли."
   },
   {
     "emoji": "🎯",
     "phrase": "Treinu halo perfeitu",
     "meaning": "Практика робить майстра",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Treinu halo perfeitu.",
+    "exampleSrc": "Ema matenek hatete — Treinu halo perfeitu.",
     "exampleTr": "Вона тренується щодня — практика робить майстра."
   },
   {
     "emoji": "⏳",
     "phrase": "Ida neʼebé hein simu",
     "meaning": "Хто чекає, той дочекається",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Ida neʼebé hein simu.",
+    "exampleSrc": "Ida neʼe loos — Ida neʼebé hein simu.",
     "exampleTr": "Він був терплячим і зрештою досягнув успіху."
   },
   {
     "emoji": "👘",
     "phrase": "Roupa la hatudu ema",
     "meaning": "Одяг не робить ченця",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Roupa la hatudu ema.",
+    "exampleSrc": "Sai buat husi tempu uluk — Roupa la hatudu ema.",
     "exampleTr": "Він був гарно вдягнений, та не був чесним."
   },
   {
     "emoji": "⏰",
     "phrase": "Tempu kura sura-todan hotu-hotu",
     "meaning": "Час лікує всі рани",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Tempu kura sura-todan hotu-hotu.",
+    "exampleSrc": "Hatete — Tempu kura sura-todan hotu-hotu.",
     "exampleTr": "З часом біль зменшився — час лікує всі рани."
   },
   {
     "emoji": "🔥",
     "phrase": "Buat kanek la iha ho ahi",
     "meaning": "Немає диму без вогню",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Buat kanek la iha ho ahi.",
+    "exampleSrc": "Katuas sira uluk hatete — Buat kanek la iha ho ahi.",
     "exampleTr": "Ця чутка могла бути правдою — немає диму без вогню."
   },
   {
@@ -190,49 +190,49 @@ export const IDIOMS_TET: Idiom[] = [
     "emoji": "🐣",
     "phrase": "Labele kalkula manu-oan antes fuan-manu funu",
     "meaning": "Не рахуй курчат, поки не вилупились",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Labele kalkula manu-oan antes fuan-manu funu.",
+    "exampleSrc": "Ema hotu hatete — Labele kalkula manu-oan antes fuan-manu funu.",
     "exampleTr": "Зачекаймо результату — не рахуй курчат, поки не вилупились."
   },
   {
     "emoji": "🤲",
     "phrase": "Ida neʼebé kaer barak sei kaer uitoan",
     "meaning": "Хто багато обіймає, той мало стискає",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Ida neʼebé kaer barak sei kaer uitoan.",
+    "exampleSrc": "Lia-fuan tuan ida hatete — Ida neʼebé kaer barak sei kaer uitoan.",
     "exampleTr": "Не берись за забагато справ одразу."
   },
   {
     "emoji": "🔦",
     "phrase": "Lia-loos hatudu nafatin ba naroman",
     "meaning": "Правда завжди виходить на світло",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Lia-loos hatudu nafatin ba naroman.",
+    "exampleSrc": "Ema matenek hatete — Lia-loos hatudu nafatin ba naroman.",
     "exampleTr": "Зрештою все з'ясувалось — правда завжди виходить на світло."
   },
   {
     "emoji": "☁️",
     "phrase": "Kalen ida-idak iha ninia liman-mutin",
     "meaning": "У кожної хмари є срібна облямівка",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Kalen ida-idak iha ninia liman-mutin.",
+    "exampleSrc": "Ida neʼe loos — Kalen ida-idak iha ninia liman-mutin.",
     "exampleTr": "Щось хороше завжди виходить із поганого."
   },
   {
     "emoji": "🫂",
     "phrase": "Belun loos hatene iha susar",
     "meaning": "Справжнього друга пізнають у нужді",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Belun loos hatene iha susar.",
+    "exampleSrc": "Sai buat husi tempu uluk — Belun loos hatene iha susar.",
     "exampleTr": "Вона допомогла мені у найважчий момент."
   },
   {
     "emoji": "🕯️",
     "phrase": "Esperansa la mate",
     "meaning": "Надія не вмирає ніколи",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Esperansa la mate.",
+    "exampleSrc": "Hatete — Esperansa la mate.",
     "exampleTr": "Попри все, вона не втратила надії."
   },
   {
     "emoji": "🌱",
     "phrase": "Esforsu ida-idak iha ninia rezultadu",
     "meaning": "Кожне зусилля приносить свій плід",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Esforsu ida-idak iha ninia rezultadu.",
+    "exampleSrc": "Katuas sira uluk hatete — Esforsu ida-idak iha ninia rezultadu.",
     "exampleTr": "Після років праці вона отримала свій успіх."
   },
   {
@@ -246,49 +246,49 @@ export const IDIOMS_TET: Idiom[] = [
     "emoji": "💎",
     "phrase": "Belun loos labele sosa",
     "meaning": "Справжню дружбу не купиш",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Belun loos labele sosa.",
+    "exampleSrc": "Ema hotu hatete — Belun loos labele sosa.",
     "exampleTr": "Їхню дружбу не можна купити за гроші."
   },
   {
     "emoji": "🎁",
     "phrase": "Sakrifísiu ida-idak iha ninia folin",
     "meaning": "Кожна жертва має свою цінність",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Sakrifísiu ida-idak iha ninia folin.",
+    "exampleSrc": "Lia-fuan tuan ida hatete — Sakrifísiu ida-idak iha ninia folin.",
     "exampleTr": "Після стількох жертв прийшов успіх."
   },
   {
     "emoji": "👨‍👩‍👧‍👦",
     "phrase": "Família mak riku-soin boot liu",
     "meaning": "Родина — найбільший скарб",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Família mak riku-soin boot liu.",
+    "exampleSrc": "Ema matenek hatete — Família mak riku-soin boot liu.",
     "exampleTr": "Його родина завжди підтримувала його."
   },
   {
     "emoji": "🌪️",
     "phrase": "Ida neʼebé fini anin sei koa udan-boot",
     "meaning": "Хто сіє вітер, той пожне бурю",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Ida neʼebé fini anin sei koa udan-boot.",
+    "exampleSrc": "Ida neʼe loos — Ida neʼebé fini anin sei koa udan-boot.",
     "exampleTr": "Своєю брехнею він посіяв вітер і пожав бурю."
   },
   {
     "emoji": "🧘",
     "phrase": "Pasiénsia mak virtude boot",
     "meaning": "Терпіння — велика чеснота",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Pasiénsia mak virtude boot.",
+    "exampleSrc": "Sai buat husi tempu uluk — Pasiénsia mak virtude boot.",
     "exampleTr": "Вона мала терпіння у важкі часи."
   },
   {
     "emoji": "🔨",
     "phrase": "Ema hotu-hotu mak ninia sorte nia naʼin",
     "meaning": "Кожен коваль своєї долі",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Ema hotu-hotu mak ninia sorte nia naʼin.",
+    "exampleSrc": "Hatete — Ema hotu-hotu mak ninia sorte nia naʼin.",
     "exampleTr": "Вона побудувала свій успіх власними руками."
   },
   {
     "emoji": "🤝",
     "phrase": "Forsa mai husi unidade",
     "meaning": "Єдність робить силу",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Forsa mai husi unidade.",
+    "exampleSrc": "Katuas sira uluk hatete — Forsa mai husi unidade.",
     "exampleTr": "Усе село допомагало будувати міст."
   },
   {
@@ -302,49 +302,49 @@ export const IDIOMS_TET: Idiom[] = [
     "emoji": "🎓",
     "phrase": "Sala ida-idak hanorin buat ida",
     "meaning": "Кожна помилка чогось вчить",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Sala ida-idak hanorin buat ida.",
+    "exampleSrc": "Ema hotu hatete — Sala ida-idak hanorin buat ida.",
     "exampleTr": "Він визнав свою помилку і навчився на ній."
   },
   {
     "emoji": "📚",
     "phrase": "Moris mak eskola boot",
     "meaning": "Життя — велика школа",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Moris mak eskola boot.",
+    "exampleSrc": "Lia-fuan tuan ida hatete — Moris mak eskola boot.",
     "exampleTr": "Кожен досвід чогось її навчив."
   },
   {
     "emoji": "🤷",
     "phrase": "La bele halo ema hotu-hotu kontente",
     "meaning": "Не можна догодити всім",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — La bele halo ema hotu-hotu kontente.",
+    "exampleSrc": "Ema matenek hatete — La bele halo ema hotu-hotu kontente.",
     "exampleTr": "Вона намагалась, та не змогла — не можна догодити всім."
   },
   {
     "emoji": "☮️",
     "phrase": "Ida neʼebé moris ho dame moris diak liu",
     "meaning": "Хто живе в мирі, той живе краще",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Ida neʼebé moris ho dame moris diak liu.",
+    "exampleSrc": "Ida neʼe loos — Ida neʼebé moris ho dame moris diak liu.",
     "exampleTr": "Він уникав сварок і жив спокійно."
   },
   {
     "emoji": "👴",
     "phrase": "Matenek mai ho idade",
     "meaning": "Мудрість приходить з віком",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Matenek mai ho idade.",
+    "exampleSrc": "Sai buat husi tempu uluk — Matenek mai ho idade.",
     "exampleTr": "З віком він став мудрішим."
   },
   {
     "emoji": "🌅",
     "phrase": "Loron ida-idak iha ninia naroman",
     "meaning": "Кожен день має своє світло",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Loron ida-idak iha ninia naroman.",
+    "exampleSrc": "Hatete — Loron ida-idak iha ninia naroman.",
     "exampleTr": "Навіть у важкі часи завжди є щось хороше."
   },
   {
     "emoji": "💞",
     "phrase": "Domin loos la remata",
     "meaning": "Справжня любов ніколи не закінчується",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Domin loos la remata.",
+    "exampleSrc": "Katuas sira uluk hatete — Domin loos la remata.",
     "exampleTr": "Хоч час минав, їхнє кохання не змінювалось."
   },
   {
@@ -358,49 +358,49 @@ export const IDIOMS_TET: Idiom[] = [
     "emoji": "💰",
     "phrase": "Osan la lori kontenti",
     "meaning": "Гроші не приносять щастя",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Osan la lori kontenti.",
+    "exampleSrc": "Ema hotu hatete — Osan la lori kontenti.",
     "exampleTr": "Попри багатство, він не був задоволений."
   },
   {
     "emoji": "🌸",
     "phrase": "Fuan ida-idak iha ninia tempu",
     "meaning": "Кожна квітка має свій час",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Fuan ida-idak iha ninia tempu.",
+    "exampleSrc": "Lia-fuan tuan ida hatete — Fuan ida-idak iha ninia tempu.",
     "exampleTr": "Зачекай трохи, кожна квітка має свій час."
   },
   {
     "emoji": "🙏",
     "phrase": "Fiar fó forsa",
     "meaning": "Віра дає силу",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Fiar fó forsa.",
+    "exampleSrc": "Ema matenek hatete — Fiar fó forsa.",
     "exampleTr": "Її віра допомогла їй у важкий момент."
   },
   {
     "emoji": "🎒",
     "phrase": "Uma ida-idak iha ninia kaan",
     "meaning": "Кожен дім має свій хрест",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Uma ida-idak iha ninia kaan.",
+    "exampleSrc": "Ida neʼe loos — Uma ida-idak iha ninia kaan.",
     "exampleTr": "У всіх свої проблеми."
   },
   {
     "emoji": "🕊️",
     "phrase": "Ida neʼebé perdua sai livre",
     "meaning": "Хто прощає, той звільняється",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Ida neʼebé perdua sai livre.",
+    "exampleSrc": "Sai buat husi tempu uluk — Ida neʼebé perdua sai livre.",
     "exampleTr": "Вона пробачила і відчула полегшення."
   },
   {
     "emoji": "🙇",
     "phrase": "Respeitu simu husi hahalok",
     "meaning": "Повагу заслуговують вчинками",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Respeitu simu husi hahalok.",
+    "exampleSrc": "Hatete — Respeitu simu husi hahalok.",
     "exampleTr": "Вона заслужила повагу всіх своєю працею."
   },
   {
     "emoji": "🌗",
     "phrase": "Rahun ida-idak iha ninia naroman",
     "meaning": "Кожна тінь має своє світло",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Rahun ida-idak iha ninia naroman.",
+    "exampleSrc": "Katuas sira uluk hatete — Rahun ida-idak iha ninia naroman.",
     "exampleTr": "Навіть у чорні моменти завжди є щось позитивне."
   },
   {
@@ -414,49 +414,49 @@ export const IDIOMS_TET: Idiom[] = [
     "emoji": "🌈",
     "phrase": "Ida neʼebé moris ho esperansa la lakon laran",
     "meaning": "Хто живе з надією, той ніколи не занепадає духом",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Ida neʼebé moris ho esperansa la lakon laran.",
+    "exampleSrc": "Ema hotu hatete — Ida neʼebé moris ho esperansa la lakon laran.",
     "exampleTr": "Попри все, вона ніколи не занепадала духом."
   },
   {
     "emoji": "🥇",
     "phrase": "Susesu mai depois funu",
     "meaning": "Успіх приходить після боротьби",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Susesu mai depois funu.",
+    "exampleSrc": "Lia-fuan tuan ida hatete — Susesu mai depois funu.",
     "exampleTr": "Після днів боротьби вона досягла успіху."
   },
   {
     "emoji": "🌳",
     "phrase": "Belun ida-idak presiza tau matan",
     "meaning": "Кожна дружба потребує турботи",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Belun ida-idak presiza tau matan.",
+    "exampleSrc": "Ema matenek hatete — Belun ida-idak presiza tau matan.",
     "exampleTr": "Вони завжди дбали про свою дружбу."
   },
   {
     "emoji": "❤️‍🩹",
     "phrase": "Riku-soin loos mak saúde",
     "meaning": "Справжнє багатство — здоров'я",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Riku-soin loos mak saúde.",
+    "exampleSrc": "Ida neʼe loos — Riku-soin loos mak saúde.",
     "exampleTr": "Хоч бідний, він щасливий — справжнє багатство здоров'я."
   },
   {
     "emoji": "🤝",
     "phrase": "Ida neʼebé ajuda simu ajuda",
     "meaning": "Хто допомагає, тому й допомагають",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Ida neʼebé ajuda simu ajuda.",
+    "exampleSrc": "Sai buat husi tempu uluk — Ida neʼebé ajuda simu ajuda.",
     "exampleTr": "Він допомагав іншим, і потім йому теж допомогли."
   },
   {
     "emoji": "💌",
     "phrase": "Lia diʼak ida-idak halo laran kontenti",
     "meaning": "Кожне добре слово радує серце",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Lia diʼak ida-idak halo laran kontenti.",
+    "exampleSrc": "Hatete — Lia diʼak ida-idak halo laran kontenti.",
     "exampleTr": "Він заговорив до неї лагідно."
   },
   {
     "emoji": "⏱️",
     "phrase": "Tempu la hein ema ida",
     "meaning": "Час нікого не чекає",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Tempu la hein ema ida.",
+    "exampleSrc": "Katuas sira uluk hatete — Tempu la hein ema ida.",
     "exampleTr": "Не гай часу — час нікого не чекає."
   },
   {
@@ -470,28 +470,28 @@ export const IDIOMS_TET: Idiom[] = [
     "emoji": "🏅",
     "phrase": "Esforsu ida-idak iha ninia prémiu",
     "meaning": "Кожне зусилля має свою нагороду",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Esforsu ida-idak iha ninia prémiu.",
+    "exampleSrc": "Ema hotu hatete — Esforsu ida-idak iha ninia prémiu.",
     "exampleTr": "Після великої праці вона отримала свою нагороду."
   },
   {
     "emoji": "🦁",
     "phrase": "Ida neʼebé iha kbiit lakan ida-idak",
     "meaning": "Хто має мужність, той перемагає страх",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Ida neʼebé iha kbiit lakan ida-idak.",
+    "exampleSrc": "Lia-fuan tuan ida hatete — Ida neʼebé iha kbiit lakan ida-idak.",
     "exampleTr": "Вона представила свою ідею попри страх."
   },
   {
     "emoji": "🧘",
     "phrase": "Kontentamentu loos mai husi laran",
     "meaning": "Справжнє щастя приходить зсередини",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Kontentamentu loos mai husi laran.",
+    "exampleSrc": "Ema matenek hatete — Kontentamentu loos mai husi laran.",
     "exampleTr": "Матеріальні речі не приносили їй щастя."
   },
   {
     "emoji": "🌟",
     "phrase": "Loron ida-idak mak oportunidade foun",
     "meaning": "Кожен день — нова можливість",
-    "exampleSrc": "Nuudar lia-fuan naʼin sira — Loron ida-idak mak oportunidade foun.",
+    "exampleSrc": "Ida neʼe loos — Loron ida-idak mak oportunidade foun.",
     "exampleTr": "Вона прокидається з новою енергією щодня."
   }
 ];

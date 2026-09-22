@@ -20,51 +20,51 @@ export const IDIOMS_GV: Idiom[] = [
   },
   {
     "emoji": "💎",
-    "phrase": "Ta fys ny verchys gyn jerrey",
-    "meaning": "Знання — безмежне багатство",
-    "exampleSrc": "Myr t'ad gra — Ta fys ny verchys gyn jerrey.",
-    "exampleTr": "Вона не переставала навчатись — знання безмежне багатство."
+    "phrase": "Ta ynsagh coamrey stoamey yn dooinney berchagh, as t'eh berchys y dooinney boght",
+    "meaning": "Освіта — гарний одяг багатого і багатство бідного",
+    "exampleSrc": "Ta sleih gra dy — Ta ynsagh coamrey stoamey yn dooinney berchagh, as t'eh berchys y dooinney boght.",
+    "exampleTr": "Як каже давнє менкське прислів'я — освіта є гарним одягом для багатого і багатством для бідного."
   },
   {
     "emoji": "🔦",
     "phrase": "Ta'n irriney rieau soilshit",
     "meaning": "Правда завжди виявляється",
-    "exampleSrc": "Myr t'ad gra — Ta'n irriney rieau soilshit.",
+    "exampleSrc": "Ta shenn raa gra — Ta'n irriney rieau soilshit.",
     "exampleTr": "Зрештою все з'ясувалось — правда завжди виявляється."
   },
   {
     "emoji": "💉",
     "phrase": "S'mie lhiat cosney na lheihys",
     "meaning": "Краще запобігти, ніж лікувати",
-    "exampleSrc": "Myr t'ad gra — S'mie lhiat cosney na lheihys.",
+    "exampleSrc": "Ta deiney creeney gra — S'mie lhiat cosney na lheihys.",
     "exampleTr": "Пройди огляд, поки не пізно — краще запобігти, ніж лікувати."
   },
   {
     "emoji": "🤝",
     "phrase": "Ta niart ayns unnaneys",
     "meaning": "Спільна праця збільшує силу",
-    "exampleSrc": "Myr t'ad gra — Ta niart ayns unnaneys.",
+    "exampleSrc": "She feer eh dy — Ta niart ayns unnaneys.",
     "exampleTr": "Усе село допомагало будувати міст."
   },
   {
     "emoji": "🥇",
     "phrase": "Ta soylley cheet veih strieughey",
     "meaning": "Успіх приходить через зусилля",
-    "exampleSrc": "Myr t'ad gra — Ta soylley cheet veih strieughey.",
+    "exampleSrc": "Ry-akin veih shenn earish — Ta soylley cheet veih strieughey.",
     "exampleTr": "Вона досягла успіху завдяки зусиллям."
   },
   {
     "emoji": "❤️‍🩹",
     "phrase": "Ta slaynt yn verchys smoo",
     "meaning": "Здоров'я — найбільше багатство",
-    "exampleSrc": "Myr t'ad gra — Ta slaynt yn verchys smoo.",
+    "exampleSrc": "Ta gra dy — Ta slaynt yn verchys smoo.",
     "exampleTr": "Хоч бідний, він щасливий — здоров'я найбільше багатство."
   },
   {
     "emoji": "🗣️",
     "phrase": "Ta gniaghtyn loayrt ny s'toshee na goan",
     "meaning": "Вчинки важать більше за слова",
-    "exampleSrc": "Myr t'ad gra — Ta gniaghtyn loayrt ny s'toshee na goan.",
+    "exampleSrc": "Va shenshey gra — Ta gniaghtyn loayrt ny s'toshee na goan.",
     "exampleTr": "Не просто обіцяй — вчинки говорять голосніше за слова."
   },
   {
@@ -78,49 +78,49 @@ export const IDIOMS_GV: Idiom[] = [
     "emoji": "🍀",
     "phrase": "S'fea cheet anmagh na cheet ram",
     "meaning": "Краще пізно, ніж ніколи",
-    "exampleSrc": "Myr t'ad gra — S'fea cheet anmagh na cheet ram.",
+    "exampleSrc": "Ta sleih gra dy — S'fea cheet anmagh na cheet ram.",
     "exampleTr": "Він почав навчатись у п'ятдесят років — краще пізно, ніж ніколи."
   },
   {
     "emoji": "✨",
     "phrase": "Cha nee dy chooilley nhee ta soilshean airh",
     "meaning": "Не все золото, що блищить",
-    "exampleSrc": "Myr t'ad gra — Cha nee dy chooilley nhee ta soilshean airh.",
+    "exampleSrc": "Ta shenn raa gra — Cha nee dy chooilley nhee ta soilshean airh.",
     "exampleTr": "Робота здавалась ідеальною спочатку — не все золото, що блищить."
   },
   {
     "emoji": "🐕",
     "phrase": "Cha vel moddey ta accal geyre",
     "meaning": "Собака, що гавкає, не кусає",
-    "exampleSrc": "Myr t'ad gra — Cha vel moddey ta accal geyre.",
+    "exampleSrc": "Ta deiney creeney gra — Cha vel moddey ta accal geyre.",
     "exampleTr": "Він багато погрожує, та ніколи не діє."
   },
   {
     "emoji": "🐦",
-    "phrase": "S'mie lhiat un ushag ayns dty laue na jees er y billey",
-    "meaning": "Краще птах у руці, ніж сто в повітрі",
-    "exampleSrc": "Myr t'ad gra — S'mie lhiat un ushag ayns dty laue na jees er y billey.",
-    "exampleTr": "Прийми надійну пропозицію — краще птах у руці, ніж сто в повітрі."
+    "phrase": "Ta breck 'sy laue ny share na braddan 'sy lhingey",
+    "meaning": "Краще форель у руці, ніж лосось у ставку",
+    "exampleSrc": "She feer eh dy — Ta breck 'sy laue ny share na braddan 'sy lhingey.",
+    "exampleTr": "Прийми надійну пропозицію — краще форель у руці, ніж лосось у ставку."
   },
   {
     "emoji": "🛤️",
     "phrase": "Raad ta shirrey, ta raad",
     "meaning": "Де є бажання, там є і шлях",
-    "exampleSrc": "Myr t'ad gra — Raad ta shirrey, ta raad.",
+    "exampleSrc": "Ry-akin veih shenn earish — Raad ta shirrey, ta raad.",
     "exampleTr": "Вона не здалась попри труднощі — де є бажання, там є і шлях."
   },
   {
     "emoji": "💘",
     "phrase": "Ta graih doal",
     "meaning": "Кохання сліпе",
-    "exampleSrc": "Myr t'ad gra — Ta graih doal.",
+    "exampleSrc": "Ta gra dy — Ta graih doal.",
     "exampleTr": "Вона не бачить його недоліків — кохання сліпе."
   },
   {
     "emoji": "🎲",
     "phrase": "Cha jean unnane nagh gow contoyrtys geddyn barrant",
     "meaning": "Хто не ризикує, той не виграє",
-    "exampleSrc": "Myr t'ad gra — Cha jean unnane nagh gow contoyrtys geddyn barrant.",
+    "exampleSrc": "Va shenshey gra — Cha jean unnane nagh gow contoyrtys geddyn barrant.",
     "exampleTr": "Спробуй нову можливість — хто не ризикує, той не виграє."
   },
   {
@@ -132,51 +132,51 @@ export const IDIOMS_GV: Idiom[] = [
   },
   {
     "emoji": "🥇",
-    "phrase": "Ta tostid airh",
-    "meaning": "Мовчання — золото",
-    "exampleSrc": "Myr t'ad gra — Ta tostid airh.",
-    "exampleTr": "Іноді краще промовчати — мовчання золото."
+    "phrase": "Ta dooiney creeney smooinaght ooilley ny t'eh gra, agh ta'n ommidan gra ooilley ny t'eh smooinaght",
+    "meaning": "Мудрий обдумує все, перш ніж сказати, а дурень говорить усе, що думає",
+    "exampleSrc": "Ta sleih gra dy — Ta dooiney creeney smooinaght ooilley ny t'eh gra, agh ta'n ommidan gra ooilley ny t'eh smooinaght.",
+    "exampleTr": "Іноді краще промовчати — мудрий обдумує сказане, а дурень говорить усе, що думає."
   },
   {
     "emoji": "🌾",
     "phrase": "Ta'n unnane obbraghey geddyn",
     "meaning": "Хто працює, той і збирає",
-    "exampleSrc": "Myr t'ad gra — Ta'n unnane obbraghey geddyn.",
+    "exampleSrc": "Ta shenn raa gra — Ta'n unnane obbraghey geddyn.",
     "exampleTr": "Він допомагав багатьом, і потім йому теж допомогли."
   },
   {
     "emoji": "🎯",
     "phrase": "Ta cliaghtey jannoo perfeck",
     "meaning": "Практика робить майстра",
-    "exampleSrc": "Myr t'ad gra — Ta cliaghtey jannoo perfeck.",
+    "exampleSrc": "Ta deiney creeney gra — Ta cliaghtey jannoo perfeck.",
     "exampleTr": "Вона тренується щодня — практика робить майстра."
   },
   {
     "emoji": "⏳",
     "phrase": "Ta'n unnane feiyrt geddyn",
     "meaning": "Хто чекає, той дочекається",
-    "exampleSrc": "Myr t'ad gra — Ta'n unnane feiyrt geddyn.",
+    "exampleSrc": "She feer eh dy — Ta'n unnane feiyrt geddyn.",
     "exampleTr": "Він був терплячим і зрештою досягнув успіху."
   },
   {
     "emoji": "👘",
     "phrase": "Cha vel eaddagh soilshaghey yn dooinney",
     "meaning": "Одяг не робить ченця",
-    "exampleSrc": "Myr t'ad gra — Cha vel eaddagh soilshaghey yn dooinney.",
+    "exampleSrc": "Ry-akin veih shenn earish — Cha vel eaddagh soilshaghey yn dooinney.",
     "exampleTr": "Він був гарно вдягнений, та не був чесним."
   },
   {
     "emoji": "⏰",
     "phrase": "Ta'n traa laane dy chooilley lhott",
     "meaning": "Час лікує всі рани",
-    "exampleSrc": "Myr t'ad gra — Ta'n traa laane dy chooilley lhott.",
+    "exampleSrc": "Ta gra dy — Ta'n traa laane dy chooilley lhott.",
     "exampleTr": "З часом біль зменшився — час лікує всі рани."
   },
   {
     "emoji": "🔥",
     "phrase": "Cha vel jaagh dyn aile",
     "meaning": "Немає диму без вогню",
-    "exampleSrc": "Myr t'ad gra — Cha vel jaagh dyn aile.",
+    "exampleSrc": "Va shenshey gra — Cha vel jaagh dyn aile.",
     "exampleTr": "Ця чутка могла бути правдою — немає диму без вогню."
   },
   {
@@ -190,49 +190,49 @@ export const IDIOMS_GV: Idiom[] = [
     "emoji": "🐣",
     "phrase": "Ny cur-my-ner ny hushagyn roish my vrishys ny hoohyn",
     "meaning": "Не рахуй курчат, поки не вилупились",
-    "exampleSrc": "Myr t'ad gra — Ny cur-my-ner ny hushagyn roish my vrishys ny hoohyn.",
+    "exampleSrc": "Ta sleih gra dy — Ny cur-my-ner ny hushagyn roish my vrishys ny hoohyn.",
     "exampleTr": "Зачекаймо результату — не рахуй курчат, поки не вилупились."
   },
   {
     "emoji": "🤲",
     "phrase": "Ta'n unnane goaill ram gow ny sloo",
     "meaning": "Хто багато обіймає, той мало стискає",
-    "exampleSrc": "Myr t'ad gra — Ta'n unnane goaill ram gow ny sloo.",
+    "exampleSrc": "Ta shenn raa gra — Ta'n unnane goaill ram gow ny sloo.",
     "exampleTr": "Не берись за забагато справ одразу."
   },
   {
     "emoji": "🔦",
     "phrase": "Ta'n irriney rieau cheet gys y soilshey",
     "meaning": "Правда завжди виходить на світло",
-    "exampleSrc": "Myr t'ad gra — Ta'n irriney rieau cheet gys y soilshey.",
+    "exampleSrc": "Ta deiney creeney gra — Ta'n irriney rieau cheet gys y soilshey.",
     "exampleTr": "Зрештою все з'ясувалось — правда завжди виходить на світло."
   },
   {
     "emoji": "☁️",
     "phrase": "Ta dy chooilley vollagh gys eddin argid",
     "meaning": "У кожної хмари є срібна облямівка",
-    "exampleSrc": "Myr t'ad gra — Ta dy chooilley vollagh gys eddin argid.",
+    "exampleSrc": "She feer eh dy — Ta dy chooilley vollagh gys eddin argid.",
     "exampleTr": "Щось хороше завжди виходить із поганого."
   },
   {
     "emoji": "🫂",
     "phrase": "Ta'n charrey firrinagh enmyssit ayns doilleid",
     "meaning": "Справжнього друга пізнають у нужді",
-    "exampleSrc": "Myr t'ad gra — Ta'n charrey firrinagh enmyssit ayns doilleid.",
+    "exampleSrc": "Ry-akin veih shenn earish — Ta'n charrey firrinagh enmyssit ayns doilleid.",
     "exampleTr": "Вона допомогла мені у найважчий момент."
   },
   {
     "emoji": "🕯️",
     "phrase": "Cha vel treishteil rieau geddyn baase",
     "meaning": "Надія не вмирає ніколи",
-    "exampleSrc": "Myr t'ad gra — Cha vel treishteil rieau geddyn baase.",
+    "exampleSrc": "Ta gra dy — Cha vel treishteil rieau geddyn baase.",
     "exampleTr": "Попри все, вона не втратила надії."
   },
   {
     "emoji": "🌱",
     "phrase": "Ta dy chooilley strieughey giare mess",
     "meaning": "Кожне зусилля приносить свій плід",
-    "exampleSrc": "Myr t'ad gra — Ta dy chooilley strieughey giare mess.",
+    "exampleSrc": "Va shenshey gra — Ta dy chooilley strieughey giare mess.",
     "exampleTr": "Після років праці вона отримала свій успіх."
   },
   {
@@ -246,49 +246,49 @@ export const IDIOMS_GV: Idiom[] = [
     "emoji": "💎",
     "phrase": "Cha vod y charrys firrinagh cheet er kionnaghey",
     "meaning": "Справжню дружбу не купиш",
-    "exampleSrc": "Myr t'ad gra — Cha vod y charrys firrinagh cheet er kionnaghey.",
+    "exampleSrc": "Ta sleih gra dy — Cha vod y charrys firrinagh cheet er kionnaghey.",
     "exampleTr": "Їхню дружбу не можна купити за гроші."
   },
   {
     "emoji": "🎁",
     "phrase": "Ta luach ayns dy chooilley oural",
     "meaning": "Кожна жертва має свою цінність",
-    "exampleSrc": "Myr t'ad gra — Ta luach ayns dy chooilley oural.",
+    "exampleSrc": "Ta shenn raa gra — Ta luach ayns dy chooilley oural.",
     "exampleTr": "Після стількох жертв прийшов успіх."
   },
   {
     "emoji": "👨‍👩‍👧‍👦",
     "phrase": "Ta'n lught thie yn verchys smoo",
     "meaning": "Родина — найбільший скарб",
-    "exampleSrc": "Myr t'ad gra — Ta'n lught thie yn verchys smoo.",
+    "exampleSrc": "Ta deiney creeney gra — Ta'n lught thie yn verchys smoo.",
     "exampleTr": "Його родина завжди підтримувала його."
   },
   {
     "emoji": "🌪️",
     "phrase": "Ta'n unnane cuirr geay giarrey doinney vooar",
     "meaning": "Хто сіє вітер, той пожне бурю",
-    "exampleSrc": "Myr t'ad gra — Ta'n unnane cuirr geay giarrey doinney vooar.",
+    "exampleSrc": "She feer eh dy — Ta'n unnane cuirr geay giarrey doinney vooar.",
     "exampleTr": "Своєю брехнею він посіяв вітер і пожав бурю."
   },
   {
     "emoji": "🧘",
     "phrase": "Ta surranse ny cha vooar",
     "meaning": "Терпіння — велика чеснота",
-    "exampleSrc": "Myr t'ad gra — Ta surranse ny cha vooar.",
+    "exampleSrc": "Ry-akin veih shenn earish — Ta surranse ny cha vooar.",
     "exampleTr": "Вона мала терпіння у важкі часи."
   },
   {
     "emoji": "🔨",
     "phrase": "Ta dy chooilley ghooinney yn gaunse yn cheshaght echey hene",
     "meaning": "Кожен коваль своєї долі",
-    "exampleSrc": "Myr t'ad gra — Ta dy chooilley ghooinney yn gaunse yn cheshaght echey hene.",
+    "exampleSrc": "Ta gra dy — Ta dy chooilley ghooinney yn gaunse yn cheshaght echey hene.",
     "exampleTr": "Вона побудувала свій успіх власними руками."
   },
   {
     "emoji": "🤝",
     "phrase": "Ta niart cheet veih unnaneys",
     "meaning": "Єдність робить силу",
-    "exampleSrc": "Myr t'ad gra — Ta niart cheet veih unnaneys.",
+    "exampleSrc": "Va shenshey gra — Ta niart cheet veih unnaneys.",
     "exampleTr": "Усе село допомагало будувати міст."
   },
   {
@@ -300,51 +300,51 @@ export const IDIOMS_GV: Idiom[] = [
   },
   {
     "emoji": "🎓",
-    "phrase": "Ta dy chooilley loght gynsagh red ennagh",
-    "meaning": "Кожна помилка чогось вчить",
-    "exampleSrc": "Myr t'ad gra — Ta dy chooilley loght gynsagh red ennagh.",
-    "exampleTr": "Він визнав свою помилку і навчився на ній."
+    "phrase": "Cha lhisagh dooinney erbee ve nearagh dy ghoaill-rish e oill tra t'eh er ve camm",
+    "meaning": "Нікому не варто соромитись визнати свою провину, коли він помилився",
+    "exampleSrc": "Ta sleih gra dy — Cha lhisagh dooinney erbee ve nearagh dy ghoaill-rish e oill tra t'eh er ve camm.",
+    "exampleTr": "Він визнав свою помилку і навчився на ній — нікому не соромно визнати провину."
   },
   {
     "emoji": "📚",
     "phrase": "Ta bea yn scoill vooar",
     "meaning": "Життя — велика школа",
-    "exampleSrc": "Myr t'ad gra — Ta bea yn scoill vooar.",
+    "exampleSrc": "Ta shenn raa gra — Ta bea yn scoill vooar.",
     "exampleTr": "Кожен досвід чогось її навчив."
   },
   {
     "emoji": "🤷",
     "phrase": "Cha vod dy chooilley pheiagh v'er n'yannoo boggey",
     "meaning": "Не можна догодити всім",
-    "exampleSrc": "Myr t'ad gra — Cha vod dy chooilley pheiagh v'er n'yannoo boggey.",
+    "exampleSrc": "Ta deiney creeney gra — Cha vod dy chooilley pheiagh v'er n'yannoo boggey.",
     "exampleTr": "Вона намагалась, та не змогла — не можна догодити всім."
   },
   {
     "emoji": "☮️",
     "phrase": "Ta'n unnane bio ayns shee bio ny share",
     "meaning": "Хто живе в мирі, той живе краще",
-    "exampleSrc": "Myr t'ad gra — Ta'n unnane bio ayns shee bio ny share.",
+    "exampleSrc": "She feer eh dy — Ta'n unnane bio ayns shee bio ny share.",
     "exampleTr": "Він уникав сварок і жив спокійно."
   },
   {
     "emoji": "👴",
     "phrase": "Ta creenaght cheet marish eash",
     "meaning": "Мудрість приходить з віком",
-    "exampleSrc": "Myr t'ad gra — Ta creenaght cheet marish eash.",
+    "exampleSrc": "Ry-akin veih shenn earish — Ta creenaght cheet marish eash.",
     "exampleTr": "З віком він став мудрішим."
   },
   {
     "emoji": "🌅",
     "phrase": "Ta dy chooilley laa yn soilshey echey hene",
     "meaning": "Кожен день має своє світло",
-    "exampleSrc": "Myr t'ad gra — Ta dy chooilley laa yn soilshey echey hene.",
+    "exampleSrc": "Ta gra dy — Ta dy chooilley laa yn soilshey echey hene.",
     "exampleTr": "Навіть у важкі часи завжди є щось хороше."
   },
   {
     "emoji": "💞",
     "phrase": "Cha jean graih firrinagh criooghey",
     "meaning": "Справжня любов ніколи не закінчується",
-    "exampleSrc": "Myr t'ad gra — Cha jean graih firrinagh criooghey.",
+    "exampleSrc": "Va shenshey gra — Cha jean graih firrinagh criooghey.",
     "exampleTr": "Хоч час минав, їхнє кохання не змінювалось."
   },
   {
@@ -358,49 +358,49 @@ export const IDIOMS_GV: Idiom[] = [
     "emoji": "💰",
     "phrase": "Cha der argid boggey",
     "meaning": "Гроші не приносять щастя",
-    "exampleSrc": "Myr t'ad gra — Cha der argid boggey.",
+    "exampleSrc": "Ta sleih gra dy — Cha der argid boggey.",
     "exampleTr": "Попри багатство, він не був задоволений."
   },
   {
     "emoji": "🌸",
     "phrase": "Ta dy chooilley vlaa yn traa echey hene",
     "meaning": "Кожна квітка має свій час",
-    "exampleSrc": "Myr t'ad gra — Ta dy chooilley vlaa yn traa echey hene.",
+    "exampleSrc": "Ta shenn raa gra — Ta dy chooilley vlaa yn traa echey hene.",
     "exampleTr": "Зачекай трохи, кожна квітка має свій час."
   },
   {
     "emoji": "🙏",
     "phrase": "Ta credjue coyrt niart",
     "meaning": "Віра дає силу",
-    "exampleSrc": "Myr t'ad gra — Ta credjue coyrt niart.",
+    "exampleSrc": "Ta deiney creeney gra — Ta credjue coyrt niart.",
     "exampleTr": "Її віра допомогла їй у важкий момент."
   },
   {
     "emoji": "🎒",
     "phrase": "Ta dy chooilley hie yn errey echey hene",
     "meaning": "Кожен дім має свій хрест",
-    "exampleSrc": "Myr t'ad gra — Ta dy chooilley hie yn errey echey hene.",
+    "exampleSrc": "She feer eh dy — Ta dy chooilley hie yn errey echey hene.",
     "exampleTr": "У всіх свої проблеми."
   },
   {
     "emoji": "🕊️",
     "phrase": "Ta'n unnane leih v'er nyannoo seyr",
     "meaning": "Хто прощає, той звільняється",
-    "exampleSrc": "Myr t'ad gra — Ta'n unnane leih v'er nyannoo seyr.",
+    "exampleSrc": "Ry-akin veih shenn earish — Ta'n unnane leih v'er nyannoo seyr.",
     "exampleTr": "Вона пробачила і відчула полегшення."
   },
   {
     "emoji": "🙇",
     "phrase": "Ta ooashley cosnit lesh gniaghtyn",
     "meaning": "Повагу заслуговують вчинками",
-    "exampleSrc": "Myr t'ad gra — Ta ooashley cosnit lesh gniaghtyn.",
+    "exampleSrc": "Ta gra dy — Ta ooashley cosnit lesh gniaghtyn.",
     "exampleTr": "Вона заслужила повагу всіх своєю працею."
   },
   {
     "emoji": "🌗",
     "phrase": "Ta dy chooilley scaa yn soilshey echey hene",
     "meaning": "Кожна тінь має своє світло",
-    "exampleSrc": "Myr t'ad gra — Ta dy chooilley scaa yn soilshey echey hene.",
+    "exampleSrc": "Va shenshey gra — Ta dy chooilley scaa yn soilshey echey hene.",
     "exampleTr": "Навіть у чорні моменти завжди є щось позитивне."
   },
   {
@@ -414,49 +414,49 @@ export const IDIOMS_GV: Idiom[] = [
     "emoji": "🌈",
     "phrase": "Cha lhieent y chree yn unnane bio lesh treishteil",
     "meaning": "Хто живе з надією, той ніколи не занепадає духом",
-    "exampleSrc": "Myr t'ad gra — Cha lhieent y chree yn unnane bio lesh treishteil.",
+    "exampleSrc": "Ta sleih gra dy — Cha lhieent y chree yn unnane bio lesh treishteil.",
     "exampleTr": "Попри все, вона ніколи не занепадала духом."
   },
   {
     "emoji": "🥇",
     "phrase": "Ta soylley cheet lurg y stree",
     "meaning": "Успіх приходить після боротьби",
-    "exampleSrc": "Myr t'ad gra — Ta soylley cheet lurg y stree.",
+    "exampleSrc": "Ta shenn raa gra — Ta soylley cheet lurg y stree.",
     "exampleTr": "Після днів боротьби вона досягла успіху."
   },
   {
     "emoji": "🌳",
     "phrase": "Ta dy chooilley charrys shirrey kiarail",
     "meaning": "Кожна дружба потребує турботи",
-    "exampleSrc": "Myr t'ad gra — Ta dy chooilley charrys shirrey kiarail.",
+    "exampleSrc": "Ta deiney creeney gra — Ta dy chooilley charrys shirrey kiarail.",
     "exampleTr": "Вони завжди дбали про свою дружбу."
   },
   {
     "emoji": "❤️‍🩹",
     "phrase": "Ta'n verchys firrinagh yn slaynt",
     "meaning": "Справжнє багатство — здоров'я",
-    "exampleSrc": "Myr t'ad gra — Ta'n verchys firrinagh yn slaynt.",
+    "exampleSrc": "She feer eh dy — Ta'n verchys firrinagh yn slaynt.",
     "exampleTr": "Хоч бідний, він щасливий — справжнє багатство здоров'я."
   },
   {
     "emoji": "🤝",
     "phrase": "Ta'n unnane cooney geddyn cooney",
     "meaning": "Хто допомагає, тому й допомагають",
-    "exampleSrc": "Myr t'ad gra — Ta'n unnane cooney geddyn cooney.",
+    "exampleSrc": "Ry-akin veih shenn earish — Ta'n unnane cooney geddyn cooney.",
     "exampleTr": "Він допомагав іншим, і потім йому теж допомогли."
   },
   {
     "emoji": "💌",
     "phrase": "Ta dy chooilley ockle mie coyrt boggey da'n cree",
     "meaning": "Кожне добре слово радує серце",
-    "exampleSrc": "Myr t'ad gra — Ta dy chooilley ockle mie coyrt boggey da'n cree.",
+    "exampleSrc": "Ta gra dy — Ta dy chooilley ockle mie coyrt boggey da'n cree.",
     "exampleTr": "Він заговорив до неї лагідно."
   },
   {
     "emoji": "⏱️",
     "phrase": "Cha jean y traa fuirraghtyn rish peiagh erbee",
     "meaning": "Час нікого не чекає",
-    "exampleSrc": "Myr t'ad gra — Cha jean y traa fuirraghtyn rish peiagh erbee.",
+    "exampleSrc": "Va shenshey gra — Cha jean y traa fuirraghtyn rish peiagh erbee.",
     "exampleTr": "Не гай часу — час нікого не чекає."
   },
   {
@@ -470,28 +470,28 @@ export const IDIOMS_GV: Idiom[] = [
     "emoji": "🏅",
     "phrase": "Ta dy chooilley strieughey yn leagh echey hene",
     "meaning": "Кожне зусилля має свою нагороду",
-    "exampleSrc": "Myr t'ad gra — Ta dy chooilley strieughey yn leagh echey hene.",
+    "exampleSrc": "Ta sleih gra dy — Ta dy chooilley strieughey yn leagh echey hene.",
     "exampleTr": "Після великої праці вона отримала свою нагороду."
   },
   {
     "emoji": "🦁",
     "phrase": "Ta'n unnane misheragh v'er varriaght yn aggle",
     "meaning": "Хто має мужність, той перемагає страх",
-    "exampleSrc": "Myr t'ad gra — Ta'n unnane misheragh v'er varriaght yn aggle.",
+    "exampleSrc": "Ta shenn raa gra — Ta'n unnane misheragh v'er varriaght yn aggle.",
     "exampleTr": "Вона представила свою ідею попри страх."
   },
   {
     "emoji": "🧘",
-    "phrase": "Ta boggey firrinagh cheet veih cheu-sthie",
-    "meaning": "Справжнє щастя приходить зсередини",
-    "exampleSrc": "Myr t'ad gra — Ta boggey firrinagh cheet veih cheu-sthie.",
-    "exampleTr": "Матеріальні речі не приносили їй щастя."
+    "phrase": "Cha vel eh laccal gerjagh ta soylley jeh aigney booiagh",
+    "meaning": "Не бракує втіхи тому, хто має задоволений розум",
+    "exampleSrc": "Ta deiney creeney gra — Cha vel eh laccal gerjagh ta soylley jeh aigney booiagh.",
+    "exampleTr": "Матеріальні речі не приносили їй щастя — не бракує втіхи тому, хто має задоволений розум."
   },
   {
     "emoji": "🌟",
     "phrase": "Ta dy chooilley laa cothrom noa",
     "meaning": "Кожен день — нова можливість",
-    "exampleSrc": "Myr t'ad gra — Ta dy chooilley laa cothrom noa.",
+    "exampleSrc": "She feer eh dy — Ta dy chooilley laa cothrom noa.",
     "exampleTr": "Вона прокидається з новою енергією щодня."
   }
 ];
