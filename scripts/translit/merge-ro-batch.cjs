@@ -17,7 +17,8 @@ const basePath = path.join(__dirname, '../../data/words-data/words.js');
 const roPath = path.join(__dirname, '../../data/words-data/words_ro.js');
 
 function loadArr(filePath, varName) {
-  const src = fs.readFileSync(filePath, 'utf8').replace(/^﻿/, '');
+  let src = fs.readFileSync(filePath, 'utf8');
+  if (src.charCodeAt(0) === 0xfeff) src = src.slice(1);
   const declIdx = src.indexOf('const ' + varName);
   const eqIdx = src.indexOf('=', declIdx);
   const rest = src.slice(eqIdx + 1);
