@@ -169,7 +169,7 @@ export function DuelModePicker() {
             key={m.id}
             value={m.id}
             className={
-              'duel-mode-btn h-auto flex-col rounded-none bg-transparent' +
+              'duel-mode-btn h-auto flex-col whitespace-normal rounded-none bg-transparent' +
               (active ? ' duel-mode-sel' : '')
             }
             style={{
