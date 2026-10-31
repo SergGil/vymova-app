@@ -28,6 +28,18 @@ open a *specific* other doc only when a task actually touches that doc's
 area (e.g. only read `component-tailwind-conversion-roadmap.md` if you're
 about to touch theme-touched CSS), not preemptively.
 
+## Word-list translations (`data/words-data/words_<code>.js`)
+
+- Every example sentence (element [1]) MUST be a faithful translation of
+  the base list's English example `W[i][2]` in `data/words-data/words.js`.
+  Never invent your own example sentences — several languages had to be
+  redone in full because examples were made up instead of translated.
+- Work from a listing that shows `word | EN example` side by side; keep
+  digits and proper nouns from the English sentence; never edit glosses.
+- After finishing a language, run `node scripts/audit-example-fidelity.cjs`:
+  the length ratio per bucket should stay near the language's baseline
+  (~0.9–1.0) with low digit-miss.
+
 ## Conventions
 
 - **Version bump every commit**: bump `version` in `package.json` and the
