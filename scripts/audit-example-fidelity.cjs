@@ -3,7 +3,9 @@ const fs=require('fs');
 function load(p,v){let s=fs.readFileSync(p,'utf8');if(s.charCodeAt(0)===0xfeff)s=s.slice(1);const i=s.indexOf('const '+v);const e=s.indexOf('=',i);return eval('('+s.slice(e+1).replace(/;\s*$/,'')+')');}
 const R='data/words-data/';
 const W=load(R+'words.js','W');const idx=new Map(W.map((e,i)=>[e[0],i]));
-const normDigits=s=>s.replace(/[٠-٩]/g,c=>String(c.charCodeAt(0)-0x660)).replace(/[०-९]/g,c=>String(c.charCodeAt(0)-0x966)).replace(/[０-９]/g,c=>String(c.charCodeAt(0)-0xFF10));
+// Any Unicode decimal digit (Bengali, Gurmukhi, Devanagari, Arabic-Indic, fullwidth…) → ASCII; a run of Nd code points starts at its zero.
+const isNd=c=>/\p{Nd}/u.test(c);
+const normDigits=s=>[...s].map(c=>{if(c<='9'&&c>='0'||!isNd(c))return c;let cp=c.codePointAt(0),z=cp;while(isNd(String.fromCodePoint(z-1)))z--;return String((cp-z)%10);}).join('');
 const med=a=>{if(!a.length)return 0;const b=[...a].sort((x,y)=>x-y);return b[Math.floor(b.length/2)]};
 const out=[];
 for(const f of fs.readdirSync(R)){
