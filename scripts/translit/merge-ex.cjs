@@ -30,7 +30,7 @@ if(src.split('\n').length>Object.keys(P).length){
  const nb=new Map(b.map(t=>[t[0],t[1]]));let n=0;
  const lines=src.split('\n').map(l=>{const m=l.match(/^(\s*)("(?:[^"\\]|\\.)*"):\s*(\[.*\])(,?)\s*$/);if(!m)return l;const k=JSON.parse(m[2]);if(!nb.has(k))return l;const arr=JSON.parse(m[3]);arr[1]=nb.get(k);n++;return m[1]+m[2]+': ['+arr.map(x=>JSON.stringify(x)).join(', ')+']'+m[4];});
  if(n!==b.length){console.log('line-mode matched',n,'of',b.length);process.exit(1);}
- fs.writeFileSync(f,lines.join('\n'),'utf8');console.log('redone',n,'(line mode) next',a+b.length);process.exit(0);
+ fs.writeFileSync(f,lines.join('\n'),'utf8');console.log('redone',n,'(line mode)',sparse?'(sparse)':'next '+(a+b.length));process.exit(0);
 }
 for(const t of b){P[t[0]]=[P[t[0]][0],t[1],...P[t[0]].slice(2)];}
 const hi=src.indexOf('export const');const head=src.slice(0,src.indexOf('=',hi)+1)+' ';
