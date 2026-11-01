@@ -39,6 +39,14 @@ about to touch theme-touched CSS), not preemptively.
 - After finishing a language, run `node scripts/audit-example-fidelity.cjs`:
   the length ratio per bucket should stay near the language's baseline
   (~0.9–1.0) with low digit-miss.
+- `tests/data/example-fidelity.test.ts` enforces this in CI (per-bucket
+  length stability, stem overlap with close sibling languages, a floor for
+  small banks). A statistical flag only says where to look — read the
+  actual sentences against `W[i][2]` before calling a range invented or
+  clean (sibling languages can share the same bad source).
+- To replace examples: `node scripts/translit/merge-ex.cjs <code>
+  <batch.json> <startIndex>` for a contiguous range in base order, or
+  `... keys` for scattered entries. It replaces only element [1].
 
 ## Conventions
 
