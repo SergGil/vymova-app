@@ -64,13 +64,15 @@ function contextStems(example: string, gloss: string): Set<string> {
 
 const banks = new Map<string, Bank>();
 
+// ~120 modules, several of them 10k entries: give the import headroom on a
+// loaded machine (the full suite runs files in parallel).
 beforeAll(async () => {
   await Promise.all(
     ALL_TARGET_LANGS.map(async (code) => {
       banks.set(code, await loadWordTable(code));
     }),
   );
-});
+}, 60_000);
 
 function exampleOf(bank: Bank, word: string): { gloss: string; example: string } | null {
   const t = bank[word];
@@ -176,8 +178,8 @@ describe('example sentences track the English master example', () => {
   // generic sentences unrelated to W[i][2]). Remove a code from this list once
   // its examples are redone — the floor below then applies to it too.
   const PENDING_SMALL_BANK_REDO = new Set([
-    'bho', 'ceb', 'ch', 'dth', 'gn', 'ku', 'ln', 'mh', 'nah',
-    'nv', 'om', 'pau', 'qya', 'rm', 'sjn', 'tlh', 'ty', 'val',
+    'ch', 'dth', 'gn', 'ln', 'mh', 'nah', 'nv',
+    'om', 'pau', 'qya', 'sjn', 'tlh', 'ty', 'val',
   ]);
 
   it('small banks: median example length is not collapsed', () => {
