@@ -109,7 +109,9 @@ function translitKo(word) {
     }
   }
   flush();
-  return out;
+  // Hanja glossing a Sino-Korean word (만(灣) "bay") isn't read aloud — drop
+  // it, with the parentheses it leaves empty.
+  return out.replace(/\p{Script=Han}+/gu, '').replace(/\(\s*\)/g, '').trim();
 }
 
 module.exports = { translitKo };

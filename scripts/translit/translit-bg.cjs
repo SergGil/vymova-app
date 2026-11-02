@@ -4,6 +4,7 @@ const MAP = {
   й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's',
   т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'sht',
   ъ: 'a', ь: 'y', ю: 'yu', я: 'ya',
+  ѝ: 'i', // the pronoun "her" — и with a grave to tell it from the conjunction и
 };
 
 function translitBg(word) {
