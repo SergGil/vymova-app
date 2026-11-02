@@ -20,6 +20,9 @@ function loadWordTable(code: string): Promise<Record<string, unknown>> {
   );
 }
 
+// The import of a 10k-entry table sits inside the test, and in a loaded
+// full-suite run it has gone past vitest's 5 s default (seen with words_es.js)
+// — hence the explicit headroom below.
 describe.each(ALL_TARGET_LANGS)('data/words-data/words_%s.js (structural sanity)', (code) => {
   it('exports a non-empty table of valid [translation, example, transcription?] tuples', async () => {
     const dict = await loadWordTable(code);
@@ -68,5 +71,5 @@ describe.each(ALL_TARGET_LANGS)('data/words-data/words_%s.js (structural sanity)
         ).toBe('boolean');
       }
     }
-  });
+  }, 30_000);
 });

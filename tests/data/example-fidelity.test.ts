@@ -81,11 +81,13 @@ function exampleOf(bank: Bank, word: string): { gloss: string; example: string }
 }
 
 describe('example sentences track the English master example', () => {
-  it('full banks: every 250-entry bucket keeps the language\'s length ratio', () => {
+  // Applies from 1000 entries, the same cutoff where the small-bank floor below
+  // stops — so a bank being filled toward 10741 is checked at every size.
+  it('banks of 1000+: every 250-entry bucket keeps the language\'s length ratio', () => {
     const BUCKET = 250;
     const offenders: string[] = [];
     for (const [code, bank] of banks) {
-      if (Object.keys(bank).length < 5000) continue;
+      if (Object.keys(bank).length < 1000) continue;
       const buckets = new Map<number, number[]>();
       entries.forEach((e, i) => {
         const t = exampleOf(bank, e[0]);
