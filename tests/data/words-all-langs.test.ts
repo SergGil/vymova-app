@@ -14,6 +14,20 @@ const headwords = new Set((W as unknown as WordEntry[]).map((e) => e[0]));
 // [translation, example, transcription?] shape every natural language uses.
 const CONLANGS = new Set(['tlh', 'qya', 'val', 'sjn', 'dth']);
 
+// A romanization must be Latin (plus Common-script IPA marks like ˈ ː, and
+// Greek β θ χ, which IPA borrows). Any other letter means a transliterator in
+// scripts/translit/ passed a character through unmapped (Thai "thangoาkat",
+// Persian "taأsir") or a Cyrillic look-alike slipped in ("sаhna").
+const NON_LATIN_LETTER = /(?![βθχ])(?![\p{Script=Latin}\p{Script=Common}])\p{L}/u;
+
+// A single word mixing Latin with Cyrillic/Greek letters is a look-alike slip
+// (Bulgarian "подпoлен" with a Latin o, Italian "fallisсono" with a Cyrillic с).
+function mixedScriptWord(text: string): string | undefined {
+  return text
+    .split(/[^\p{L}\p{M}]+/u)
+    .find((w) => /\p{Script=Latin}/u.test(w) && /[\p{Script=Cyrillic}\p{Script=Greek}]/u.test(w));
+}
+
 function loadWordTable(code: string): Promise<Record<string, unknown>> {
   return import(`../../data/words-data/words_${code}.js`).then(
     (m) => (m as Record<string, unknown>)[`W_${code.toUpperCase()}`] as Record<string, unknown>,
@@ -57,12 +71,24 @@ describe.each(ALL_TARGET_LANGS)('data/words-data/words_%s.js (structural sanity)
       ).toBeGreaterThan(0);
       expect(typeof example, `${code}.${key}: example`).toBe('string');
       expect((example as string).length, `${code}.${key}: empty example`).toBeGreaterThan(0);
+      for (const text of [translation, example] as string[]) {
+        const word = mixedScriptWord(text);
+        expect(word, `${code}.${key}: "${word}" mixes Latin with Cyrillic/Greek letters`).toBeUndefined();
+      }
+      // A non-Latin translation needs its romanization: whole ranges were once
+      // merged as 2-element tuples (hi 2002-4249, entries 0-9 of six banks).
+      const t = translation as string;
+      if (/\p{L}/u.test(t) && !/\p{Script=Latin}/u.test(t)) {
+        expect(arr.length >= 3, `${code}.${key}: non-Latin translation without a transcription`).toBe(true);
+      }
       if (arr.length >= 3) {
         expect(typeof transcription, `${code}.${key}: transcription`).toBe('string');
         expect(
           (transcription as string).length,
           `${code}.${key}: empty transcription`,
         ).toBeGreaterThan(0);
+        const stray = (transcription as string).match(NON_LATIN_LETTER)?.[0];
+        expect(stray, `${code}.${key}: transcription contains non-Latin letter "${stray}"`).toBeUndefined();
       }
       if (arr.length === 4) {
         expect(

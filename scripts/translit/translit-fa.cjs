@@ -16,15 +16,23 @@
 // vowel). This is a simplification of the real rules (which also depend
 // on syllable structure) but covers the large majority of cases.
 //
-// Known simplifications: ا always -> "a" (long/short distinction and
-// hamza-seat variants أ/إ/ؤ/ئ not modeled); ع (ayn) -> apostrophe.
+// ا carrying its own harakat (اَ/اِ/اُ, word-initial vowel seat) is silent —
+// the harakat alone is the vowel (اَز -> az, not "aaz"). Hamza on a seat
+// (أ/ؤ/ئ) is a glottal stop like bare ء -> apostrophe (تَأثیر -> ta'sir).
+//
+// Known simplifications: bare ا always -> "a" (long/short distinction not
+// modeled); ع (ayn) -> apostrophe.
 
 const CONSONANTS = {
   ب: 'b', پ: 'p', ت: 't', ث: 's', ج: 'j', چ: 'ch', ح: 'h', خ: 'kh',
   د: 'd', ذ: 'z', ر: 'r', ز: 'z', ژ: 'zh', س: 's', ش: 'sh', ص: 's',
   ض: 'z', ط: 't', ظ: 'z', ع: "'", غ: 'gh', ف: 'f', ق: 'q', ک: 'k',
   گ: 'g', ل: 'l', م: 'm', ن: 'n', ه: 'h', ء: "'",
+  أ: "'", ؤ: "'", ئ: "'",
 };
+
+// Arabic-script punctuation -> its Latin counterpart.
+const PUNCTUATION = { '،': ',', '؛': ';', '؟': '?' };
 
 const HARAKAT = {
   'َ': 'a', // fatha
@@ -60,6 +68,21 @@ function translitFa(phrase) {
       continue;
     }
     if (ch === SUKUN) {
+      atWordStart = false;
+      continue;
+    }
+    if (PUNCTUATION[ch] !== undefined) {
+      out += PUNCTUATION[ch];
+      continue;
+    }
+    if (ch === 'ا' && HARAKAT[chars[i + 1]] !== undefined) {
+      lastConsonant = '';
+      atWordStart = false;
+      continue;
+    }
+    if (ch === 'إ') {
+      out += 'e';
+      lastConsonant = '';
       atWordStart = false;
       continue;
     }
@@ -116,6 +139,10 @@ if (require.main === module) {
     ['یِک', 'yek'],
     ['دوست', 'dust'],
     ['بَله', 'baleh'],
+    ['اَز', 'az'],
+    ['اِمتِناع', "emtena'"],
+    ['تَأثیر', "ta'sir"],
+    ['تَبرِئه', "tabre'eh"],
   ];
   for (const [t, ref] of tests) {
     const got = translitFa(t);

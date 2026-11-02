@@ -86,7 +86,7 @@ export const W_UZ = {
   "accuracy": ["aniqlik", "O'lchovlarning aniqligi bu tajribada juda muhim.", "aniqlik"],
   "accurate": ["aniq", "Kesishdan oldin o'lchovlaringiz aniq ekanligiga ishonch hosil qiling.", "aniq"],
   "accusation": ["ayblov", "U ayblovlarni rad etdi va to'liq tergov o'tkazishni talab qildi.", "ayblov"],
-  "accuse": ["aybламoq", "U ofisdan pul o'g'irlashda ayblandi.", "aybламoq"],
+  "accuse": ["ayblamoq", "U ofisdan pul o'g'irlashda ayblandi.", "ayblamoq"],
   "accustom": ["o'rganib olmoq", "Yangi tartibga o'rganib olish vaqt talab qiladi.", "o'rganib olmoq"],
   "ache": ["og'rimoq; og'riq", "Kun bo'yi yurgandan keyin oyoqlarim og'riyapti.", "og'rimoq"],
   "achieve": ["erishmoq", "Qattiq mehnat va sadoqat maqsadlarga erishishga yordam beradi.", "erishmoq"],

@@ -77,7 +77,7 @@ export const W_KW = {
   "accordingly": ["dre henna", "an studhow a janjyas, ha dre henna ni a janjyas an towlow.", "dre henna"],
   "account": ["akont", "mar plegya, danvonewgh an mona dhe'm akont bank.", "akont"],
   "account for": ["deklarya", "prisyow oyl ow tos yn ban a dheklar meur a'n gresyans yn kostys treylyans.", "deklarya"],
-  "accountability": ["akontabyltя", "res yw akontabyltя rag synsi fydhyans an bobel yn kowethasow.", "akontabyltя"],
+  "accountability": ["akontekter", "res yw akontekter rag synsi fydhyans an bobel yn kowethasow.", "akontekter"],
   "accountable": ["akontek", "res yw dhe hembrenkysi bos akontek rag aga hwarnansow.", "akontek"],
   "accountant": ["akontydh", "an kowethas a wrug arveth akontydh nowyth y'n mis passyes.", "akontydh"],
   "accreditation": ["asenya", "an kowethas a's kavas asenya kowal dhyworth an konsel kenedhlek.", "asenya"],

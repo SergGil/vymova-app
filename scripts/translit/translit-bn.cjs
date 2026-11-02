@@ -70,8 +70,12 @@ const VISARGA = 'ঃ';
 const KHANDA_TA = 'ৎ';
 const NUKTA = '়';
 
+// ZWJ only picks a glyph form (র‍্য writes the ra + ya-phala ligature
+// distinctly from reph) and has no sound — drop it, or র‍্যাক -> "ro‍্jako".
+const ZWJ = '‍';
+
 function translitBn(word) {
-  const chars = Array.from(word);
+  const chars = Array.from(word).filter((c) => c !== ZWJ);
   let out = '';
   let i = 0;
   while (i < chars.length) {

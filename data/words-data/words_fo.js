@@ -9,7 +9,7 @@ export const W_FO = {
   "abate": ["minka", "eftir nógvar tímar tók stormurin at minka.", "minka"],
   "abbreviate": ["stytta", "\"kilometur\" kann styttast til \"km\".", "stytta"],
   "abdicate": ["fráfara trónini", "kongurin fráfór trónini fyri son sín.", "fráfara trónini"],
-  "abdomen": ["mага", "hon kendi eina hvassa pínu í niðaru partinum av maganum.", "mага"],
+  "abdomen": ["magi", "hon kendi eina hvassa pínu í niðaru partinum av maganum.", "magi"],
   "abduct": ["ræna", "barnið varð rænt uttanfyri skúlan.", "ræna"],
   "aberrant": ["óvanligur", "vísindamaðurin sá óvanligar úrslit til at kanna víðari.", "óvanligur"],
   "aberration": ["frávik", "hennara atburð var eitt frávik — passaði als ikki til hana.", "frávik"],
