@@ -179,7 +179,7 @@ describe('example sentences track the English master example', () => {
   // its examples are redone — the floor below then applies to it too.
   const PENDING_SMALL_BANK_REDO = new Set([
     'ch', 'dth', 'mh', 'nah', 'nv',
-    'om', 'pau', 'qya', 'sjn', 'tlh', 'ty', 'val',
+    'pau', 'qya', 'sjn', 'tlh', 'val',
   ]);
 
   it('small banks: median example length is not collapsed', () => {
