@@ -174,18 +174,12 @@ describe('example sentences track the English master example', () => {
     ).toEqual([]);
   });
 
-  // 160-word banks whose examples are still known to be invented (short,
-  // generic sentences unrelated to W[i][2]). Remove a code from this list once
-  // its examples are redone — the floor below then applies to it too.
-  const PENDING_SMALL_BANK_REDO = new Set([
-    'dth', 'mh', 'nv',
-    'pau', 'qya', 'sjn', 'tlh', 'val',
-  ]);
-
+  // Every 160-word bank has been redone from W[i][2] (v1.638–v1.642), so the
+  // floor applies to all of them — there is no exemption list any more.
   it('small banks: median example length is not collapsed', () => {
     const offenders: string[] = [];
     for (const [code, bank] of banks) {
-      if (Object.keys(bank).length >= 1000 || PENDING_SMALL_BANK_REDO.has(code)) continue;
+      if (Object.keys(bank).length >= 1000) continue;
       const ratios: number[] = [];
       for (const e of entries) {
         const t = exampleOf(bank, e[0]);
