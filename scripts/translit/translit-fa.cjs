@@ -12,16 +12,30 @@
 //
 // و and ی are context-dependent (consonant v/y vs. long vowel u/i):
 // word-initial -> consonant; elsewhere -> long vowel, UNLESS immediately
-// followed by a harakat (meaning it's acting as a consonant carrying that
-// vowel). This is a simplification of the real rules (which also depend
-// on syllable structure) but covers the large majority of cases.
+// followed by a harakat or shadda (meaning it's acting as a consonant
+// carrying that vowel), or followed by ا/آ after a vowel (بَیان -> bayan,
+// تاوان -> tavan, دیوار -> divar). و before ا is a consonant even after a
+// bare consonant (اَموال -> amval, خواب -> khvab); ی there stays a vowel
+// (دنیا -> donia), since ziyad/donya can't be told apart without harakat.
+// Word-initial bare ای/او are the long vowels i/u (این -> in, او -> u).
+// This is a simplification of the real rules (which also depend on
+// syllable structure) but covers the large majority of cases.
 //
 // ا carrying its own harakat (اَ/اِ/اُ, word-initial vowel seat) is silent —
-// the harakat alone is the vowel (اَز -> az, not "aaz"). Hamza on a seat
-// (أ/ؤ/ئ) is a glottal stop like bare ء -> apostrophe (تَأثیر -> ta'sir).
+// the harakat alone is the vowel (اَز -> az, not "aaz"); likewise the ا that
+// carries tanwin (اَصلاً -> aslan). Hamza on a seat (أ/ؤ/ئ) is a glottal stop
+// like bare ء -> apostrophe (تَأثیر -> ta'sir).
+//
+// Word-final ه (before a space, ZWNJ, punctuation or the end) after a bare
+// consonant is the silent-h vowel -> "eh" (خانه -> khaneh); after a harakat,
+// sukun or long vowel it is a real h (بِه -> beh, پَناه -> panah, کوه -> kuh).
+//
+// Shadda doubles the consonant before the vowel, whichever order the two
+// marks are typed in (Unicode canonical order puts damma/kasra/fatha before
+// shadda: تَکَبُّر -> takabbor, not "takabobr").
 //
 // Known simplifications: bare ا always -> "a" (long/short distinction not
-// modeled); ع (ayn) -> apostrophe.
+// modeled); ع (ayn) -> apostrophe; خوا -> khva (the silent و is not modeled).
 
 const CONSONANTS = {
   ب: 'b', پ: 'p', ت: 't', ث: 's', ج: 'j', چ: 'ch', ح: 'h', خ: 'kh',
@@ -43,23 +57,45 @@ const HARAKAT = {
 const SHADDA = 'ّ';
 const SUKUN = 'ْ';
 const ZWNJ = '‌';
+const TANWIN = 'ً';
+const LETTER = /[ء-غف-يٱ-ۓ]/;
 
 function translitFa(phrase) {
   const chars = Array.from(phrase);
+  // Move shadda in front of a vowel mark typed (or normalized) before it.
+  for (let i = 0; i + 1 < chars.length; i++) {
+    if (chars[i + 1] === SHADDA && (HARAKAT[chars[i]] !== undefined || chars[i] === SUKUN)) {
+      chars[i + 1] = chars[i];
+      chars[i] = SHADDA;
+    }
+  }
+  const isMark = (c) => HARAKAT[c] !== undefined || c === SHADDA || c === SUKUN;
+  const isFinalHeh = (j) =>
+    chars[j] === 'ه' && !isMark(chars[j + 1]) && !(chars[j + 1] && LETTER.test(chars[j + 1]));
   let out = '';
   let lastConsonant = '';
   let atWordStart = true;
+  let afterVowel = false; // the previous sound written was a vowel
+  let afterLongIU = false; // ...and it was a long ی/و vowel
+  let lettersInWord = 0;
   for (let i = 0; i < chars.length; i++) {
     const ch = chars[i];
+    const next = chars[i + 1];
+    if (LETTER.test(ch)) lettersInWord++;
+    const prevLongIU = afterLongIU;
+    afterLongIU = false;
     if (/\s/.test(ch) || ch === ZWNJ) {
       out += ch === ZWNJ ? ' ' : ch;
       atWordStart = true;
       lastConsonant = '';
+      afterVowel = false;
+      lettersInWord = 0;
       continue;
     }
     if (HARAKAT[ch] !== undefined) {
       out += HARAKAT[ch];
       atWordStart = false;
+      afterVowel = ch !== TANWIN;
       continue;
     }
     if (ch === SHADDA) {
@@ -69,13 +105,15 @@ function translitFa(phrase) {
     }
     if (ch === SUKUN) {
       atWordStart = false;
+      afterVowel = false;
       continue;
     }
     if (PUNCTUATION[ch] !== undefined) {
       out += PUNCTUATION[ch];
+      afterVowel = false;
       continue;
     }
-    if (ch === 'ا' && HARAKAT[chars[i + 1]] !== undefined) {
+    if (ch === 'ا' && (isMark(next) || chars[i - 1] === TANWIN)) {
       lastConsonant = '';
       atWordStart = false;
       continue;
@@ -84,45 +122,87 @@ function translitFa(phrase) {
       out += 'e';
       lastConsonant = '';
       atWordStart = false;
+      afterVowel = true;
+      continue;
+    }
+    if (ch === 'ا' && atWordStart && (next === 'ی' || next === 'و') && !isMark(chars[i + 2])) {
+      out += next === 'ی' ? 'i' : 'u';
+      i++;
+      lastConsonant = '';
+      atWordStart = false;
+      afterVowel = true;
       continue;
     }
     if (ch === 'ا' || ch === 'آ') {
       out += 'a';
       lastConsonant = '';
       atWordStart = false;
+      afterVowel = true;
+      continue;
+    }
+    // The linking "-o-" of ZWNJ compounds: کَسب‌وکار -> kasb o kar.
+    if (ch === 'و' && chars[i - 1] === ZWNJ && next && LETTER.test(next) && !'اوی'.includes(next)) {
+      out += 'o ';
+      lastConsonant = '';
+      lettersInWord = 0;
       continue;
     }
     if (ch === 'و' || ch === 'ی') {
-      const nextIsHarakat = HARAKAT[chars[i + 1]] !== undefined;
-      if (atWordStart || nextIsHarakat) {
+      const beforeAlef = next === 'ا' || next === 'آ';
+      // و before ا after a bare consonant: a consonant (اَموال, خواب), but
+      // not straight after a word's first consonant, where Persian allows
+      // no cluster (an unvocalized توانا stays "tuana", not "tvana").
+      const vBeforeAlef = ch === 'و' && beforeAlef && (lettersInWord > 2 || lastConsonant === 'kh');
+      // و before a word-final ه is -ve far more often than -uh (جِلوه,
+      // عِلاوه, میوه); type the -uh words with sukun on ه (کوهْ, گُروهْ).
+      const vBeforeHeh = ch === 'و' && !atWordStart && isFinalHeh(i + 1);
+      // و between a short vowel or ا and a long ی (نِویسَنده, دَوید, آویز).
+      const vBeforeYeh = ch === 'و' && next === 'ی' && afterVowel && !prevLongIU;
+      // Word-final و after ا (گاو -> gav); و/ی after a sukun opens a
+      // syllable, so it is a consonant (تَصْویر -> tasvir).
+      const vAfterAlefFinal = ch === 'و' && chars[i - 1] === 'ا' && !(next && (LETTER.test(next) || isMark(next)));
+      const afterSukun = chars[i - 1] === SUKUN;
+      if (
+        atWordStart || isMark(next) || (beforeAlef && afterVowel) ||
+        vBeforeAlef || vBeforeHeh || vBeforeYeh || vAfterAlefFinal || afterSukun
+      ) {
         const consonant = ch === 'و' ? 'v' : 'y';
         out += consonant;
         lastConsonant = consonant;
+        afterVowel = false;
       } else {
         out += ch === 'و' ? 'u' : 'i';
         lastConsonant = '';
+        afterVowel = true;
+        afterLongIU = true;
       }
       atWordStart = false;
       continue;
     }
-    if (ch === 'ه') {
-      const next = chars[i + 1];
-      const isWordFinal = next === undefined || /\s/.test(next) || next === ZWNJ;
-      if (isWordFinal) {
-        out += 'eh';
-        lastConsonant = 'h';
-        atWordStart = false;
-        continue;
-      }
+    if (!atWordStart && isFinalHeh(i)) {
+      // Word-final: silent-h vowel after a bare consonant or a long ی
+      // (توصیه -> tusieh), a real h after a short vowel, sukun or ا.
+      const prev = chars[i - 1];
+      out += (afterVowel && !prevLongIU) || prev === SUKUN ? 'h' : 'eh';
+      lastConsonant = 'h';
+      atWordStart = false;
+      afterVowel = false;
+      continue;
     }
     if (CONSONANTS[ch] !== undefined) {
       out += CONSONANTS[ch];
       lastConsonant = CONSONANTS[ch];
       atWordStart = false;
+      afterVowel = false;
       continue;
     }
+    // Anything else (brackets, dashes, digits...) passes through; a letter
+    // after it starts a new word: (یاد) -> (yad).
     out += ch;
-    atWordStart = false;
+    atWordStart = !LETTER.test(ch);
+    lastConsonant = '';
+    afterVowel = false;
+    lettersInWord = 0;
   }
   return out;
 }
@@ -143,6 +223,41 @@ if (require.main === module) {
     ['اِمتِناع', "emtena'"],
     ['تَأثیر', "ta'sir"],
     ['تَبرِئه', "tabre'eh"],
+    ['بِه', 'beh'],
+    ['مَجموعه، رَدیف', "majmu'eh, radif"],
+    ['رَسیدَن بِه (نَتیجه)', 'rasidan beh (natijeh)'],
+    ['تَکَبُّر', 'takabbor'],
+    ['مُحَوَّل', 'mohavval'],
+    ['اِدِّعا', "edde'a"],
+    ['این', 'in'],
+    ['او', 'u'],
+    ['بَیان', 'bayan'],
+    ['سَوار', 'savar'],
+    ['اَموال', 'amval'],
+    ['تاوان', 'tavan'],
+    ['دیوار', 'divar'],
+    ['پَناه', 'panah'],
+    ['پَناه‌جو', 'panah ju'],
+    ['کوهْ', 'kuh'],
+    ['گُروهْ', 'goruh'],
+    ['جِلوه', 'jelveh'],
+    ['بِه عِلاوه', "beh 'elaveh"],
+    ['توصیه', 'tusieh'],
+    ['توانا', 'tuana'],
+    ['خواب', 'khvab'],
+    ['نِویسَنده', 'nevisandeh'],
+    ['آویز', 'aviz'],
+    ['گوشتِ گاو', 'gushte gav'],
+    ['تَصْویر', 'tasvir'],
+    ['کَسب‌وکار', 'kasb o kar'],
+    ['رَفت‌وآمَد', 'raft o amad'],
+    ['گُفت‌وگو', 'goft o gu'],
+    ['بی‌وَفا', 'bi vafa'],
+    ['گِرامی داشتَن (یاد)', 'gerami dashtan (yad)'],
+    ['وَجْه', 'vajh'],
+    ['اَصلاً', 'aslan'],
+    ['مَزیَّت', 'mazyyat'],
+    ['سَرمایِه', 'sarmayeh'],
   ];
   for (const [t, ref] of tests) {
     const got = translitFa(t);
