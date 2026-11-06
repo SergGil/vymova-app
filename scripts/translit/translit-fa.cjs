@@ -34,8 +34,13 @@
 // marks are typed in (Unicode canonical order puts damma/kasra/fatha before
 // shadda: تَکَبُّر -> takabbor, not "takabobr").
 //
+// ی after a bare consonant that carries shadda or a word-final ezafe kasra
+// is long i + y (مُدیریَّت -> modiriyyat, کِشاوَرزیِ -> keshavarziye).
+// An unmarked خو reads kha before ا (خواب -> khab, the و is silent) and
+// kho before د/ش/ر (خود -> khod, خوش -> khosh, خوردَن -> khordan).
+//
 // Known simplifications: bare ا always -> "a" (long/short distinction not
-// modeled); ع (ayn) -> apostrophe; خوا -> khva (the silent و is not modeled).
+// modeled); ع (ayn) -> apostrophe.
 
 const CONSONANTS = {
   ب: 'b', پ: 'p', ت: 't', ث: 's', ج: 'j', چ: 'ch', ح: 'h', خ: 'kh',
@@ -140,11 +145,47 @@ function translitFa(phrase) {
       afterVowel = true;
       continue;
     }
+    // Unmarked خو: silent و before ا (خواب -> khab, دَرخواست -> darkhast),
+    // short o before د/ش/ر (خود, خوش, خوردَن, بَرخورد) except خوشه (khusheh).
+    // The standalone numeral دو is "do" (two), not "du".
+    if (ch === 'د' && atWordStart && next === 'و' && !(chars[i + 2] && (LETTER.test(chars[i + 2]) || isMark(chars[i + 2])))) {
+      out += 'do';
+      lastConsonant = '';
+      afterVowel = true;
+      atWordStart = false;
+      i++;
+      continue;
+    }
+    const silentVav = chars[i + 2] === 'ا' || (chars[i + 2] === 'ی' && chars[i + 3] === 'ش'); // خواب, خویش
+    if (ch === 'خ' && next === 'و' && chars[i + 2] && !isMark(chars[i + 2]) &&
+        (silentVav || ('دشر'.includes(chars[i + 2]) && chars[i + 3] !== 'ه'))) {
+      const silent = silentVav;
+      out += silent ? 'kh' : 'kho';
+      lastConsonant = silent ? 'kh' : '';
+      afterVowel = !silent;
+      atWordStart = false;
+      lettersInWord++;
+      i++;
+      continue;
+    }
     // The linking "-o-" of ZWNJ compounds: کَسب‌وکار -> kasb o kar.
     if (ch === 'و' && chars[i - 1] === ZWNJ && next && LETTER.test(next) && !'اوی'.includes(next)) {
       out += 'o ';
       lastConsonant = '';
       lettersInWord = 0;
+      continue;
+    }
+    // ی straight after a bare (or doubled) consonant that carries shadda or
+    // a word-final ezafe kasra is long i + y: مُدیریَّت -> modiriyyat,
+    // اَقَلّیَّت -> aqalliyyat, کِشاوَرزیِ -> keshavarziye (not "ryy"/"zye").
+    const prevCh = chars[i - 1];
+    const afterBareConsonant = prevCh === SHADDA || (prevCh && LETTER.test(prevCh) && lastConsonant !== '');
+    const ezafeKasra = next === 'ِ' && !(chars[i + 2] && (LETTER.test(chars[i + 2]) || isMark(chars[i + 2])));
+    if (ch === 'ی' && !atWordStart && afterBareConsonant && (next === SHADDA || next === 'َ' || ezafeKasra)) {
+      out += 'iy';
+      lastConsonant = 'y';
+      atWordStart = false;
+      afterVowel = false;
       continue;
     }
     if (ch === 'و' || ch === 'ی') {
@@ -162,9 +203,16 @@ function translitFa(phrase) {
       // syllable, so it is a consonant (تَصْویر -> tasvir).
       const vAfterAlefFinal = ch === 'و' && chars[i - 1] === 'ا' && !(next && (LETTER.test(next) || isMark(next)));
       const afterSukun = chars[i - 1] === SUKUN;
+      // Doubled وو is v + long u (طاووس -> tavus, داوود -> davud).
+      const vBeforeVav = ch === 'و' && next === 'و';
+      // ی after a bare ا/آ is the y of a diphthong, never an a-i hiatus
+      // (پایین -> payin, آشنایی -> ashnayi, چای -> chay).
+      const yAfterAlef = ch === 'ی' && (chars[i - 1] === 'ا' || chars[i - 1] === 'آ');
+      // ...and ی between a long vowel and another ی is y too (دَستشویی -> dastshuyi).
+      const yBeforeYeh = ch === 'ی' && next === 'ی' && afterVowel;
       if (
         atWordStart || isMark(next) || (beforeAlef && afterVowel) ||
-        vBeforeAlef || vBeforeHeh || vBeforeYeh || vAfterAlefFinal || afterSukun
+        vBeforeAlef || vBeforeHeh || vBeforeYeh || vAfterAlefFinal || afterSukun || vBeforeVav || yAfterAlef || yBeforeYeh
       ) {
         const consonant = ch === 'و' ? 'v' : 'y';
         out += consonant;
@@ -244,7 +292,29 @@ if (require.main === module) {
     ['بِه عِلاوه', "beh 'elaveh"],
     ['توصیه', 'tusieh'],
     ['توانا', 'tuana'],
-    ['خواب', 'khvab'],
+    ['خواب', 'khab'],
+    ['دَرخواست', 'darkhast'],
+    ['خود', 'khod'],
+    ['خوشحال', 'khoshhal'],
+    ['خوردَن', 'khordan'],
+    ['خوشه', 'khusheh'],
+    ['خوب', 'khub'],
+    ['کِشاوَرزیِ اُرگانیک', 'keshavarziye organik'],
+    ['اَقَلّیَّت', 'aqalliyyat'],
+    ['هُویَّت', 'hoviyyat'],
+    ['طاووس', 'tavus'],
+    ['تَقْویَت', 'taqviyat'],
+    ['خویشاوَند', 'khishavand'],
+    ['دَستشویی', 'dastshuyi'],
+    ['هَر دو', 'har do'],
+    ['دوست', 'dust'],
+    ['پایین', 'payin'],
+    ['آشنایی', 'ashnayi'],
+    ['چای', 'chay'],
+    ['آیا', 'aya'],
+    ['هَسته‌ای', 'hasteh i'],
+    ['پایِ', 'paye'],
+    ['رویِ', 'ruye'],
     ['نِویسَنده', 'nevisandeh'],
     ['آویز', 'aviz'],
     ['گوشتِ گاو', 'gushte gav'],
@@ -256,7 +326,11 @@ if (require.main === module) {
     ['گِرامی داشتَن (یاد)', 'gerami dashtan (yad)'],
     ['وَجْه', 'vajh'],
     ['اَصلاً', 'aslan'],
-    ['مَزیَّت', 'mazyyat'],
+    ['مَزیَّت', 'maziyyat'],
+    ['مُدیریَّت', 'modiriyyat'],
+    ['بَقیّه', 'baqiyyeh'],
+    ['جُزئیّات', "joz'iyyat"],
+    ['سَیّاره', 'sayyareh'],
     ['سَرمایِه', 'sarmayeh'],
   ];
   for (const [t, ref] of tests) {
