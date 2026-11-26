@@ -1,0 +1,14 @@
+# Vymova
+
+> Vymova is a free vocabulary trainer that runs in the browser and uses spaced repetition. It is built around 10,741 English words, phrases and idioms, each with a translation, an English example sentence and an IPA transcription. The full list is translated into Ukrainian and 40 other languages, and there are more than 25 practice modes and optional AI tutor features.
+
+Vymova is a progressive web app: it installs like an app, works offline after the first visit and needs no account. Progress stays on the device unless the user turns on cloud sync, which uses a random code instead of an email or name. The interface is available in English, Ukrainian, German, Spanish, French, Italian and Portuguese. The trainer itself is a single-page app and needs JavaScript; the homepage also carries a plain-HTML description for clients that don't run it.
+
+## Main pages
+
+- [Vymova](https://serggil.github.io/vymova-app/): the vocabulary trainer (spaced-repetition flashcards, quizzes, games, duels, grammar, reading, AI tutor)
+- [Privacy policy](https://serggil.github.io/vymova-app/privacy.html): what data is stored, how optional cloud sync, AI features and analytics work, and how to get synced data deleted
+
+## Source
+
+- [GitHub repository](https://github.com/SergGil/vymova-app): the app's source code and word lists

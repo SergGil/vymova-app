@@ -4,6 +4,31 @@ import tailwindcss from '@tailwindcss/vite';
 import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { execSync } from 'node:child_process';
+
+// index.html's JSON-LD `dateModified` and the no-JS intro's visible
+// <time datetime> both carry `__VYMOVA_LAST_UPDATED__`, replaced here with
+// the HEAD commit's date (YYYY-MM-DD) so the "last updated" signal search/AI
+// crawlers read never goes stale by hand. Commit date rather than build time
+// so rebuilding the same commit yields byte-identical HTML. Falls back to
+// today when git isn't available (e.g. a source tarball with no .git).
+export function lastUpdatedPlugin() {
+  let date;
+  return {
+    name: 'last-updated',
+    transformIndexHtml(html) {
+      if (!date) {
+        try {
+          date = execSync('git log -1 --format=%cs', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+        } catch {
+          date = '';
+        }
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) date = new Date().toISOString().slice(0, 10);
+      }
+      return html.replaceAll('__VYMOVA_LAST_UPDATED__', date);
+    },
+  };
+}
 
 // public/sw.js's cache-invalidation strategy hinges entirely on its own
 // `CACHE` version string changing between deploys: the SW-update algorithm
@@ -69,6 +94,7 @@ export default defineConfig(({ command }) => ({
       },
     },
     swVersionPlugin(),
+    lastUpdatedPlugin(),
   ],
   resolve: {
     alias: {

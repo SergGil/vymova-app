@@ -6,6 +6,13 @@
 // same origin, same timing (loaded synchronously in <head>, no defer/async),
 // same behavior. See index.html's CSP <meta> comment for why.
 
+// ── Mark the document as JS-capable ──────────────────────────────
+// index.html's #about-static section (plain-HTML description of the app
+// for crawlers and no-JS visitors) is hidden via `[.js_&]:hidden`. Set here,
+// synchronously in <head> before <body> parses, so JS users never see it
+// flash before the React app mounts.
+document.documentElement.classList.add('js');
+
 // ── Swap the Google Fonts preload into an active stylesheet ──────
 // (was the font <link rel="preload">'s inline onload="this.onload=null;
 // this.rel='stylesheet'")
